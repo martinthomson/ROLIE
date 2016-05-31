@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
-<?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200902" category="info" docName="draft-ietf-mile-rolie-02">
   <!-- Working draft of draft02 -->
   <?rfc compact="yes"?>
