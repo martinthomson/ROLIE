@@ -1,0 +1,1160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
+<rfc ipr="trust200811" category="info" docName="draft-ietf-mile-rolie-guidance and context">  <!-- Working draft of supporting document for ROLIE -->
+  <?rfc compact="yes"?>
+  <?rfc subcompact="no"?>
+  <?rfc toc="yes"?>
+  <?rfc symrefs="yes"?>
+
+  <front>
+    <title abbrev="ROLIE CG">ROLIE Guidance and Context NOTE: FRONT MATTER AND BACK MATTER DUPLICATED FROM MAIN DOC</title>
+    <author initials="J.P." surname="Field" fullname="John P. Field">
+      <organization abbrev="Pivotal">Pivotal Software, Inc.</organization>
+      <address>
+      <postal>
+        <street>625 Avenue of the Americas</street>
+        <city>New York</city>
+        <region>New York</region>
+        <country>USA</country>
+      </postal>
+      <phone>(646)792-5770</phone>
+      <email>jfield@pivotal.io</email>
+    </address>
+    </author>
+    <author initials="S.A." surname="Banghart" fullname="Stephen A. Banghart">
+      <organization abbrev="NIST">National Institute of Standards and Technology</organization>
+      <address>
+      <postal>
+        <street>100 Bureau Drive</street>
+        <city>Gaithersburg</city>
+        <region>Maryland</region>
+        <country>USA</country>
+      </postal>
+      <phone>(301)975-4288</phone>
+      <email>sab3@nist.gov</email>
+    </address>
+    </author>
+    <date month="May" day="27" year="2016"/>
+    <area>Security</area>
+    <workgroup>MILE Working Group</workgroup>
+    <abstract>
+
+      <t> This document provides additional context and guidance regarding the ROILE specification.
+        Background information on the Atom Publication Protocol and the Atom Syndication Format
+        provides a foundational understanding of the RESTful model that ROLIE builds on. Examples of
+        how ROLIE may be used are given for implementers, users, or any other security stakeholder.
+        Several use cases of this specification are provided to guide those looking to implement.
+        This document discusses the use of the <xref target="RFC5023">Atom Publishing
+          Protocol</xref> and the <xref target="RFC4287">Atom Syndication Format</xref></t>
+    </abstract>
+  </front>
+
+  <middle>
+      <section title="Introduction" anchor="starting-intro">
+          <t> This document exists as a supportive and supplementary resource for the
+        Resource-Oriented Lightweight Information Exchange</t>
+      </section>
+    <section title = "TODO"></section>
+    <section title="Authentication of Users" anchor="authN">
+      <t> In the store-and-forward, message-based model for information sharing client
+        authentication is provided via a Public Key Infrastructure (PKI) -based trust and mutually
+        authenticated TLS between the messaging system endpoints. There is no provision to support
+        authentication of a client by another means. As a result, participation in the sharing
+        community is limited to those organizations that have sufficient resources and
+        capabilities to manage a PKI. <vspace blankLines="1"/> A producer may apply XML Security
+        to the content of a message, however the contact information provided within the message
+        body represents a self-asserted identity, and there is no guarantee that the contact
+        information will be recognized by the peer. As a result, the audit trail and the
+        granularity of any authorization policies is limited to the identity of the peer CSIRT
+        organization.  </t>
+    </section>
+    <section title="Authorization Policy Enforcement" anchor="az-policy">
+      <t>A key aspect of any cyber security information sharing arrangement is assigning the
+        responsibility for authorization policy enforcement. The authorization policy must be
+        enforced either at the destination system, or the source system, or both. The following
+        sections discuss these alternatives in greater detail.</t>
+      <section title="Enforcement at Destination System">
+        <t> The store-and-forward, message-based approach to cyber security information sharing
+          requires that the origin system delegate authorization policy enforcement to the
+          destination system. The origin system may leverage XML Encryption and DigitalSignature
+          to protect the message content. In addition, the origin system assigns a number of
+          policy-related attribute values, including a "restriction" attribute, before the message
+          is sent. These labels indicate the sender's expectation for confidentiality enforcement
+          and appropriate handling at the destination. Section 9.1 of RFC6545 provides specific
+          guidance to implementers on use of the XML security standards in order to achieve the
+          required levels of security for the exchange of incident information. <vspace
+            blankLines="1"/> Once the message has been received at the destination system, the XML
+          encryption and digital signature protections on the message will be processed, and based
+          upon the pre-established PKI-based trust relationships, the message content is validated
+          and decrypted. Typical implementations will then pass the cleartext data to an internal
+          Incident Handling System (IHS) for further review and/or action by a human operator or
+          analyst. Regardless of where in the deployment architecture the XML message-level
+          security is being handled, eventually the message content will be made available as
+          cleartext for handling by human systems analysts and other operational staff. <vspace
+            blankLines="1"/> The authorization policy enforcement of the message contents must
+          then be provided by the destination IHS. It is the responsibility of the destination
+          system to honor the intent of the policy restriction labels assigned by the origin
+          system. Ideally, these policy labels would serve as part of a distributed Mandatory
+          Access Control scheme. However, in practice a typical IHS will employ a Discretionary
+          Access Control (DAC) model rather than a MAC model and so the policy related attributes
+          are defined to represent handling "hints" and provide no guarantee of enforcement at the
+          destination. <vspace blankLines="1"/> As a result, ensuring that the destination system
+          or counterparty will in fact correctly enforce the intended authorization policies
+          becomes a key issue when entering into any information sharing agreements. The origin
+          CSIRT must accept a non-zero risk of information leakage, and therefore must rely upon
+          legal recourse as a compensating control. Establishing such legal sharing agreements can
+          be a slow and difficult process, as it assumes a high level of trust in the peer, with
+          respect to both intent and also technical capabilities. </t>
+      </section>
+      <section title="Enforcement at Source System" anchor="az-enforcement-at-source">
+        <t> In this model, the required authorization policy enforcements are implemented entirely
+          within the source system. Enforcing the required authorization policy controls at the
+          source system eliminates the risk of subsequent information leakage at the destination
+          system due to inadequate or incomplete implementation of the expected controls. The
+          destination system is not expected to perform any additional authorization enforcements.
+          Authorization enforcement at the source system may be based on, e.g. Role-based Access
+          Controls applied in the context of an established user identity. The source system may
+          use any appropriate authentication mechanism in order to determine the user identity of
+          the requestor, including, e.g. federated identity. An analyst or operator at a CSIRT may
+          request specific information on a given incident or indicator from a peer CSIRT, and the
+          source system will return a suitable representation of that resource based upon the
+          specific role of the requestor. A different authenticated user (perhaps from the same
+          destination CSIRT) may receive a different representation of the same resource, based
+          upon the source system applying suitable Role-based Access Control policy enforcements
+          for the second user identity.  </t>
+      </section>
+    </section>
+      <section title="RESTful Usage Model" anchor="usage-model">
+      <t> This section describes the basic use of <xref target="RFC4287">Atom Syndication
+          Format</xref> and <xref target="RFC5023">Atom Publishing Protocol</xref> as a RESTful
+        transport binding and dynamic discovery protocol, respectively, for cyber security
+        information sharing. <vspace blankLines="1"/> As described in <xref target="RFC5023">Atom
+          Publishing Protocol</xref>, an Atom Service Document is an XML-based document format that
+        allows a client to dynamically discover the collections provided by a publisher. <vspace
+          blankLines="1"/> As described in <xref target="RFC4287">Atom Syndication Format</xref>,
+        Atom is an XML-based document format that describes lists of related information items known
+        as collections, or "feeds". Each feed document contains a collection of zero or more related
+        information items called "member entries" or "entries". <vspace blankLines="1"/> When
+        applied to the problem domain of cyber security information sharing, an Atom feed may be
+        used to represent any meaningful collection of information resources such as a set of
+        incidents, or indicators. Each entry in a feed could then represent an individual incident,
+        or indicator, or some other resource, as appropriate. Additional feeds could be used to
+        represent other meaningful and useful collections of cyber security resources. A feed may be
+        categorized, and any feed may contain information from zero or more categories. The naming
+        scheme and the semantic meaning of the terms used to identify an Atom category are
+        application-defined. </t>
+      <section title="Dynamic Service Discovery versus Static URL Template" anchor="dyn-v-static">
+        <t> In order to specify a protocol for cyber security information sharing using the REST
+          architectural style it is necessary to define the set of resources to be modeled, and how
+          these resources are related. Based on this interface contract, clients will then interact
+          with the REST service by navigating the modeled entities, and their relationships. The
+          interface contract between the client and the server may either be statically bound or
+          dynamically bound. <vspace blankLines="1"/> In the statically bound case, the clients have
+          a priori knowledge of the resources that are supported. In the REST architectural style
+          this static interface contract takes the form of a URL template. This approach is not
+          appropriate for the cyber security information sharing domain for at least two reasons.
+            <vspace blankLines="1"/> First, there is no standard for a cyber security domain model.
+          While information security practitioners can generally agree on some of the basic concepts
+          that are important to modeling the cyber security domain -- such as "indicator,”
+          "incident,” or “attacker,” -- there is no single domain model that can been referenced as
+          the basis for specifying a standardized RESTful URI Template. Second, the use of static
+          URL templates creates a tighter coupling between the client implementation and the server
+          implementation. Security threats on the internet are evolving ever more rapidly, and it
+          will never be possible to establish a statically defined resource model and URL Template.
+          Even if there were an initial agreement on an appropriate URL template, it would
+          eventually need to change. If and when a CSIRT finds that it needs to change the URL
+          template, then any existing deployed clients would need to be upgraded. <vspace
+            blankLines="1"/> Thus, rather than attempting to define a fixed set of resources via a
+          URI Template, this document has instead specified an approach based on dynamic discovery
+          of resources via an Atom Publishing Protocol Service Document. By using this approach, it
+          is possible to standardize the RESTful usage model, without needing to standardize on the
+          definitions of specific, strongly-typed resources. A client can dynamically discover what
+          resources are provided by a given CSIRT, and then navigate that domain model accordingly A
+          specific server implementation may still embody a particular URL template, however the
+          client does not need a priori knowledge of the format of the links, and the URL itself is
+          effectively opaque to the client. Clients are not bound to any particular server’s
+          interface. <vspace blankLines="1"/> The following paragraphs provide a number of
+          non-normative examples to illustrate the use of Atom Publishing Protocol for basic cyber
+          security information sharing service discovery, as well as the use of Atom Syndication
+          Format as a mechanism to publish cyber security information feeds. <vspace blankLines="1"
+          /> Normative requirements are defined below, in <xref target="normative-requirements"/>.
+        </t>
+      </section>
+      <section title="Non-Normative Examples" anchor="non-norm-ex">
+        <section title="Service Discovery" anchor="svc-doc">
+          <t>This section provides a non-normative example of a client doing service discovery.
+              <vspace blankLines="1"/> An Atom service document enables a client to dynamically
+            discover what feeds a particular publisher makes available. Thus, a CSIRT may use an
+            Atom service document to enable clients of the CSIRT to determine what specific cyber
+            security information the CSIRT makes available to the community. The service document
+            could be made available at any well known location, such as via a link from the CSIRT's
+            home page. One common technique is to include a link in the &lt;HEAD&gt; section of the
+            organization's home page, as shown below: <vspace blankLines="1"/>
+            <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+              <preamble>Example of bootstrapping Service Document discovery:</preamble>
+              <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      <link rel="introspection"  type="application/atomsvc+xml" title="Atom Publishing Protocol Service Document" href="/csirt/svcdoc.xml" />
+
+          ]]></artwork>
+            </figure>
+            <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+              <preamble>A client may then format an HTTP GET request to retrieve the service
+                document:</preamble>
+              <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+GET /csirt/svcdoc.xml
+Host: www.example.org
+Accept: application/atomsvc+xml
+
+]]></artwork>
+              <postamble>Notice the use of the HTTP Accept: request header, indicating the MIME type
+                for Atom service discovery. The response to this GET request will be an XML document
+                that contains information on the specific feed collections that are provided by the
+                CSIRT. </postamble>
+            </figure>
+            <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+              <preamble>Example HTTP GET response:</preamble>
+              <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:09:11 GMT
+      Content-Length: 570
+      Content-Type: application/atomsvc+xml;charset="utf-8"
+
+      <?xml version="1.0" encoding="UTF-8"?>
+      <service xmlns="http://www.w3.org/2007/app"
+               xmlns:atom="http://www.w3.org/2005/Atom">
+          <workspace xml:lang="en-US" xmlns:xml="http://www.w3.org/XML/1998/namespace">
+            <atom:title type="text">Incidents</atom:title>
+            <collection  href="http://example.org/csirt/incidents">
+               <atom:title type="text">Incidents Feed</atom:title>
+               <accept>application/atom+xml; type=entry</accept>
+            </collection>            
+          </workspace>
+      </service>
+
+]]></artwork>
+              <postamble>This simple Service Document example shows that this CSIRT provides one
+                workspace, named "Incidents." Within that workspace, the CSIRT makes one feed
+                collection available. When attempting to GET or POST entries to that feed
+                collection, the client must indicate a content type of application/atom+xml.
+              </postamble>
+            </figure>
+            <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+              <preamble>A CSIRT may also offer a number of different feeds, each containing
+                different types of cyber security information. In the following example, the feeds
+                have been categorized. This categorization will help the clients to decide which
+                feeds will meet their needs. </preamble>
+              <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:10:11 GMT
+      Content-Length: 1912
+      Content-Type: application/atomsvc+xml;charset="utf-8"
+
+       <?xml version="1.0" encoding='utf-8'?>
+          <service xmlns="http://www.w3.org/2007/app"
+            xmlns:atom="http://www.w3.org/2005/Atom">
+            <workspace>
+              <atom:title>Cyber Security Information Sharing</atom:title>
+              <collection href="http://example.org/csirt/public/indicators" >
+                <atom:title>Public Indicators</atom:title>
+                <categories fixed="yes">
+                  <atom:category scheme="http://example.org/csirt/restriction" term="public" />
+                  <atom:category scheme="http://example.org/csirt/purpose" term="reporting" />
+                </categoies>
+                <accept>application/atom+xml; type=entry</accept>
+              </collection>
+              <collection href="http://example.org/csirt/public/incidents" >
+                <atom:title>Public Incidents</atom:title>
+                <categories fixed="yes">
+                  <atom:category scheme="http://example.org/csirt/restriction" term="public" />
+                  <atom:category scheme="http://example.org/csirt/purpose" term="reporting" />
+                </categoies>
+                <accept>application/atom+xml; type=entry</accept>
+            </collection>            
+            </workspace>
+            <workspace>
+              <atom:title>Private Consortium Sharing</atom:title>
+              <collection href="http://example.org/csirt/private/incidents" >
+                <atom:title>Incidents</atom:title>
+                <accept>application/atom+xml;type=entry</accept>
+                <categories fixed="yes">
+                  <atom:category scheme="http://example.org/csirt/purpose" term="traceback, mitigation, reporting" />
+                  <atom:category scheme="http://example.org/csirt/restriction" term="private, need-to-know" />
+                </categories>
+              </collection>
+            </workspace>
+          </service>
+          
+          ]]></artwork>
+              <postamble>In this example, the CSIRT is providing a total of three feed collections,
+                organized into two different workspaces. The first workspace contains two feeds,
+                consisting of publicly available indicators and publicly available incidents,
+                respectively. The second workspace provides one additional feed, for use by a
+                sharing consortium. The feed contains incident information containing entries
+                related to three purposes: traceback, mitigation, and reporting. The entries in this
+                feed are categorized with a restriction of either "Need-to-Know" or "private". An
+                appropriately authenticated and authorized client may then proceed to make GET
+                requests for one or more of these feeds. The publicly provided incident information
+                may be accessible with or without authentication. However, users accessing the feed
+                targeted to the private sharing consortium would be expected to authenticate, and
+                appropriate authorization policies would subsequently be enforced by the feed
+                provider. </postamble>
+            </figure>
+          </t>
+        </section>
+        <section title="Feed Retrieval" anchor="feed-doc">
+          <t> This section provides a non-normative example of a client retrieving an incident feed.
+              <vspace blankLines="1"/> Having discovered the available cyber security information
+            sharing feeds, an authenticated and authorized client who is a member of the private
+            sharing consortium may be interested in receiving the feed of known incidents. The
+            client may retrieve this feed by performing an HTTP GET operation on the indicated URL.
+              <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+              <preamble>Example HTTP GET request for a Feed:</preamble>
+              <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+GET /csirt/private/incidents
+Host: www.example.org
+Accept: application/atom+xml
+
+           ]]></artwork>
+              <postamble>The corresponding HTTP response would be an XML document containing the
+                incidents feed: </postamble>
+            </figure>
+            <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+              <preamble>Example HTTP GET response for a Feed:</preamble>
+              <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:20:11 GMT
+      Content-Length: 2882
+      Content-Type: application/atom+xml;type=feed;charset="utf-8"
+
+      <?xml version="1.0" encoding="UTF-8"?>
+      <feed xmlns="http://www.w3.org/2005/Atom"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.w3.org/2005/Atom file:/C:/schemas/atom.xsd
+                              urn:ietf:params:xml:ns:iodef-1.0 file:/C:/schemas/iodef-1.0.xsd"
+          xml:lang="en-US">
+      
+          <generator version="1.0" xml:lang="en-US">emc-csirt-iodef-feed-service</generator>
+          <id xml:lang="en-US">http://www.example.org/csirt/private/incidents</id>
+          <title type="text" xml:lang="en-US">Atom formatted representation of a feed of IODEF documents</title>
+          <updated xml:lang="en-US">2012-05-04T18:13:51.0Z</updated> 
+          <author>
+              <email>csirt@example.org</email>
+              <name>EMC CSIRT</name>
+          </author>
+      
+          <!-- By convention there is usually a self link for the feed -->
+          <link href="http://www.example.org/csirt/private/incidents" rel="self"/>
+                   
+          <entry>
+              <id>http://www.example.org/csirt/private/incidents/123456</id>
+              <title>Sample Incident</title>
+              <link href="http://www.example.org/csirt/private/incidents/123456" rel="self"/>       <!-- by convention -->
+              <link href="http://www.example.org/csirt/private/incidents/123456" rel="alternate"/>  <!-- required by Atom spec -->
+              <published>2012-08-04T18:13:51.0Z</published>
+              <updated>2012-08-05T18:13:51.0Z</updated>
+              <!-- The category is based upon IODEF purpose and restriction attributes -->
+              <category term="traceback" scheme="purpose" label="trace back" />
+              <category term="need-to-know" scheme="restriction" label="need to know" />
+              <summary>A short description of this incident, extracted from the IODEF Incident class, <description> element. </summary>
+          </entry>
+          
+          <entry>
+              <!-- ...another entry... -->
+          </entry>
+                    
+      </feed>
+
+
+]]></artwork>
+              <postamble>This feed document has two atom entries, one of which has been elided. The
+                completed entry illustrates an Atom &lt;entry&gt; element that provides a summary of
+                essential details about one particular incident. Based upon this summary information
+                and the provided category information, a client may choose to do an HTTP GET
+                operation to retrieve the full details of the incident. This example provides a
+                RESTful alterntive to the RID investigation request messaage, as described in
+                sections 6.1 and 7.2 of RFC6545. </postamble>
+            </figure>
+          </t>
+        </section>
+        <section title="Entry Retrieval" anchor="entry-doc">
+          <t> This section provides a non-normative example of a client retrieving an incident as an
+            Atom entry. <vspace blankLines="1"/> Having retrieved the feed of interest, the client
+            may then decide based on the description and/or category information that one of the
+            entries in the feed is of further interest. The client may retrieve this incident Entry
+            by performing an HTTP GET operation on the indicated URL. <figure height=""
+              suppress-title="false" width="" alt="" title="" align="left">
+              <preamble>Example HTTP GET request for an Entry:</preamble>
+              <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+              
+GET /csirt/private/incidents/123456
+Host: www.example.org
+Accept: application/atom+xml
+
+           ]]></artwork>
+              <postamble>The corresponding HTTP response would be an XML document containing the
+                incident: </postamble>
+            </figure>
+            <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+              <preamble>Example HTTP GET response for an Entry:</preamble>
+              <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:30:11 GMT
+      Content-Length: 4965
+      Content-Type: application/atom+xml;type=entry;charset="utf-8"
+
+      <?xml version="1.0" encoding="UTF-8"?>        
+      <entry>
+        <id>http://www.example.org/csirt/private/incidents/123456</id>
+        <title>Sample Incident</title>
+        <link href="http://www.example.org/csirt/private/incidents/123456" rel="self"/>       <!-- by convention -->
+        <link href="http://www.example.org/csirt/private/incidents/123456" rel="alternate"/>  <!-- required by Atom spec -->
+        <published>2012-08-04T18:13:51.0Z</published>
+        <updated>2012-08-05T18:13:51.0Z</updated>
+        <!-- The category is based upon IODEF purpose and restriction attributes -->
+        <category term="traceback" scheme="purpose" label="trace back" />
+        <category term="need-to-know" scheme="restriction" label="need to know" />
+        <summary>A short description of this incident, extracted from the IODEF Incident class, <description> element. </summary>
+      
+        <!-- Refer to section 5.9 for the list of supported (cyber information-specific) link relationships -->
+        <!-- Typical operations that can be performed on this IODEF message include edit -->
+        <link href="http://www.example.org/csirt/private/incidents/123456" rel="edit"/>
+                  
+        <!-- the next and previous are just sequential access, may not map to anything related to this IODEF Incident ID -->
+        <link href="http://www.example.org/csirt/private/incidents/123457" rel="next"/>
+        <link href="http://www.example.org/csirt/private/incidents/123455" rel="previous"/>
+      
+        <!-- navigate up to the full collection.  Might also be rel="collection" as per IANA registry -->
+        <link href="http://www.example.org/csirt/private/incidents" rel="up"/>
+        
+        <content type="application/xml">
+          <iodef:IODEF-Document lang="en" xmlns:iodef="urn:ietf:params:xml:ns:iodef-1.0">
+            <iodef:Incident purpose="traceback" restriction="need-to-know">
+            
+              <!-- Note that the ID is assigned using a namespace that is our base URL, so that it can also be leveraged as an Atom link -->
+              <iodef:IncidentID name="http://www.example.org/csirt/private/incidents">123456</iodef:IncidentID>
+              
+              <iodef:DetectTime>2004-02-02T22:49:24+00:00</iodef:DetectTime>
+              <iodef:StartTime>2004-02-02T22:19:24+00:00</iodef:StartTime>
+              <iodef:ReportTime>2004-02-02T23:20:24+00:00</iodef:ReportTime>
+              <iodef:Description>
+                Host involved in DoS attack
+              </iodef:Description>
+              <iodef:Assessment>
+                <iodef:Impact completion="failed" severity="low" type="dos"/>
+              </iodef:Assessment>
+              <iodef:Contact role="creator" type="organization">
+                <iodef:ContactName>Constituency-contact for 192.0.2.35
+                </iodef:ContactName>
+                <iodef:Email>Constituency-contact@192.0.2.35</iodef:Email>
+              </iodef:Contact>
+              <iodef:EventData>
+                <iodef:Flow>
+                  <iodef:System category="source">
+                    <iodef:Node>
+                      <iodef:Address category="ipv4-addr">192.0.2.35
+                      </iodef:Address>
+                    </iodef:Node>
+                    <iodef:Service ip_protocol="6">
+                      <iodef:Port>38765</iodef:Port>
+                    </iodef:Service>
+                  </iodef:System>
+                  <iodef:System category="target">
+                    <iodef:Node>
+                      <iodef:Address category="ipv4-addr">192.0.2.67
+                      </iodef:Address>
+                    </iodef:Node>
+                    <iodef:Service ip_protocol="6">
+                      <iodef:Port>80</iodef:Port>
+                    </iodef:Service>
+                  </iodef:System>
+                </iodef:Flow>
+                <iodef:Expectation action="rate-limit-host" severity="high">
+                  <iodef:Description>
+                    Rate-limit traffic close to source
+                  </iodef:Description>
+                </iodef:Expectation>
+                <iodef:Record>
+                  <iodef:RecordData>
+                    <iodef:Description>
+                      The IPv4 packet included was used in the described attack
+                    </iodef:Description>
+                    <iodef:RecordItem dtype="ipv4-packet">450000522ad9
+                      0000ff06c41fc0a801020a010102976d0050103e020810d9
+                      4a1350021000ad6700005468616e6b20796f7520666f7220
+                      6361726566756c6c792072656164696e6720746869732052
+                      46432e0a
+                    </iodef:RecordItem>
+                  </iodef:RecordData>
+                </iodef:Record>
+              </iodef:EventData>
+            </iodef:Incident>
+          </iodef:IODEF-Document>
+        </content>
+      </entry>
+          
+          ]]></artwork>
+              <postamble>As can be seen in the example response, above, an IODEF document is
+                contained within the Atom &lt;content&gt; element. The client may now process the
+                IODEF document as needed.</postamble>
+            </figure>
+          </t>
+          <t> Note also that, as described previously, the content of the Atom &lt;category&gt;
+            element is application-defined. In the present context, the Atom categories have been
+            assigned based on a mapping of the &lt;restriction&gt; and &lt;purpose&gt; attributes,
+            as defined in the IODEF schema. In addition, the IODEF &lt;incidentID&gt; element has
+            been judiciously chosen so that the associated name attribute, as well as the
+            corresponding incidentID value, can be concatenated in order to easily create the
+            corresponding &lt;id&gt; element for the Atom entry. These and other mappings are
+            normatively defined in <xref target="normative-requirements"/>, below. <vspace
+              blankLines="1"/> Finally, it should be noted that in order to optimize the client
+            experience, and avoid an additional round trip, a feed provider may choose to include
+            the entry content inline, as part of the feed document. That is, an Atom &lt;entry&gt;
+            element within a Feed document may contain an Atom &lt;content&gt; element as a child.
+            In this case, the client will receive the full content of the entries within the feed.
+            The decision of whether to include the entry content inline or to include it as a link
+            is a design choice left to the feed provider (e.g. based upon local environmental
+            factors such as the number of entries contained in a feed, the available network
+            bandwidth, the available server compute cycles, the expected client usage patterns,
+            etc.). </t>
+        </section>
+        <section title="Use of Link Relations" anchor="link-relations">
+          <t> As noted previously, a key benefit of using the RESTful architectural style is the
+            ability to enable the client to navigate to related resources through the use of
+            hypermedia links. In the Atom Syndication Format, the type of the related resource
+            identified in a &lt;link&gt; element is indicated via the "rel" attribute, where the
+            value of this attribute identifies the kind of related resource available at the
+            corresponding "href" attribute. Thus, in lieu of a well-known URI template the URI
+            itself is effectively opaque to the client, and therefore the client must understand the
+            semantic meaning of the "rel" attribute in order to successfully navigate. Broad
+            interoperability may be based upon a sharing consortium defining a well-known set of
+            Atom Link Relation types. These Link Relation types may either be registered with IANA,
+            or held in a private registry. <vspace blankLines="1"/> Individual CSIRTs may always
+            define their own link relation types in order to support specific use cases, however
+            support for a core set of well-known link relation types is encouraged as this will
+            maximize interoperability. <vspace blankLines="1"/> In addition, it may be beneficial to
+            define use case profiles that correspond to specific groupings of supported link
+            relationship types. In this way, a CSIRT may unambiguously specify the classes of use
+            cases for which a client can expect to find support. <vspace blankLines="1"/> The
+            following sections provide NON-NORMATIVE examples of link relation usage. Four distinct
+            cyber security information sharing use case scenarios are described. In each use case,
+            the unique benefits of adopting a resource-oriented approach to information sharing are
+            illustrated. It is important to note that these use cases are intended to be a small
+            representative set and is by no means meant to be an exhaustive list. The intent is to
+            illustrate how the use of link relationship types will enable this resource-oriented
+            approach to cyber security information sharing to successfully support the complete
+            range of existing use cases, and also to motivate an initial list of well-defined link
+            relationship types. </t>
+          <section title="Use Case: Incident Sharing" anchor="info-share">
+            <t> This section provides a non-normative example of an incident sharing use case.
+                <vspace blankLines="1"/> In this use case, a member CSIRT shares incident
+              information with another member CSIRT in the same consortium. The client CSIRT
+              retreives a feed of incidents, and is able to identify one particular entry of
+              interest. The client then does an HTTP GET on that entry, and the representation of
+              that resource contains link relationships for both the associated "indicators" and the
+              incident "history", and so on. The client CSIRT recognizes that some of the indicator
+              and history may be relevant within her local environment, and can respond proactively.
+                <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+                <preamble>Example HTTP GET response for an incident entry:</preamble>
+                <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      <?xml version="1.0" encoding="UTF-8"?>        
+      <entry>
+        <id>http://www.example.org/csirt/private/incidents/123456</id>
+        <title>Sample Incident</title>
+        <link href="http://www.example.org/csirt/private/incidents/123456" rel="self"/>       <!-- by convention -->
+        <link href="http://www.example.org/csirt/private/incidents/123456" rel="alternate"/>  <!-- required by Atom spec -->
+        <published>2012-08-04T18:13:51.0Z</published>
+        <updated>2012-08-05T18:13:51.0Z</updated>
+
+        <link href="http://www.example.org/csirt/private/incidents/123456" rel="edit"/>
+                  
+        <!-- The links to indicators related to this incident, and the history of this incident, and so on.... -->
+        <link href="http://www.example.org/csirt/private/incidents/123456/relationships/indicators" rel="indicators"/>
+        <link href="http://www.example.org/csirt/private/incidents/1234456/relationships/history" rel="history"/>
+        <link href="http://www.example.org/csirt/private/incidents/1234456/relationships/campaign" rel="campaign"/>
+      
+        <!-- navigate up to the full collection.  Might also be rel="collection" as per IANA registry -->
+        <link href="http://www.example.org/csirt/private/incidents" rel="up"/>
+        
+        <content type="application/xml">
+          <iodef:IODEF-Document lang="en" xmlns:iodef="urn:ietf:params:xml:ns:iodef-1.0">
+            <iodef:Incident purpose="traceback" restriction="need-to-know">              
+              <iodef:IncidentID name="http://www.example.org/csirt/private/incidents">123456</iodef:IncidentID>
+              <!-- ...additional incident data.... -->
+              </iodef:Incident>
+          </iodef:IODEF-Document>
+        </content>
+      </entry>
+          
+          ]]></artwork>
+                <postamble>As can be seen in the example response, the Atom &lt;link&gt; elements
+                  enable the client to navigate to the related indicator resources, and/or the
+                  history entries associated with this incident. </postamble>
+              </figure>
+            </t>
+          </section>
+          <section title="Use Case: Collaborative Investigation" anchor="collab-analysis">
+            <t>This section provides a non-normative example of a collaborative investigation use
+              case. <vspace blankLines="1"/> In this use case, two member CSIRTs that belong to a
+              closed sharing consortium are collaborating on an incident investigation. The
+              initiating CSIRT performs an HTTP GET to retrieve the service document of the peer
+              CSIRT, and determines the collection name to be used for creating a new investigation
+              request. The initiating CSIRT then POSTs a new incident entry to the appropriate
+              collection URL. The target CSIRT acknowledges the request by responding with an HTTP
+              status code 201 Created. <figure height="" suppress-title="false" width="" alt=""
+                title="" align="left">
+                <preamble>Example HTTP GET response for the service document:</preamble>
+                <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:09:11 GMT
+      Content-Length: 934
+      Content-Type: application/atomsvc+xml;charset="utf-8"
+
+      <?xml version="1.0" encoding="UTF-8"?>
+      <service xmlns="http://www.w3.org/2007/app"
+               xmlns:atom="http://www.w3.org/2005/Atom">
+          <workspace xml:lang="en-US" xmlns:xml="http://www.w3.org/XML/1998/namespace">
+            <atom:title type="text">RID Use Case Requests</atom:title>
+            <collection  href="http://www.example.org/csirt/RID/InvestigationRequests">
+               <atom:title type="text">Investigation Requests</atom:title>
+               <accept>application/atom+xml; type=entry</accept>  <!-- perhaps we should have a more specific media type -->
+            </collection>
+            <collection  href="http://www.example.org/csirt/RID/TraceRequests">
+               <atom:title type="text">Trace Requests</atom:title>
+               <accept>application/atom+xml; type=entry</accept>
+            </collection>
+            <!-- ...and so on.... -->
+          </workspace>
+      </service>
+          
+          ]]></artwork>
+                <postamble>As can be seen in the example response, the Atom &lt;collection&gt;
+                  elements enable the client to determine the appropriate collection URL to request
+                  an investigation or a trace. </postamble>
+              </figure>
+              <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+                <preamble>The client CSIRT then POSTs a new entry to the appropriate feed
+                  collection. Note that the &lt;content&gt; element of the new entry may contain a
+                  RID message of type "InvestigationRequest" if desired, however this would NOT be
+                  required. The entry content itself need only be an IODEF document, with the choice
+                  of the target collection resource URL indicating the callers intent. A CSIRT would
+                  be free to use any URI template to accept investigationRequests. </preamble>
+                <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+POST /csirt/RID/InvestigationRequests HTTP/1.1
+Host: www.example.org
+Content-Type: application/atom+xml;type=entry
+Content-Length: 852 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom">
+  <title>New Investigation Request</title>
+  <id>http://www.example2.org/csirt/private/incidents/123456</id>  <!-- id and updated not guranteed to be preserved --> 
+  <updated>2012-08-12T11:08:22Z</updated>                         <!-- may want to profile that behavior in this document -->
+  <author><name>Name of peer CSIRT</name></author>
+  <content type="application/xml">
+    <iodef:IODEF-Document lang="en" xmlns:iodef="urn:ietf:params:xml:ns:iodef-1.0">
+      <iodef:Incident purpose="traceback" restriction="need-to-know">              
+      <iodef:IncidentID name="http://www.example2.org/csirt/private/incidents">123</iodef:IncidentID>
+        <!-- ...additional incident data.... -->
+      </iodef:Incident>
+    </iodef:IODEF-Document>
+  </content>
+</entry>
+  
+          ]]></artwork>
+                <postamble>The receiving CSIRT acknowledges the request with HTTP return code 201
+                  Created. </postamble>
+              </figure>
+              <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+                <preamble/>
+                <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+HTTP/1.1 201 Created
+Date: Fri, 24 Aug 2012 19:17:11 GMT
+Content-Length: 906
+Content-Type: application/atom+xml;type=entry
+Location: http://www.example.org/csirt/RID/InvestigationRequests/823
+ETag: "8a9h9he4qphqh"
+
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom">
+  <title>New Investigation Request</title>
+  <id>http://www.example.org/csirt/RID/InvestigationRequests/823</id>  <!-- id and updated not guranteed to be preserved --> 
+  <updated>2012-08-12T11:08:30Z</updated>                              <!-- may want to profile that behavior in this document -->
+  <published>2012-08-12T11:08:30Z</published>
+  <author><name>Name of peer CSIRT</name></author>
+  <content type="application/xml">
+    <iodef:IODEF-Document lang="en" xmlns:iodef="urn:ietf:params:xml:ns:iodef-1.0">
+      <iodef:Incident purpose="traceback" restriction="need-to-know">              
+      <iodef:IncidentID name="http://www.example.org/csirt/private/incidents">123</iodef:IncidentID>
+        <!-- ...additional incident data.... -->
+      </iodef:Incident>
+    </iodef:IODEF-Document>
+  </content>
+</entry>
+          
+          ]]></artwork>
+                <postamble>Consistent with HTTP/1.1 RFC, the location header indicates the URL of
+                  the newly created InvestigationRequest. If for some reason the request were not
+                  authorized, the client would receive an HTTP status code 403 Unauthorized. In this
+                  case the HTTP response body may contain additional details, if an as appropriate.
+                </postamble>
+              </figure>
+            </t>
+          </section>
+          <section title="Use Case:  Search (Query)" anchor="search-query">
+            <t>This section provides a non-normative example of a search use case. <vspace
+                blankLines="1"/> The following example provides a RESTful alternative to the RID
+              Query messaage, as described in sections 6.5 and 7.4 of RFC6545. Note that in the
+              RESTful approach described herein there is no requirement to define a query language
+              specific to RID queries. Instead, CSIRTs may provide support for search operations via
+              existing search facilities, and advertise these capabilities via an appropriate URL
+              template. Clients dynamically retrieve the search description document, and invoke
+              specific searches via an instantiated URL template. <vspace blankLines="1"/> An HTTP
+              response body may include a link relationship of type "search." This link provides a
+              reference to an OpenSearch description document. <figure height=""
+                suppress-title="false" width="" alt="" title="" align="left">
+                <preamble>Example HTTP response that includes a "search" link:</preamble>
+                <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:20:11 GMT
+      Content-Length: nnnn
+      Content-Type: application/atom+xml;type=feed;charset="utf-8"
+
+      <?xml version="1.0" encoding="UTF-8"?>
+      <feed xmlns="http://www.w3.org/2005/Atom"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.w3.org/2005/Atom file:/C:/schemas/atom.xsd
+                              urn:ietf:params:xml:ns:iodef-1.0 file:/C:/schemas/iodef-1.0.xsd"
+          xml:lang="en-US">
+            
+          <link href="http://www.example.org/opensearchdescription.xml" rel="search" 
+                  type="application/opensearchdescription+xml" 
+                  title="CSIRT search facility" />
+
+          <!-- ...other links... -->
+
+          <entry>
+              <!-- ...zero or more entries... -->
+          </entry>
+                    
+      </feed>
+
+          ]]></artwork>
+                <postamble>The OpenSearch Description document contains the information needed by a
+                  client to request a search. An example of an Open Search description document is
+                  shown below:</postamble>
+              </figure>
+              <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+                <preamble>Example HTTP response that includes a "search" link:</preamble>
+                <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+             
+             
+              <?xml version="1.0" encoding="UTF-8"?>
+              <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+                <ShortName>CSIRT search example</ShortName>
+                <Description>Cyber security information sharing consortium search interface</Description>
+                <Tags>example csirt indicator search</Tags>
+                <Contact>admin@example.org</Contact>
+                <!-- ...optionally, other elements, as per OpenSearch specification... -->
+                <Url type="application/opensearchdescription+xml" rel="self" template="http://www.example.com/csirt/opensearchdescription.xml"/>
+                <Url type="application/atom+xml" rel="results" template="http://www.example.org/csirt?q={searchTerms}&amp;format=Atom+xml"/>
+                <LongName>www.example.org CSIRT search</LongName>
+                <Query role="example" searchTerms="incident" />
+                <Language>en-us</Language>
+                <OutputEncoding>UTF-8</OutputEncoding>
+                <InputEncoding>UTF-8</InputEncoding>
+              </OpenSearchDescription>
+              
+              
+          ]]></artwork>
+                <postamble>The OpenSearch Description document shown above contains two &lt;Url&gt;
+                  elements that contain parameterized URL templates. These templates provide a
+                  representation of how the client should make search requests. The exact format of
+                  the query string, including the parameterization is specified by the feed
+                  provider.</postamble>
+              </figure> This OpenSearch Description Document also contains an example of a
+              &lt;Query&gt; element. Each &lt;Query&gt; element describes a specific search request
+              that can be made by the client. Note that the parameters of the &lt;Query&gt; element
+              correspond to the URL template parameters. In this way, a provider may fully describe
+              the search interface available to the clients. Section 5.12, below, provides specific
+              NORMATIVE requirements for the use of Open Search. </t>
+          </section>
+          <!-- adding new section for repository example -->
+          <section title="Use Case:  Cyber Data Repository" anchor="cyber-repo">
+            <t>This section provides a non-normative example of a cyber security data repository use
+              case. <vspace blankLines="1"/> In this use case a client accesses a persistent
+              repository of cyber security data via a RESTful usage model. Retrieving a feed
+              collection is analogous to an SQL SELECT statement producing a result set. Retrieving
+              an individual Atom Entry is analogous to a SQL SELECT statement based upon a primary
+              key producing a unique record. The cyber security data contained in the repository may
+              include different data types, including indicators, incidents, becnmarks, or any other
+              related resources. In this use case, the repository is queried via HTTP GET, and the
+              results that are returned to the client may optionally contain URL references to other
+              cyber security resources that are known to be related. These related resources may
+              also be persisted locally, or they may exist at another (remote) cyber data
+              respository. <figure height="" suppress-title="false" width="" alt="" title=""
+                align="left">
+                <preamble>Example HTTP GET request to a persistent repository for any resources
+                  representing Distributed Denial of Service (DDOS) attacks:</preamble>
+                <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+                  
+GET /csirt/repository/ddos
+Host: www.example.org
+Accept: application/atom+xml
+
+           ]]></artwork>
+                <postamble>The corresponding HTTP response would be an XML document containing the
+                  DDOS feed. </postamble>
+              </figure>
+              <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+                <preamble>Example HTTP GET response for a DDOS feed:</preamble>
+                <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:20:11 GMT
+      Content-Length: nnnn
+      Content-Type: application/atom+xml;type=feed;charset="utf-8"
+
+      <?xml version="1.0" encoding="UTF-8"?>
+      <feed xmlns="http://www.w3.org/2005/Atom"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.w3.org/2005/Atom file:/C:/schemas/atom.xsd
+                              urn:ietf:params:xml:ns:iodef-1.0 file:/C:/schemas/iodef-1.0.xsd"
+          xml:lang="en-US">
+      
+          <generator version="1.0" xml:lang="en-US">emc-csirt-iodef-feed-service</generator>
+          <id xml:lang="en-US">http://www.example.org/csirt/repository/ddos</id>
+          <title type="text" xml:lang="en-US">Atom formatted representation of a feed of known ddos resources.</title>
+          <updated xml:lang="en-US">2012-05-04T18:13:51.0Z</updated> 
+          <author>
+              <email>csirt@example.org</email>
+              <name>EMC CSIRT</name>
+          </author>
+      
+          <!-- By convention there is usually a self link for the feed -->
+          <link href="http://www.example.org/csirt/repository/ddos" rel="self"/>
+                   
+          <entry>
+              <id>http://www.example.org/csirt/repository/ddos/123456</id>
+              <title>Sample DDOS Incident</title>
+              <link href="http://www.example.org/csirt/repository/ddos/123456" rel="self"/>          <!-- by convention -->
+              <link href="http://www.example.org/csirt/repository/ddos/123456" rel="alternate"/>     <!-- required by Atom spec -->
+              <link href="http://www.example.org/csirt/repository/ddos/987654" rel="related"/>       <!-- link to a related DDOS resource in this repository -->
+              <link href="http://www.cyber-agency.gov/repository/indicators/1a2b3c" rel="related"/>  <!-- link to a related DDOS resource in another repository -->              
+              <published>2012-08-04T18:13:51.0Z</published>
+              <updated>2012-08-05T18:13:51.0Z</updated>
+              <!-- The category is based upon IODEF purpose and restriction attributes -->
+              <category term="traceback" scheme="purpose" label="trace back" />
+              <category term="need-to-know" scheme="restriction" label="need to know" />
+              <category term="ddos" scheme="ttp" label="tactics, techniques, and procedures"/>
+              <summary>A short description of this DDOS attack, extracted from the IODEF Incident class, <description> element. </summary>
+          </entry>
+          
+          <entry>
+              <!-- ...another entry... -->
+          </entry>
+                    
+      </feed>
+
+
+]]></artwork>
+                <postamble>This feed document has two atom entries, one of which has been elided.
+                  The completed entry illustrates an Atom &lt;entry&gt; element that provides a
+                  summary of essential details about one particular DDOS incident. Based upon this
+                  summary information and the provided category information, a client may choose to
+                  do an HTTP GET operation to retrieve the full details of the DDOS incident. This
+                  example shows how a persistent repository may provide links to additional
+                  resources, both local and remote. </postamble>
+              </figure> Note that the provider of a persistent repostory is not obligated to follow
+              any particular URL template scheme. The repository available at the hypothetical
+              provider "www.example.com" uses a different URL pattern than the hypothetical
+              repository available at "www.cyber-agency.gov". When a client de-references a link to
+              resource that is located in a remote repository the client may be challenged for
+              authentication credentials acceptable to that provider. If the two repository
+              providers choose to support a federated identity scheme or some other form of
+              single-sign-on technology, then the user experience can be improved for interactive
+              clients (e.g., a human user at a browser). However, this is not required and is an
+              implementation choice that is out of scope for this specification. </t>
+          </section>
+        </section>
+      </section>
+    </section>
+  </middle>
+
+  <back>
+
+    <references title="Normative References">
+      <?rfc include="reference.RFC.2119" ?>
+      <?rfc include="reference.RFC.2616" ?>
+      <?rfc include="reference.RFC.4287" ?>
+      <?rfc include="reference.RFC.5005" ?>
+      <?rfc include="reference.RFC.5023" ?>
+      <?rfc include="reference.RFC.5070" ?>
+      <?rfc include="reference.RFC.6545" ?>
+      
+
+      <reference anchor="opensearch" target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
+          <front>
+            <title>OpenSearch 1.1 draft 5 specification</title>
+            <author initials='D.' surname='Clinton'
+              fullname='Dewitt Clinton'>
+              <organization abbrev='OpenSearch'>
+                OpenSearch Community 
+              </organization>
+            </author>            
+            <date year='2011' />
+          </front>
+        </reference>        
+        
+      <reference anchor="SAML-core" target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
+          <front>
+            <title>Assertions and Protocols for the OASIS
+              Security Assertion Markup Language
+              (SAML) V2.0 </title>
+            <author initials="S." surname='Cantor'
+              fullname="Scott Cantor">
+              <organization/>
+            </author>
+            <author initials="J." surname='Kemp'
+              fullname="John Kemp">
+              <organization/>
+            </author>
+            <author initials="R." surname='Philpott'
+              fullname="Rob Philpott">
+              <organization/>
+            </author>
+            <author initials="E." surname='Mahler'
+              fullname="Eve Mahler">
+              <organization/>
+            </author>
+            <date day="15" month="March" year="2005" />
+          </front>
+        <seriesInfo name="OASIS Standard" value=""/>
+        </reference>              
+        
+      <reference anchor="SAML-prof" target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf">
+          <front>
+            <title>Profiles for the OASIS Security
+              Assertion Markup Language (SAML)
+              V2.0</title>
+              <author initials="J." surname='Hughes'
+              fullname="John Hughes">
+              <organization/>
+              </author>
+              <author initials="S." surname='Cantor'
+                fullname="Scott Cantor">
+                <organization/>
+              </author>
+              <author initials="J." surname='Hodges'
+                fullname="Jeff Hodges">
+                <organization/>
+              </author>
+              <author initials="F." surname='Hirsch'
+                fullname="Frederick Hirsch">
+                <organization/>
+              </author>
+              <author initials="P." surname='Mishra'
+                fullname="Prateek Mishra">
+                <organization/>
+              </author>
+              <author initials="R." surname='Philpott'
+                fullname="Rob Philpott">
+                <organization/>
+              </author>
+              <author initials="E." surname='Mahler'
+                fullname="Eve Mahler">
+                <organization/>
+              </author>
+            <date day="15" month="March" year="2005" />
+          </front>
+        <seriesInfo name="OASIS Standard" value=""/>
+      </reference> 
+        
+      <reference anchor="SAML-bind" target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf">
+          <front>
+            <title>Bindings for the OASIS Security
+              Assertion Markup Language (SAML)
+              V2.0 </title>
+            <author initials="S." surname='Cantor'
+              fullname="Scott Cantor">
+              <organization/>
+            </author>
+            <author initials="F." surname='Hirsch'
+              fullname="Frederick Hirsch">
+              <organization/>
+            </author>
+            <author initials="J." surname='Kemp'
+              fullname="John Kemp">
+              <organization/>
+            </author>
+            <author initials="R." surname='Philpott'
+              fullname="Rob Philpott">
+              <organization/>
+            </author>
+            <author initials="E." surname='Mahler'
+              fullname="Eve Mahler">
+              <organization/>
+            </author>            
+            <date day="15" month="March" year="2005" />
+          </front>
+        <seriesInfo name="OASIS Standard" value=""/>
+      </reference>      
+         
+    </references>
+
+    <references title="Informative References">
+
+      <reference anchor="XMLencrypt" target="http://www.w3.org/TR/xmlenc-core/">
+        <front>
+          <title>XML Encryption Syntax and Processing</title>
+          <author initials="T." surname="Imaura" fullname="">
+            <organization />
+          </author>
+          <author initials="B." surname="Dillaway" fullname="">
+            <organization />
+          </author>
+          <author initials="E." surname="Simon" fullname="">
+            <organization />
+          </author>
+          <date month="December" year="2002" />
+        </front>
+        <seriesInfo name="W3C Recommendation" value="" />
+      </reference>
+      
+      <reference anchor="XMLsig" target="http://www.w3.org/TR/xmldsig-core/">
+        <front>
+          <title>XML-Signature Syntax and Processing</title>
+          <author initials="M." surname="Bartel">
+            <organization />
+          </author>
+          <author initials="J." surname="Boyer">
+            <organization />
+          </author>
+          <author initials="B." surname="Fox">
+            <organization />
+          </author>
+          <author initials="B." surname="LaMaccia">
+            <organization />
+          </author>
+          <author initials="E." surname="Simon">
+            <organization />
+          </author>
+          <date month="June" year="2008" />
+        </front>
+        <seriesInfo name="W3C Recommendation" value="Second Edition" />
+      </reference>
+      
+      
+      <reference anchor="XACML" target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
+          <front>
+            <title>eXtensible Access Control Markup Language (XACML) Version 3.0</title>
+            <author initials="E." surname='Rissanen'
+              fullname="Erik Rissanen">
+              <organization/>
+            </author>
+            <date day="10" month="August" year="2010" />
+          </front>
+        </reference>      
+    
+      <reference anchor="REST" target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
+        <front>
+          <title>Architectural Styles and
+            the Design of Network-based Software Architectures</title>
+          <author initials='R.' surname='Fielding'
+            fullname='Roy Thomas Fielding'>
+            <organization abbrev='UCI'>
+              University of California, Irvine; 
+              Department of Information and Computer Science
+            </organization>
+          </author>          
+          <date year='2000' />
+        </front>
+        <format type="text/html" target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm" octets="7287"/>
+      </reference>        
+      
+      <?rfc include="reference.RFC.2396" ?>
+      <?rfc include="reference.RFC.2822" ?>
+      <?rfc include="reference.RFC.3339" ?>
+      <?rfc include="reference.RFC.3552" ?>
+      <?rfc include="reference.RFC.5226" ?>
+      <?rfc include="reference.RFC.6546" ?>
+      
+    </references>
+
+  <section title="Change Tracking" anchor="delta"> 
+    <t>Changes since -01 version, December, 2015 to May 27, 2016:
+      <list style="symbols">
+        <t>Spun section 4 and some related contextual information into its own document see TODO:Add reference </t>
+        <t>Recast document into a more general use perspective. The implication of CSIRTs as the defacto end-user has been removed where ever possible. 
+          All of the original CSIRT based use cases remain completely supported by this document, it has been opened up to supported many other use cases.</t>
+        <t>Changed the content model to broaden support of representation</t>
+        <t>Edited and rewrote much of sections 1,2 and 3 in order to accomplish a broader scope and greater readability</t>
+      </list>
+    </t>
+    <t>Changes since -02 version, August 15, 2013 to December 2, 2015:
+    <list style="symbols">
+		<t>Added section specifying the use of RFC5005 for Archive and Paging of feeds.  See: <xref target="normative-archive-page"/> </t>
+		<t>Added section describing use of atom categories that correspond to IODEF expectation class and impact classes. See: <xref target="normative-expectation-impact"/> </t>
+		<t>Dropped references to adoption of a MILE-specific HTTP media type parameter.</t>
+		<t>Updated IANA Considerations section to clarify that no IANA actions are required.</t>
+    </list>
+    </t>
+  </section>
+  
+    <section title="Resource Authorization Model" anchor="xacml">
+    
+      <t>As described in <xref target="az-enforcement-at-source"/> above, ROLIE assumes that all authorization policy enforcement is provided at the source server.  
+        The implementation details of the authorization scheme chosen by a ROLIE-compliant provider are out of scope for this specification.
+        Implementers are free to choose any suitable authorization mechanism that is capable of fulfilling the policy enforcement requirements 
+        relevant to their consortium and/or organization.
+        <vspace blankLines="1"/>
+        It is well known that one of the major barriers to information sharing is ensuring acceptable use of the information shared.  
+        In the case of ROLIE, one way to lower that barrier may be to develop a XACML profile.  Use of XACML would allow a ROLIE-compliant 
+        provider to express their information sharing authorization policies in a standards-compliant, and machine-readable format.
+        <vspace blankLines="1"/>
+        This improved interoperability may, in turn, enable more agile interactions in the cyber security sharing community.  For example, 
+        a peer CSIRT, or another interested stakeholder such as an auditor, would be able to review and compare CSIRT sharing policies using 
+        appropriate tooling. 
+        <vspace blankLines="1"/>
+        The XACML 3.0 standard is based upon the notion that authorization policies are defined in terms of predicate logic expressions written against the
+        attributes associated with one or more of the following four entities: 
+        <list style="symbols">
+          <t>SUBJECT</t>
+          <t>ACTION</t>
+          <t>RESOURCE</t>
+          <t>ENVIRONMENT</t>          
+        </list>
+        Thus, a suitable approach to a XACML 3.0 profile for ROLIE authorization policies could begin by using the 3-tuple of 
+        [SUBJECT, ACTION, RESOURCE] where: 
+        <list style="symbols">
+          <t>SUBJECT is the suitably authenticated identity of the requestor.</t>
+          <t>ACTION is the associated HTTP method, GET, PUT, POST, DELETE, HEAD, (PATCH).</t>
+          <t>RESOURCE is an XPath expression that uniquely identifies the instance or type of the ROLIE resource being requested.</t>
+        </list> 
+        Implementers who have a need may also choose to evaluate based upon the additional ENVIRONMENT factors, such as current threat level, and so on.
+        One could also write policy to consider the CVSS score associated with the resource, or the lifecycle phase of the resource (vulnerability 
+        unverified, confirmed, patch available, etc.), and so on.
+      </t>
+      <t>
+        Having these policies expressed in a standards-compliant and machine-readable format could improve the agility and effectiveness of a cyber security
+        information sharing group or consortium, and enable better cyber defenses.
+      </t>        
+          
+    </section>
+    
+  </back>
+</rfc>
+
+
