@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
+<?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200902" category="info" docName="draft-ietf-mile-rolie-02">
   <!-- Working draft of draft02 -->
   <?rfc compact="yes"?>
@@ -35,7 +36,7 @@
         <email>sab3@nist.gov</email>
       </address>
     </author>
-    <date month="May" day="26" year="2016"/>
+    <date month="June" day="1" year="2016"/>
     <area>Security</area>
     <workgroup>MILE Working Group</workgroup>
     <abstract>
@@ -45,10 +46,10 @@
         Web-addressable resources. Furthermore, consumers and other stakeholders may access and
         search this security content as needed, establishing a rapid and on-demand information
         exchange network for restricted internal use or public access repositories. This
-        specification builds on and extends the <xref target="RFC5023">Atom Publishing
-          Protocol</xref> and <xref target="RFC4287">Atom Syndication Format</xref> to transport and
+        specification builds on and extends the Atom Publishing
+          Protocol and Atom Syndication Format to transport and
         share cyber security resource representations. This document leverages the existing
-        representations <xref target="RFC5070">IODEF</xref> and <xref target="RFC6545">RID</xref>
+        representations IODEF and RID
         where appropriate, and supports related cyber security representation standards.</t>
     </abstract>
   </front>
@@ -289,7 +290,7 @@
           of the Atom entry MUST contain an appropriate XML namespace declaration. </t>
       </section>
       <section title="HTTP methods" anchor="inc-http-methods">
-        <t>The following table defines the <xref target="RFC2616">HTTP</xref> uniform interface
+        <t>The following table defines the <xref target="RFC7235">HTTP</xref> uniform interface
           methods supported by this specification: </t>
         <texttable anchor="http-methods-table"
           title="Uniform Interface for Resource-Oriented Lightweight Indicator Exchange">
@@ -312,7 +313,7 @@
           <c>Support TBD.</c>
         </texttable>
         <t>Clients MUST be capable of recognizing and prepared to process any standard HTTP status
-          code, as defined in <xref target="RFC2616"/></t>
+          code, as defined in <xref target="RFC7235"/></t>
       </section>
       <section title="Service Discovery">
         <t>This specification requires that a implementation MUST publish an Atom Service Document
@@ -600,7 +601,7 @@
   <back>
     <references title="Normative References">
       <?rfc include="reference.RFC.2119" ?>
-      <?rfc include="reference.RFC.2616" ?>
+      <?rfc include="reference.RFC.7235" ?>
       <?rfc include="reference.RFC.4287" ?>
       <?rfc include="reference.RFC.5005" ?>
       <?rfc include="reference.RFC.5023" ?>
@@ -691,44 +692,6 @@
       </reference>
     </references>
     <references title="Informative References">
-      <reference anchor="XMLencrypt" target="http://www.w3.org/TR/xmlenc-core/">
-        <front>
-          <title>XML Encryption Syntax and Processing</title>
-          <author initials="T." surname="Imaura" fullname="">
-            <organization/>
-          </author>
-          <author initials="B." surname="Dillaway" fullname="">
-            <organization/>
-          </author>
-          <author initials="E." surname="Simon" fullname="">
-            <organization/>
-          </author>
-          <date month="December" year="2002"/>
-        </front>
-        <seriesInfo name="W3C Recommendation" value=""/>
-      </reference>
-      <reference anchor="XMLsig" target="http://www.w3.org/TR/xmldsig-core/">
-        <front>
-          <title>XML-Signature Syntax and Processing</title>
-          <author initials="M." surname="Bartel">
-            <organization/>
-          </author>
-          <author initials="J." surname="Boyer">
-            <organization/>
-          </author>
-          <author initials="B." surname="Fox">
-            <organization/>
-          </author>
-          <author initials="B." surname="LaMaccia">
-            <organization/>
-          </author>
-          <author initials="E." surname="Simon">
-            <organization/>
-          </author>
-          <date month="June" year="2008"/>
-        </front>
-        <seriesInfo name="W3C Recommendation" value="Second Edition"/>
-      </reference>
       <reference anchor="XACML"
         target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
         <front>
@@ -751,11 +714,6 @@
         <format type="text/html" target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"
           octets="7287"/>
       </reference>
-      <?rfc include="reference.RFC.2396" ?>
-      <?rfc include="reference.RFC.2822" ?>
-      <?rfc include="reference.RFC.3339" ?>
-      <?rfc include="reference.RFC.3552" ?>
-      <?rfc include="reference.RFC.5226" ?>
       <?rfc include="reference.RFC.6546" ?>
     </references>
     <section title="Change Tracking" anchor="delta">
