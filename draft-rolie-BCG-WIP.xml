@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-
 <rfc ipr="trust200811" category="info" docName="draft-ietf-mile-rolie-guidance and context">  <!-- Working draft of supporting document for ROLIE -->
   <?rfc compact="yes"?>
   <?rfc subcompact="no"?>
@@ -125,6 +124,41 @@
           upon the source system applying suitable Role-based Access Control policy enforcements
           for the second user identity.  </t>
       </section>
+    </section>
+    <section title="Resource Authorization Model" anchor="xacml">
+      <t>ROLIE assumes that all authorization policy enforcement is provided at the source server.
+        The implementation details of the authorization scheme chosen by a ROLIE-compliant provider
+        are out of scope for this specification. Implementers are free to choose any suitable
+        authorization mechanism that is capable of fulfilling the policy enforcement requirements
+        relevant to their consortium and/or organization. <vspace blankLines="1"/> It is well known
+        that one of the major barriers to information sharing is ensuring acceptable use of the
+        information shared. In the case of ROLIE, one way to lower that barrier may be to develop a
+        XACML profile. Use of XACML would allow a ROLIE-compliant provider to express their
+        information sharing authorization policies in a standards-compliant, and machine-readable
+        format. <vspace blankLines="1"/> This improved interoperability may, in turn, enable more
+        agile interactions in the cyber security sharing community. For example, an interested
+        stakeholder would be able to review and compare sharing policies between producers using
+        appropriate tooling. <vspace blankLines="1"/> The XACML 3.0 standard is based upon the
+        notion that authorization policies are defined in terms of predicate logic expressions
+        written against the attributes associated with one or more of the following four entities:
+          <list style="symbols">
+          <t>SUBJECT</t>
+          <t>ACTION</t>
+          <t>RESOURCE</t>
+          <t>ENVIRONMENT</t>
+        </list> Thus, a suitable approach to a XACML 3.0 profile for ROLIE authorization policies
+        could begin by using the 3-tuple of [SUBJECT, ACTION, RESOURCE] where: <list style="symbols">
+          <t>SUBJECT is the suitably authenticated identity of the requestor.</t>
+          <t>ACTION is the associated HTTP method, GET, PUT, POST, DELETE, HEAD, (PATCH).</t>
+          <t>RESOURCE is an XPath expression that uniquely identifies the instance or type of the
+            ROLIE resource being requested.</t>
+        </list> Implementers who have a need may also choose to evaluate based upon the additional
+        ENVIRONMENT factors, such as current threat level, and so on. One could also write policy to
+        consider the CVSS score associated with the resource, or the lifecycle phase of the resource
+        (vulnerability unverified, confirmed, patch available, etc.), and so on. </t>
+      <t> Having these policies expressed in a standards-compliant and machine-readable format could
+        improve the agility and effectiveness of a cyber security information sharing group or
+        consortium, and enable better cyber defenses. </t>
     </section>
       <section title="RESTful Usage Model" anchor="usage-model">
       <t> This section describes the basic use of <xref target="RFC4287">Atom Syndication
@@ -1156,5 +1190,4 @@ Accept: application/atom+xml
     
   </back>
 </rfc>
-
 
