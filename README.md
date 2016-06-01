@@ -4,7 +4,8 @@ This is an area related to ongoing work related to the Resource-oriented Lightwe
 
 
 
-## Document Status The main draft is currently WIP and is titled draft-ietf-mile-rolie-02.xml. The spin-off document containing Background, Context and Guidance (BCG) information is heavily WIP and is titled draft-rolie-BCG-WIP.xml.
+## Document Status
+TBD
 
 ## Contributing
 
@@ -43,7 +44,9 @@ providing a link to the issue in the message body.
   appropriate place to discuss design issues is on the mailing list itself.
 
 
-## Building the Draft The main draft supports xml2rfc
+## Building the Draft
+
+TBD
 
 
 ## NOTE WELL
