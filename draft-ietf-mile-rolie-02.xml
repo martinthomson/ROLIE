@@ -392,7 +392,8 @@
       <section title="Link Relations">
         <t> In addition to the standard Link Relations defined by the Atom specification, this
           specification defines the following additional Link Relation terms, which are introduced
-          specifically in support of the Resource-Oriented Lightweight Indicator Exchange protocol. </t>
+          specifically in support of the Resource-Oriented Lightweight Information Exchange
+          protocol. </t>
         <texttable anchor="link-relations-table"
           title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
           <ttcol align="left">Name</ttcol>
@@ -410,10 +411,10 @@
             with the resource.</c>
           <c>MUST</c>
           <c>incidents</c>
-          <c>Provides a link to a collection of zero or more instances of actual cyber security
-            event(s) that are associated with the resource.</c>
+          <c>Provides a link to a collection of zero or more instances of IODEF representations
+            associated with the resource.</c>
           <c>MUST</c>
-          <c>indicators</c>
+          <c>information</c>
           <c>Provides a link to a collection of zero or more instances of cyber security indicators
             that are associated with the resource.</c>
           <c>MUST</c>
@@ -455,7 +456,7 @@
           concatenation with a base-uri. An appropriate base-uri could be established via agreement
           amongst the members of an information sharing consortium. For example, the
           rel="indicators" relationship would become
-          rel="http://www.example.org/csirt/incidents/relationships/indicators." </t>
+          rel="http://www.example.org/rolie/incidents/relationships/indicators." </t>
         <section title="Additional Link Relation Requirements" anchor="link-rel-notes">
           <t> An IODEF document that is carried in an Atom Entry SHOULD NOT contain a
             &lt;relatedActivity&gt; element. Instead, the related activity SHOULD be available via a
@@ -522,40 +523,38 @@
       </section>
     </section>
     <section title="Security Considerations TODO" anchor="sec-security">
-      <t>This document defines a resource-oriented approach to lightweight indicator exchange using
-        HTTP, TLS, Atom Syndicate Format, and Atom Publishing Protocol. As such, implementers must
-        understand the security considerations described in those specifications. <vspace
+      <t>This document defines a resource-oriented approach to lightweight information exchange
+        using HTTP, TLS, Atom Syndicate Format, and Atom Publishing Protocol. As such, implementers
+        must understand the security considerations described in those specifications. <vspace
           blankLines="1"/> In addition, there are a number of additional security considerations
-        that are unique to this specification. <vspace blankLines="1"/> As described above in the
-        section Authentication of Users, the approach described herein is based upon all policy
-        enforcements being implemented at the point when a resource representation is created. As
-        such, producers sharing cyber security information using this specification must take care
-        to authenticate their HTTP clients using a suitably strong user authentication mechanism.
-        Sharing communities that are exchanging information on well-known indicators and incidents
-        for purposes of public education may choose to rely upon, e.g. HTTP Authentication, or
-        similar. However, sharing communities that are engaged in sensitive collaborative analysis
-        and/or operational response for indicators and incidents targeting high value information
-        systems should adopt a suitably stronger user authentication solution, such as TLS client
-        certificates, or a risk-based or multi-factor approach. In general, trust in the sharing
-        consortium will depend upon the members maintaining adequate user authentication mechanisms.
-          <vspace blankLines="1"/> Collaborating consortiums may benefit from the adoption of a
-        federated identity solution, such as those based upon <xref target="SAML-core"
-          >SAML-core</xref> and <xref target="SAML-bind">SAML-bind</xref> and <xref
-          target="SAML-prof">SAML-prof</xref> for Web-based authentication and cross-organizational
-        single sign-on. Dependency on a trusted third party identity provider implies that
-        appropriate care must be exercised to sufficiently secure the Identity provider. Any attacks
-        on the federated identity system would present a risk to the CISRT, as a relying party.
-        Potential mitigations include deployment of a federation-aware identity provider that is
-        under the control of the information sharing consortium, with suitably stringent technical
-        and management controls. <vspace blankLines="1"/> As discussed above in the section
-        Authorization Policy Enforcement, authorization of resource representations is the
-        responsibility of the source system, i.e. based on the authenticated user identity
-        associated with an HTTP(S) request. The required authorization policies that are to be
-        enforced must therefore be managed by the security administrators of the source system.
-        Various authorization architectures would be suitable for this purpose, such as <eref
-          target="http://csrc.nist.gov/groups/SNS/rbac/">RBAC</eref> and/or ABAC, as embodied in
-          <xref target="XACML">XACML</xref>. In particular, implementers adopting XACML may benefit
-        from the capability to represent their authorization policies in a standardized,
+        that are unique to this specification. <vspace blankLines="1"/> The approach described
+        herein is based upon all policy enforcements being implemented at the point when a resource
+        representation is created. As such, producers sharing cyber security information using this
+        specification must take care to authenticate their HTTP clients using a suitably strong user
+        authentication mechanism. Sharing communities that are exchanging information on well-known
+        indicators and incidents for purposes of public education may choose to rely upon, e.g. HTTP
+        Authentication, or similar. However, sharing communities that are engaged in sensitive
+        collaborative analysis and/or operational response for indicators and incidents targeting
+        high value information systems should adopt a suitably stronger user authentication
+        solution, such as TLS client certificates, or a risk-based or multi-factor approach. In
+        general, trust in the sharing consortium will depend upon the members maintaining adequate
+        user authentication mechanisms. <vspace blankLines="1"/> Collaborating consortiums may
+        benefit from the adoption of a federated identity solution, such as those based upon <xref
+          target="SAML-core">SAML-core</xref> and <xref target="SAML-bind">SAML-bind</xref> and
+          <xref target="SAML-prof">SAML-prof</xref> for Web-based authentication and
+        cross-organizational single sign-on. Dependency on a trusted third party identity provider
+        implies that appropriate care must be exercised to sufficiently secure the Identity
+        provider. Any attacks on the federated identity system would present a risk to the CISRT, as
+        a relying party. Potential mitigations include deployment of a federation-aware identity
+        provider that is under the control of the information sharing consortium, with suitably
+        stringent technical and management controls. <vspace blankLines="1"/> Authorization of
+        resource representations is the responsibility of the source system, i.e. based on the
+        authenticated user identity associated with an HTTP(S) request. The required authorization
+        policies that are to be enforced must therefore be managed by the security administrators of
+        the source system. Various authorization architectures would be suitable for this purpose,
+        such as <eref target="http://csrc.nist.gov/groups/SNS/rbac/">RBAC</eref> and/or ABAC, as
+        embodied in <xref target="XACML">XACML</xref>. In particular, implementers adopting XACML
+        may benefit from the capability to represent their authorization policies in a standardized,
         interoperable format. <vspace blankLines="1"/> Additional security requirements such as
         enforcing message-level security at the destination system could supplement the security
         enforcements performed at the source system, however these destination-provided policy
@@ -582,9 +581,9 @@
         skills required for a successful exploit may be less than it was previously. This risk can
         be best mitigated through appropriate vetting of the client at account provisioning time. In
         addition, any increase in the risk of this type of abuse should be offset by the
-        corresponding increase in effectiveness that that this specification affords to the
-        defenders. <vspace blankLines="1"/> While it is a goal of this specification to enable more
-        agile cyber security information sharing across a broader and varying constituency, there is
+        corresponding increase in effectiveness that this specification affords to the defenders.
+          <vspace blankLines="1"/> While it is a goal of this specification to enable more agile
+        cyber security information sharing across a broader and varying constituency, there is
         nothing in this specification that necessarily requires this type of deployment. A cyber
         security information sharing consortium may chose to adopt this specification while
         continuing to operate as a gated community with strictly limited membership. </t>
@@ -787,41 +786,6 @@
           <t>Updated IANA Considerations section to clarify that no IANA actions are required.</t>
         </list>
       </t>
-    </section>
-    <section title="Resource Authorization Model" anchor="xacml">
-      <t>As described in above, ROLIE assumes that all authorization policy enforcement is provided
-        at the source server. The implementation details of the authorization scheme chosen by a
-        ROLIE-compliant provider are out of scope for this specification. Implementers are free to
-        choose any suitable authorization mechanism that is capable of fulfilling the policy
-        enforcement requirements relevant to their consortium and/or organization. <vspace
-          blankLines="1"/> It is well known that one of the major barriers to information sharing is
-        ensuring acceptable use of the information shared. In the case of ROLIE, one way to lower
-        that barrier may be to develop a XACML profile. Use of XACML would allow a ROLIE-compliant
-        provider to express their information sharing authorization policies in a
-        standards-compliant, and machine-readable format. <vspace blankLines="1"/> This improved
-        interoperability may, in turn, enable more agile interactions in the cyber security sharing
-        community. For example, an interested stakeholder would be able to review and compare
-        sharing policies between producers using appropriate tooling. <vspace blankLines="1"/> The
-        XACML 3.0 standard is based upon the notion that authorization policies are defined in terms
-        of predicate logic expressions written against the attributes associated with one or more of
-        the following four entities: <list style="symbols">
-          <t>SUBJECT</t>
-          <t>ACTION</t>
-          <t>RESOURCE</t>
-          <t>ENVIRONMENT</t>
-        </list> Thus, a suitable approach to a XACML 3.0 profile for ROLIE authorization policies
-        could begin by using the 3-tuple of [SUBJECT, ACTION, RESOURCE] where: <list style="symbols">
-          <t>SUBJECT is the suitably authenticated identity of the requestor.</t>
-          <t>ACTION is the associated HTTP method, GET, PUT, POST, DELETE, HEAD, (PATCH).</t>
-          <t>RESOURCE is an XPath expression that uniquely identifies the instance or type of the
-            ROLIE resource being requested.</t>
-        </list> Implementers who have a need may also choose to evaluate based upon the additional
-        ENVIRONMENT factors, such as current threat level, and so on. One could also write policy to
-        consider the CVSS score associated with the resource, or the lifecycle phase of the resource
-        (vulnerability unverified, confirmed, patch available, etc.), and so on. </t>
-      <t> Having these policies expressed in a standards-compliant and machine-readable format could
-        improve the agility and effectiveness of a cyber security information sharing group or
-        consortium, and enable better cyber defenses. </t>
     </section>
   </back>
 </rfc>
