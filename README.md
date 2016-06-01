@@ -1,11 +1,15 @@
 # ROLIE
 
-This is an area related to ongoing work related to the Resource-oriented Lightweight Indicator Exchange (ROLIE) draft on the Managed Incident Lightweight Exchange (MILE) working group of the IETF.
+This is an area related to ongoing work related to the Resource-oriented Lightweight Information Exchange (ROLIE) draft on the Managed Incident Lightweight Exchange (MILE) working group of the IETF.
 
 
 
 ## Document Status
-TBD
+
+The main draft is WIP, and can be found under the name draft-ietf-mile-rolie-02.xml.
+
+The secondary Background Context and Guidance (BCG) document is heavily WIP and does not 
+compile correctly under xml2rfc. It can be found under the name draft-rolie-BCG-WIP.xml.
 
 ## Contributing
 
@@ -46,7 +50,7 @@ providing a link to the issue in the message body.
 
 ## Building the Draft
 
-TBD
+The main draft currently compiles uses xml2rfc, and generates no Idnits errors.
 
 
 ## NOTE WELL
