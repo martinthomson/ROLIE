@@ -412,12 +412,16 @@
             with the resource.</c>
           <c>MUST</c>
           <c>incidents</c>
-          <c>Provides a link to a collection of zero or more instances of IODEF representations
+          <c>Provides a link to a collection of zero or more instances of incident representations
             associated with the resource.</c>
           <c>MUST</c>
-          <c>information</c>
+          <c>indicators</c>
           <c>Provides a link to a collection of zero or more instances of cyber security indicators
             that are associated with the resource.</c>
+          <c>MUST</c>
+          <c>information</c>
+          <c>Provides a link to a collection of zero or more instances of cyber security information
+            that is associated with the resource.</c>
           <c>MUST</c>
           <c>evidence</c>
           <c>Provides a link to a collection of zero or more resources that provides some proof of
@@ -717,7 +721,8 @@
       <?rfc include="reference.RFC.6546" ?>
     </references>
     <section title="Change Tracking" anchor="delta">
-      <t>Changes since -01 version, December, 2015 to May 27, 2016: <list style="symbols">
+      <t>Changes since draft-field-mile-rolie-01 version, December, 2015 to May 27, 2016: <list
+          style="symbols">
           <t>Spun section 4 and some related contextual information into its own document see
             TODO:Add reference </t>
           <t>Recast document into a more general use perspective. The implication of CSIRTs as the
@@ -733,7 +738,8 @@
             lions-share of the requirements of the specification</t>
         </list>
       </t>
-      <t>Changes since -02 version, August 15, 2013 to December 2, 2015: <list style="symbols">
+      <t>Changes made in draft-ietf-mile-rolie-01 since draft-field-mile-rolie-02 version, August
+        15, 2013 to December 2, 2015: <list style="symbols">
           <t>Added section specifying the use of RFC5005 for Archive and Paging of feeds. See: <xref
               target="normative-archive-page"/>
           </t>
