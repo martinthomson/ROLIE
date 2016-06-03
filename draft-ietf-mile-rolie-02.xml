@@ -241,19 +241,6 @@
             target="RFC5005">Feed Paging and Archiving</xref> to provide capabilities for paging and
           archiving of feeds. </t>
       </section>
-      <section title="Expectation and Impact Classes" anchor="normative-expectation-impact">
-        <t>It is frequently the case that an organization will need to triage their investigation
-          and response activities based upon, e.g., the state of the current threat environment, or
-          simply as a result of having limited resources. <vspace blankLines="1"/> In order to
-          enable operators to effectively prioritize their response activity, it is RECOMMENDED that
-          feed implementers provide Atom categories that correspond to the IODEF Expectation and
-          Impact classes. The availability of these feed categories will enable clients to more
-          easily retrieve and prioritize cyber security information that has already been identified
-          as having a specific potential impact, or having a specific expectation. <vspace
-            blankLines="1"/> Support for these categories may also enable efficiencies for
-          organizations that already have established (or plan to establish) operational processes
-          and workflows that are based on these IODEF classes. </t>
-      </section>
       <section title="User Authentication" anchor="normative-user-auth">
         <t>Implementations MUST support user authentication. User authentication MAY be enabled for
           specific feeds.<vspace blankLines="1"/>Implementations MAY support more than one client
@@ -276,24 +263,6 @@
           and "term" attributes contained therein. As described in <xref target="category-mapping"/>
           below, the namespace of the "term" attribute is scoped by the associated "scheme"
           attribute. </t>
-      </section>
-      <section title="Content Model" anchor="content-model">
-        <t> Member entry resources providing a representation of an incident resource (e.g., as
-          specified in the link relation type) MUST use the IODEF schema as the content model for
-          the Atom Entry &lt;content&gt; element. <vspace blankLines="1"/> Member Entry resources
-          providing a representation of an indicator resource (e.g., as specified in the link
-          relation type) MUST use the IODEF schema as the content model for the Atom Entry
-          &lt;content&gt; element. <vspace blankLines="1"/> The resource representation MAY include
-          an appropriate indicator schema type within the &lt;AdditionalData&gt; element of the
-          IODEF Incident class. Supported indicator schema types SHALL be registered via an IANA
-          table (todo: IANA registration/review). <vspace blankLines="1"/> Member Entry resources
-          providing a representation of a RID report resource (e.g., as specified in the link
-          relation type) MUST use the RID schema as the content model for the Atom Entry
-          &lt;content&gt; element. <vspace blankLines="1"/> Member Entry resources providing
-          representation of other types, SHOULD use the schema appropriate for their data category
-          as the content model for the Atom Entry &lt;content&gt; element. These data categories
-          SHALL be registered via an IANA table.<vspace blankLines="1"/> The &lt;content&gt; element
-          of the Atom entry MUST contain an appropriate XML namespace declaration. </t>
       </section>
       <section title="HTTP methods" anchor="inc-http-methods">
         <t>The following table defines the <xref target="RFC7235">HTTP</xref> uniform interface
@@ -334,11 +303,7 @@
         </section>
         <section title="Collections">
           <t>An implementation MAY provide any number of collections within a given Workspace. It is
-            RECOMMENDED that each collection appear in only a single Workspace. It is RECOMMENDED
-            that at least one collection be provided that accepts new incident reports from users.
-            At least one collection MUST provide a feed of incident information for which the
-            content model for the entries uses the IODEF schema. The title of this collection SHOULD
-            be "Incidents". </t>
+            RECOMMENDED that each collection appear in only a single Workspace.</t>
         </section>
         <section title="Service Document Security">
           <t>Access to the service document MUST be protected via server-authenticated TLS and a
@@ -348,53 +313,12 @@
         </section>
       </section>
       <section title="Category Mapping" anchor="category-mapping">
-        <t>This section defines normative requirements for mapping IODEF metadata to corresponding
-          Atom category elements. (todo: decide between IANA registration of scheme, or use a full
-          URI). </t>
-        <section title="Collection Category">
-          <t>An Atom collection MAY hold entries from one or more categories. The collection
-            category set MUST contain at least the union of all the member entry categories. A
-            collection MAY have additional category metadata that are unique to the collection, and
-            not applicable to any individual member entry. A collection containing IODEF incident
-            content MUST contain at least two &lt;category&gt; elements. One category MUST be
-            specified with the value of the "scheme" attribute as "restriction". One category MUST
-            be specified with the value of the "scheme" attribute as "purpose". The value of the
-            "fixed" attribute for both of these category elements MUST be "yes". When the category
-            scheme="restriction", the allowable values for the "term" attribute are constrained as
-            per section 3.2 of IODEF, e.g. public, need-to-know, private, default. When the category
-            scheme="purpose", the allowable values for the "term" attribute are constrained as per
-            section 3.2 of IODEF, e.g. traceback, mitigation, reporting, other. </t>
-        </section>
-        <section title="Entry Category">
-          <t>An Atom entry containing IODEF content MUST contain at least two &lt;category&gt;
-            elements. One category MUST be specified with the value of the "scheme" attribute as
-            "restriction". One category MUST be specified with the value of the "scheme" attribute
-            as "purpose". When the category scheme="restriction", the value of the "term" attribute
-            must be exactly one of ( public, need-to-know, private, default). When the category
-            scheme="purpose", the value of the "term" attribute must be exactly one of (traceback,
-            mitigation, reporting, other). When the purpose is "other".... <vspace blankLines="1"/>
-            Any member entry MAY have any number of additional categories. </t>
-        </section>
-      </section>
-      <section title="Entry ID">
-        <t>The ID element for an Atom entry SHOULD be established via the concatenation of the value
-          of the name attribute from the IODEF &lt;IncidentID&gt; element and the corresponding
-          value of the &lt;IncidentID&gt; element. This requirement ensures a simple and direct
-          one-to-one relationship between an IODEF incident ID and a corresponding Feed entry ID and
-          avoids the need for any system to maintain a persistent store of these identity mappings.
-            <vspace blankLines="1"/> (todo: Note that this implies a constraint on the IODEF
-          document that is more restrictive than the current IODEF schema. IODEF section 3.3
-          requires only that the name be a STRING type. Here we are stating that name must be an
-          IRI. Possible request to update IODEF to constrain, or to support a new element or
-          attribute). </t>
-      </section>
-      <section title="Entry Content">
-        <t>The &lt;content&gt; element of an Atom &lt;entry&gt; SHOULD include an IODEF document.
-          The &lt;entry&gt; element SHOULD include an appropriate XML namespace declaration for the
-          IODEF schema. If the content model of the &lt;entry&gt; element does not follow the IODEF
-          schema, then the &lt;entry&gt; element MUST include an appropriate XML namespace
-          declaration. <vspace blankLines="1"/> A client MAY ignore content that is not using the
-          IODEF schema. </t>
+        <t>TODO
+          
+          An Atom collection MAY hold entries from one or more categories. The collection
+          category set MUST contain at least the union of all the member entry categories. A
+          collection MAY have additional category metadata that are unique to the collection, and
+          not applicable to any individual member entry. </t>
       </section>
       <section title="Link Relations">
         <t> In addition to the standard Link Relations defined by the Atom specification, this
@@ -417,69 +341,22 @@
           <c>Provides a link to a collection of zero or more historical entries that are associated
             with the resource.</c>
           <c>MUST</c>
-          <c>incidents</c>
-          <c>Provides a link to a collection of zero or more instances of incident representations
-            associated with the resource.</c>
-          <c>MUST</c>
-          <c>indicators</c>
-          <c>Provides a link to a collection of zero or more instances of cyber security indicators
-            that are associated with the resource.</c>
-          <c>MUST</c>
           <c>information</c>
           <c>Provides a link to a collection of zero or more instances of cyber security information
             that is associated with the resource.</c>
           <c>MUST</c>
-          <c>evidence</c>
-          <c>Provides a link to a collection of zero or more resources that provides some proof of
-            attribution for an incident. The evidence may or may not have any identified chain of
-            custody.</c>
-          <c>SHOULD</c>
-          <c>campaign</c>
-          <c>Provides a link to a collection of zero or more resources that provides a
-            representation of the associated cyber attack campaign.</c>
-          <c>SHOULD</c>
-          <c>attacker</c>
-          <c>Provides a link to a collection of zero or more resources that provides a
-            representation of the attacker.</c>
-          <c>SHOULD</c>
-          <c>vector</c>
-          <c>Provides a link to a collection of zero or more resources that provides a
-            representation of the method used by the attacker.</c>
-          <c>SHOULD</c>
-          <c>assessments</c>
-          <c>Provides a link to a collection of zero or more resources that represent the results of
-            executing a benchmark.</c>
-          <c>SHOULD</c>
-          <c>reports</c>
-          <c>Provides a link to a collection of zero or more resources that represent RID
-            reports.</c>
-          <c>SHOULD</c>
-          <c>traceRequests</c>
-          <c>Provides a link to a collection of zero or more resources that represent RID
-            traceRequests.</c>
-          <c>SHOULD</c>
-          <c>investigationRequests</c>
-          <c>Provides a link to a collection of zero or more resources that represent RID
-            investigationRequests.</c>
-          <c>SHOULD</c>
         </texttable>
         <t> Unless specifically registered with IANA these short names MUST be fully qualified via
           concatenation with a base-uri. An appropriate base-uri could be established via agreement
           amongst the members of an information sharing consortium. For example, the
           rel="indicators" relationship would become
-          rel="http://www.example.org/rolie/incidents/relationships/indicators." </t>
-        <section title="Additional Link Relation Requirements" anchor="link-rel-notes">
-          <t> An IODEF document that is carried in an Atom Entry SHOULD NOT contain a
-            &lt;relatedActivity&gt; element. Instead, the related activity SHOULD be available via a
-            link rel=related. <vspace blankLines="1"/> An IODEF document that is carried in an Atom
-            Entry SHOULD NOT contain a &lt;history&gt; element. Instead, the related history SHOULD
-            be available via a link rel="history" (todo: or a fully qualified link rek name). The
-            associated href MAY leverage OpenSearch to specify the required query. <vspace
-              blankLines="1"/> An Atom Entry MAY include additional link relationships not specified
-            here. If a client encounters a link relationship of an unknown type the client MUST
-            ignore the offending link and continue processing the remaining resource representation
-            as if the offending link element did not appear. </t>
-        </section>
+          rel="http://www.example.org/rolie/incidents/relationships/indicators." 
+        
+        <vspace blankLines="1"></vspace>
+        An Atom Entry MAY include additional link relationships not specified here. If a client
+          encounters a link relationship of an unknown type the client MUST ignore the offending
+          link and continue processing the remaining resource representation as if the offending
+          link element did not appear. </t>
       </section>
       <section title="Member Entry Forward Security">
         <t>As described in Authorization Policy Enforcement a RESTful model for cyber security
@@ -490,7 +367,7 @@
           and audited. <vspace blankLines="1"/> Sharing communities that have a requirement for
           forward message security (such that client systems are required to participate in
           providing message level security and/or distributed authorization policy enforcement),
-          MUST use the RID schema as the content model for the member entry &lt;content&gt; element. </t>
+          MUST use TODO. </t>
       </section>
       <section title="Date Mapping">
         <t>The Atom feed &lt;updated&gt; element MUST be populated with the current time at the
@@ -502,23 +379,9 @@
         <t> Implementers MUST support <xref target="opensearch">OpenSearch 1.1</xref> as the
           mechanism for describing how clients may form search requests. <vspace blankLines="1"/>
           Implementers MUST provide a link with a relationship type of "search". This link SHALL
-          return an Open Search Description Document as defined in OpenSearch 1.1. <vspace
-            blankLines="1"/> Implementers MUST support an OpenSearch 1.1 compliant search URL
-          template that enables a search query via Atom Category, including the scheme attribute and
-          terms attribute as search parameters. <vspace blankLines="1"/> Implementers SHOULD support
-          search based upon the IODEF AlternativeID class as a search parameter. <vspace
-            blankLines="1"/> Implementers SHOULD support search based upon the four timestamp
-          elements of the IODEF Incident class: &lt;startTime&gt;, &lt;EndTime&gt;,
-          &lt;DetectTime&gt;, and &lt;ReportTime&gt;. <vspace blankLines="1"/> Implementers MAY
-          support additional search capabilities based upon any of the remaining elements of the
-          IODEF Incident class, including the &lt;Description&gt; element. <vspace blankLines="1"/>
-          Collections that support use of the RID schema as a content model in the Atom member entry
-          &lt;content&gt; element (e.g. in a report resource representation reachable via the
-          "report" link relationship) MUST support search operations that include the RID
-          MessageType as a search parameter, in addition to the aforementioned IODEF schema
-          elements, as contained within the &lt;ReportSchema&gt; element. <vspace blankLines="1"/>
+          return an Open Search Description Document as defined in OpenSearch 1.1.  <vspace blankLines="1"/>
           Implementers MUST fully qualify all OpenSearch URL template parameter names using the
-          defined IODEF or RID XML namespaces, as appropriate. </t>
+          defined XML namespaces, as appropriate. </t>
       </section>
       <section title="/ (forward slash) Resource URL" anchor="rid-ref">
         <t>The "/" resource MAY be provided for compatibility with existing deployments that are
@@ -532,6 +395,11 @@
           at the indicated location. This resource could also leverage the new draft by reschke that
           proposes HTTP status code 308 (cf: draft-reschke-http-status-308-07.txt). </t>
       </section>
+    </section>
+    <section title="Content Model" anchor="content-model">
+      <t> TODO: Explain supplementary document system.<vspace/> TODO: IANA Table for each
+        category<vspace blankLines="1"/> The &lt;content&gt; element of the Atom entry MUST
+        contain an appropriate XML namespace declaration. </t>
     </section>
     <section title="Security Considerations TODO" anchor="sec-security">
       <t>This document defines a resource-oriented approach to lightweight information exchange
