@@ -56,6 +56,12 @@ rfc>front abstract:before {
   font-weight: bold;
   margin-top: 6pt;
 }
+rfc>front note:before {
+  content: attr(title);
+  display: block;
+  font-weight: bold;
+  margin-top: 6pt;
+}
 
 section:before {
   display: block;
@@ -69,6 +75,10 @@ section section:before {
   display: block;
   font-weight: bold;
   margin-top: 6pt;
+}
+
+eref {
+content: "<" attr(target) ">"
 }
 
 section section section:before {

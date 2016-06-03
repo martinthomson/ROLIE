@@ -8,8 +8,7 @@ This is an area related to ongoing work related to the Resource-oriented Lightwe
 
 The main draft is WIP, and can be found under the name draft-ietf-mile-rolie-02.xml.
 
-The secondary Background Context and Guidance (BCG) document is heavily WIP and does not 
-compile correctly under xml2rfc. It can be found under the name draft-rolie-BCG-WIP.xml.
+The secondary CSIRT document spun off of the main document is heavily WIP and can be found under the name draft-rolie-CSIRT.xml. This document does not currently compile correctly under xml2rfc, nor does it have correct front and back matter.
 
 ## Contributing
 
@@ -50,7 +49,7 @@ providing a link to the issue in the message body.
 
 ## Building the Draft
 
-The main draft currently compiles uses xml2rfc, and generates no Idnits errors.
+The main draft currently compiles using xml2rfc, and the master branch shouldn't produce any major Idnits errors.
 
 
 ## NOTE WELL
