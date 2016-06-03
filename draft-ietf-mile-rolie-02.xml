@@ -384,13 +384,17 @@
           code 307 Temporary Redirect. In this case, the location header in the HTTP response will
           provide the URL of the appropriate RID endpoint, and the client may repeat the POST method
           at the indicated location. This resource could also leverage the new draft by reschke that
-          proposes HTTP status code 308 (cf: draft-reschke-http-status-308-07.txt). </t>
+          proposes HTTP status code 308 (cf: draft-reschke-http-status-308-07.txt). TODO</t>
       </section>
     </section>
     <section title="Content Model" anchor="content-model">
-      <t> TODO: Explain supplementary document system.<vspace/> TODO: IANA Table for each
-        category<vspace blankLines="1"/> The &lt;content&gt; element of the Atom entry MUST
-        contain an appropriate XML namespace declaration. </t>
+      <t> This specification does not require a particular content format, rather, it provides an
+        IANA table of supported formats. Each supported category of information has a number of
+        supported formats. Each format has a document describing requirements for implementing the
+        representation in ROLIE, as well as use cases and examples for that format. TODO:
+        Expand<vspace/> TODO: IANA Table for each category<vspace blankLines="1"/> The
+        &lt;content&gt; element of the Atom entry MUST contain an appropriate XML namespace
+        declaration. </t>
     </section>
     <section title="Security Considerations TODO" anchor="sec-security">
       <t>This document defines a resource-oriented approach to lightweight information exchange
