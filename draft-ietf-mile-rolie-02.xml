@@ -48,9 +48,8 @@
         exchange network for restricted internal use or public access repositories. This
         specification builds on and extends the Atom Publishing
           Protocol and Atom Syndication Format to transport and
-        share cyber security resource representations. This document leverages the existing
-        representations IODEF and RID
-        where appropriate, and supports related cyber security representation standards.</t>
+        share cyber security resource representations. This document leverages existing
+        representations where appropriate, and supports related security automation representation standards.</t>
     </abstract>
     <note title="Contributing to this document">
       <!--RFC EDITOR - Please remove this note before publishing -->
@@ -78,8 +77,7 @@
         security communication with the intent of increasing communication and sharing of incident
         reports, vulnerability assessments, and other security content between producers, operators,
         and consumers.<vspace blankLines="1"/> In order to exchange information as web-addressable
-        resources, the resource representations leverage the existing <xref target="RFC5070"
-          >IODEF</xref> and <xref target="RFC6545">RID</xref> specifications and other
+        resources, the resource representations leverages existing specifications and other
         representation standards as appropriate. The transport protocol binding is specified as
         HTTP(S) with a media type of Atom+XML. An appropriate set of link relation types specific to
         cyber security information sharing is defined.<vspace blankLines="1"/> Coexistence with
@@ -162,11 +160,10 @@
             interoperability aspect of any RESTful Web service will be the choices regarding the
             available resource representations. For example, clients may request that a given
             resource representation be returned as either XML or JSON. In order to enable
-            back-compatibility and interoperability with existing implementations, <xref
-              target="RFC5070">IODEF</xref> is specified for this transport binding as a mandatory
-            to implement (MTI) data representation for incident and indicator resources. In addition
-            to the REQUIRED representation, an implementation MAY support additional representations
-            if and as needed such as IODEF extensions, the RID schema, or other schemas. For
+            back-compatibility and interoperability with existing implementations, multiple
+             formats are specified for this transport binding as optional data representations for resources. In addition
+            to the supported representations, an implementation MAY support additional representations
+            if and as needed such as format extensions or other schemas. For
             example, an implementation may choose to provide support for returning a JSON
             representation of an incident resource. <vspace blankLines="1"/> Finally, an important
             principle of the REST architectural style is the use of hypertext links as the
@@ -254,11 +251,7 @@
           However, service implementers SHOULD provide appropriate authorization checking for all
           resource accesses, including individual Atom Entries, Atom Feeds, and Atom Service
           Documents. <vspace blankLines="1"/> Authorization for a resource MAY be adjudicated based
-          on the value(s) of the associated Atom &lt;category&gt; element(s). <vspace blankLines="1"
-          /> When the content model for the Atom &lt;content&gt; element of an Atom Entry contains
-          an &lt;IODEF-Document&gt;, then authorization MUST be adjudicated based upon the Atom
-          &lt;category&gt; element(s), whose values have been mapped as per <xref
-            target="category-mapping"/>. <vspace blankLines="1"/> Any use of the &lt;category&gt;
+          on the value(s) of the associated Atom &lt;category&gt; element(s).  <vspace blankLines="1"/> Any use of the &lt;category&gt;
           element(s) as an input to an authorization policy decision MUST include both the "scheme"
           and "term" attributes contained therein. As described in <xref target="category-mapping"/>
           below, the namespace of the "term" attribute is scoped by the associated "scheme"
@@ -371,9 +364,7 @@
       </section>
       <section title="Date Mapping">
         <t>The Atom feed &lt;updated&gt; element MUST be populated with the current time at the
-          instant the feed representation was generated. The Atom entry &lt;published&gt; element
-          MUST be populated with the same time value as the &lt;reportTime&gt; element from the
-          IODEF document. </t>
+          instant the feed representation was generated.  </t>
       </section>
       <section title="Search">
         <t> Implementers MUST support <xref target="opensearch">OpenSearch 1.1</xref> as the

@@ -975,6 +975,17 @@ Accept: application/atom+xml
             Any member entry MAY have any number of additional categories. </t>
         </section>
       </section>
+      <section title="User Authorization" anchor="normative-user-authz">
+        <t>When the content model for the Atom &lt;content&gt; element of an Atom Entry contains
+          an &lt;IODEF-Document&gt;, then authorization MUST be adjudicated based upon the Atom
+          &lt;category&gt; element(s), whose values have been mapped as per <xref
+            target="category-mapping"/>. </t>
+      </section>
+      <section title="Date Mapping">
+        <t>The Atom entry &lt;published&gt; element
+          MUST be populated with the same time value as the &lt;reportTime&gt; element from the
+          IODEF document. </t>
+      </section>
       <section title="Expectation and Impact Classes" anchor="normative-expectation-impact">
         <t>It is frequently the case that an organization will need to triage their investigation
           and response activities based upon, e.g., the state of the current threat environment, or
