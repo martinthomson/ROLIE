@@ -8,7 +8,7 @@ This is an area related to ongoing work related to the Resource-oriented Lightwe
 
 The main draft is WIP, and can be found under the name draft-ietf-mile-rolie-02.xml.
 
-The secondary CSIRT document spun off of the main document is heavily WIP and can be found under the name draft-rolie-CSIRT.xml. This document does not currently compile correctly under xml2rfc, nor does it have correct front and back matter.
+The secondary CSIRT document spun off of the main document is heavily WIP and can be found under the name draft-banghart-mile-rolie-csirt.xml. This document does not currently compile correctly under xml2rfc, nor does it have correct front and back matter.
 
 ## Contributing
 
