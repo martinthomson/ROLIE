@@ -238,6 +238,18 @@
             target="RFC5005">Feed Paging and Archiving</xref> to provide capabilities for paging and
           archiving of feeds. </t>
       </section>
+<<<<<<< HEAD
+=======
+      <section title="Security Resource Categories" anchor="normative-expectation-impact">
+        <t>Feed implementers SHOULD provide Atom categories that correspond to categories described
+        in the IANA table of security resource categories (see IANA Considerations).  Feed implementers
+        MAY provide Atom categories that do not correspond to categoreis described in that IANA table,
+        but run the risk of losing interoperability when doing so.<vspace blankLines="1"/>Note that 
+        additional documents may specify mandatory-to-implement categories for domain-specific reasons.
+        This draft is not concerned with such MTI categories.</t>
+
+      </section>
+>>>>>>> refs/remotes/origin/IANA
       <section title="User Authentication" anchor="normative-user-auth">
         <t>Implementations MUST support user authentication. User authentication MAY be enabled for
           specific feeds.<vspace blankLines="1"/>Implementations MAY support more than one client
@@ -463,7 +475,41 @@
         continuing to operate as a gated community with strictly limited membership. </t>
     </section>
     <section title="IANA Considerations TODO" anchor="sec-iana">
-      <t>TODO.</t>
+      <t>This document defines a resource-oriented approach to security information sharing, where such information may include a variety of
+      security resource categories, such as software identifiers (e.g. tags), incident reports, configuration assessment guidance, vulnerability
+      assessment guidance, and so on.<vspace blankLines="1"/> This document creates the following registry for IANA to manage:
+      <list hangIndent="0">
+      <t>Name of Registry: "Security Resource Category"</t>
+      <t>Location of Registry: https://www.iana.org/assignments/security-resource-category</t>
+      <t>Fields to record in the registry:</t>
+      <t><list hangIndent="0">
+        <t>Full Name: The full name of the security resource category as a string from the printable ASCII character set RFC0020
+          with individual embedded spaces allowed.  The ABNF RFC5234 syntax for this field is:
+          <list><t>1*VCHAR *(SP 1*VCHAR)</t></list></t>
+        <t>Security Resource Index: This is an IANA-assigned positive integer that identifies the registration.  The first entry added to this
+        registry uses the value 1, and this value is incremented for each subsequent entry added to the registry.</t>
+        <t>Description: A complete description of the security resource category as a string from the printable ASCII character set RFC0020
+        with individual embedded spaces allowed.  The ABNF RFC5324 syntax for this field is:
+          <list hangIndent="0"><t>1*VCHAR *(SP 1*VCHAR)</t></list>
+        </t>
+        <t>Specification URI/Reference: A list of one or more URIs [RFC3986] from which the registered specification can be obtained.  The
+        registered specification MUST be readily and publicly available from that URI.  The URI SHOULD be a stable reference.</t>
+      </list></t>
+      
+      <t>Initial registry contents: None.</t>
+      
+      <t>Allocation Policy: Specification required RFC5226 (which implies expert review RFC5226).</t>
+      </list></t>
+      
+      <t>The Designated Expert is expected to consult with the MILE (Managed Incident Lightweight Exchange) working group or is successor if
+      any such WG exits (e.g., via email to the working group's mailing list).  The Designated Expert is expected to review the request
+      and validate the appropriateness of the name, description, and associated specifications for the security resource category.</t>
+      
+      <t>This document uses URNs to describe XML namespaces and XML schemas conforming to a registry mechanism described in RFC3688.</t>
+      
+      <t>TODO: Complete registration request specifics.</t>
+     
+      
     </section>
     <section title="Acknowledgements" anchor="acknowledgements">
       <t>The author gratefully acknowledges the valuable contributions of Tom Maguire, Kathleen
