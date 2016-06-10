@@ -542,8 +542,7 @@ Accept: application/atomsvc+xml
               <collection href="http://example.org/provider/public/incidents" >
                 <atom:title>Public Incidents</atom:title>
                 <categories fixed="yes">
-                  <atom:category scheme="http://example.org/provider/restriction" term="public" />
-                  <atom:category scheme="http://example.org/provider/purpose" term="reporting" />
+                  <atom:category term="incident" />
                 </categoies>
                 <accept>application/atom+xml; type=entry</accept>
             </collection>            
@@ -689,25 +688,22 @@ Accept: application/atom+xml
         <!-- The category is based upon IANA table content model -->
         <category term="incident" />
         <summary>A short description of this incident resource</summary>
-      
-  ////ALL TODO VVVVV
-        <!-- Refer to section 5.9 for the list of supported (cyber information-specific) link relationships -->
-        <!-- Typical operations that can be performed on this IODEF message include edit -->
+
+        <!-- Typical operations that can be performed on this entry include edit -->
         <link href="http://www.example.org/csirt/private/incidents/123456" rel="edit"/>
                   
-        <!-- the next and previous are just sequential access, may not map to anything related to this IODEF Incident ID -->
+        <!-- the next and previous are just sequential access, may not map to anything related to this resource -->
         <link href="http://www.example.org/csirt/private/incidents/123457" rel="next"/>
         <link href="http://www.example.org/csirt/private/incidents/123455" rel="previous"/>
       
         <!-- navigate up to the full collection.  Might also be rel="collection" as per IANA registry -->
         <link href="http://www.example.org/csirt/private/incidents" rel="up"/>
        
-/////ALL TODO ^^^^^
         <content type="application/xml">
           <xml>
             <tag>
               <data> Example </data>
-             </tag>
+            </tag>
           </xml>
         </content>
       </entry>
