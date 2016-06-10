@@ -40,16 +40,16 @@
     <area>Security</area>
     <workgroup>MILE Working Group</workgroup>
     <abstract>
-      <t> This document defines a resource-oriented approach to cyber security information sharing.
-        Using this approach, operators may share and exchange representations of cyber security
+      <t> This document defines a resource-oriented approach to security automation information
+        sharing. Using this approach, operators may share and exchange representations of security
         incidents, attack indicators, software vulnerabilities, and other related information as
         Web-addressable resources. Furthermore, consumers and other stakeholders may access and
         search this security content as needed, establishing a rapid and on-demand information
         exchange network for restricted internal use or public access repositories. This
-        specification builds on and extends the Atom Publishing
-          Protocol and Atom Syndication Format to transport and
-        share cyber security resource representations. This document leverages existing
-        representations where appropriate, and supports related security automation representation standards.</t>
+        specification builds on and extends the Atom Publishing Protocol and Atom Syndication Format
+        to transport and share security automation resource representations. This document leverages
+        existing representations where appropriate, and attempts to support related security
+        automation standards where possible.</t>
     </abstract>
     <note title="Contributing to this document">
       <!--RFC EDITOR - Please remove this note before publishing -->
@@ -60,30 +60,29 @@
   </front>
   <middle>
     <section title="Introduction" anchor="starting-intro">
-      <t> This document defines a resource-oriented approach to cyber security information sharing
-        that follows the <xref target="REST" format="title" pageno="false">REST</xref> architectural
-        style. In this approach, cyber security resources are maintained in web-accessible
-        repositories structured as <xref target="RFC4287">Atom Syndication Format</xref> feeds.
-        Representations of content are categorized and organized into indexed collections, which are
-        requested by the consumer. As the set of resource collections are forward facing, the
-        consumer may search all available content for which they are authorized to view and request
-        that which is desired. Granular authentication and access controls permit only authorized
-        consumers the ability to view, read, or write to a given feed. This approach is in contrast
-        to, and meant to improve on, the traditional point-to-point messaging system, in which
-        consumers must request individual pieces of information from a server following a triggering
-        event. This traditional approach creates a closed system of information sharing that
-        encourages duplication of efforts and hinders automated cyber security systems.<vspace
-          blankLines="1"/> The goal of this document is to define the RESTful approach to cyber
-        security communication with the intent of increasing communication and sharing of incident
-        reports, vulnerability assessments, and other security content between producers, operators,
-        and consumers.<vspace blankLines="1"/> In order to exchange information as web-addressable
-        resources, the resource representations leverages existing specifications and other
-        representation standards as appropriate. The transport protocol binding is specified as
-        HTTP(S) with a media type of Atom+XML. An appropriate set of link relation types specific to
-        cyber security information sharing is defined.<vspace blankLines="1"/> Coexistence with
-        deployments that conform to existing specifications including <xref target="RFC6545"
-          >RID</xref> and <xref target="RFC6546">Transport of Real-time Inter-network Defense (RID)
-          Messages over HTTP/TLS</xref> is supported via appropriate use of HTTP status codes. </t>
+      <t> This document defines a resource-oriented approach to security automation information
+        sharing that follows the <xref target="REST" format="title" pageno="false">REST</xref>
+        architectural style. In this approach, computer security resources are maintained in
+        web-accessible repositories structured as <xref target="RFC4287">Atom Syndication
+          Format</xref> feeds. Representations of content are categorized and organized into indexed
+        collections, which are requested by the consumer. As the set of resource collections are
+        forward facing, the consumer may search all available content for which they are authorized
+        to view and request that which is desired. Granular authentication and access controls
+        permit only authorized consumers the ability to view, read, or write to a given feed. This
+        approach is in contrast to, and meant to improve on, the traditional point-to-point
+        messaging system, in which consumers must request individual pieces of information from a
+        server following a triggering event. This traditional approach creates a closed system of
+        information sharing that encourages duplication of effort and hinders automated security
+          systems.<vspace blankLines="1"/> The goal of this document is to define the RESTful
+        approach to security communication with two primary intents: increasing communication and
+        sharing of incident reports, vulnerability assessments, and other security content between
+        producers, operators, and consumers, as well as establishing a standardized communication
+        system to support automated computer security systems. <vspace blankLines="1"/> In order to
+        deal with the great variety in security resource representations, this specification
+        supports most current representation formats by means of additional supplementary documents.
+        This primary document is payload format agnostic, and defines the core requirements of all
+        implementations. Those seeking to implement each format should refer to the specification
+        for that format, found in section TODO. </t>
     </section>
     <section title="Terminology" anchor="ext-terminology">
       <t> The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD," "SHOULD
@@ -104,33 +103,42 @@
         itself unable to quickly respond to an incident. Effective identification of and response to
         a sophisticated attack requires open cooperation and collaboration between defending
         operators, software vendors, and even end-users. <vspace blankLines="1"/> Existing
-        approaches to cyber security information sharing are based upon message exchange patterns
+        approaches to computer security information sharing are based upon message exchange patterns
         that are point-to-point, and event-driven. Sometimes, information that may be useful to, and
         sharable with multiple peers is only made available to peers after they have specifically
         requested it. Unfortunately, a sharing peer may not know, a priori, what information to
-        request from another peer. Sending unsolicited RID reports does provide a mechanism for
-        alerting, however these reports are again sent point-to-point, and must be reviewed for
-        relevance and then prioritized for action by the recipient. Thus, distribution of some
-        relevant incident and indicator information may exhibit significant latency. <vspace
-          blankLines="1"/> In order to adequately combat the evolving threats, computer security
-        resource producers should be enabled to share selected information proactively as
-        appropriate. Proactive sharing greatly aids knowledge dissemination as well as improving on
-        response times and usability.<vspace blankLines="1"/> For example, a cyber security analyst
-        would benefit by having the ability to search a comprehensive collection of attack
-        indicators that have been published by a government agency, or by another member of a
-        sharing consortium. The representation of each indicator may include links to the related
-        resources, enabling an appropriately authenticated and authorized analyst to freely navigate
-        the information space of indicators, incidents, vulnerabilities, and other cyber security
-        domain concepts, as needed. In general, a more Web-centric sharing approach will enable a
-        more dynamic and agile collaboration amongst a broader, and varying constituency. <vspace
-          blankLines="1"/> The following sections discuss additional specific technical issues that
-        motivate the development of an alternative approach. </t>
+        request from another peer. Some exsisting systems provide a mechanism for unsolicited
+        information requests, however these reports are again sent point-to-point, and must be
+        reviewed for relevance and then prioritized for action by the recipient. Thus, distribution
+        of some relevant information may exhibit significant latency. <vspace blankLines="1"/> In
+        order to adequately combat these evolving threats, computer security resource producers
+        should be enabled to share selected information proactively as appropriate. Proactive
+        sharing greatly aids knowledge dissemination as well as improving response times and
+          usability.<vspace blankLines="1"/> For example, a security analyst would benefit by having
+        the ability to search a comprehensive collection of attack indicators that have been
+        published by a government agency, or by another member of a sharing consortium. The
+        representation of each indicator may include links to the related resources, enabling an
+        appropriately authenticated and authorized analyst to freely navigate the information space
+        of indicators, incidents, vulnerabilities, and other computer security domain concepts as
+        needed. In this way, an analyst can utilize the super set of information made publicly
+        available effectively.<vspace/> Consider also the case of an automated endpoint management
+        system attempting to proactively prevent software flaws from adversely affecting systems.
+        During its full network sweep, the endpoint monitoring system would check each endpoint for
+        outdated or vulnerable software. This system would benefit from having access to not only
+        the software vendor's list of vulnerabilities, but also vulnerabilities discovered by any
+        other security entity. An advanced system could even give back to this sharing consortium by
+        sharing any vulnerabilities that it discovers. The natural conclusion of such a sharing
+        network is an automated security solution that can dynamically find and collect information
+        from a globally distributed web of information repositories.<vspace blankLines="1"/> The
+        following section discusses additional specific technical issues that motivated the
+        development of this alternative approach. </t>
       <section title="Message-oriented versus Resource-oriented Architecture" anchor="msg-vs-roa">
-        <t>The existing approaches to cyber security information sharing are based upon
+        <t>The existing approaches to computer security information sharing are based upon
           message-oriented interactions. The following paragraphs explore some of the architectural
           constraints associated with message-oriented interactions and consider the relative merits
           of an alternative model based on a Resource-oriented architecture for use in some use case
-          scenarios. <vspace blankLines="1"/>ROLIE specifies a resource-oriented architecture.</t>
+          scenarios. <vspace blankLines="1"/>ROLIE specifies a resource-oriented architecture that
+          attempts to address the issues present in a message-oriented architecture.</t>
         <section title="Message-oriented Architecture" anchor="message">
           <t> In general, message-based integration architectures may be based upon either an
             RPC-style or a document-style binding. The message types defined by RID represent an
@@ -145,27 +153,30 @@
             small number of nodes (i.e., O(2^N), where N &lt; 5), these scalability constraints may
             not represent a critical concern. However, when there is a requirement to support a
             significantly larger number of participating peers, a different architectural approach
-            will be required. One alternative to the message-based approach that has demonstrated
-            scalability is the <xref target="REST">REST</xref> architectural style.</t>
+            will be required. Towards the goal to create a large-scale network of entities sharing
+            information, this traditional architecture only creates small and isolated groupings of
+            sharing, encouraging effort duplication between these sharing islands. One alternative
+            to the message-based approach that has demonstrated scalability and a high degree of
+            connectedness is the <xref target="REST">REST</xref> architectural style.</t>
         </section>
         <section title="Resource-Oriented Architecture" anchor="roa-benefits">
-          <t> Applying the REST architectural style to the problem domain of cyber security
-            information sharing would take the approach of exposing incidents, indicators, and any
-            other relevant types as simple Web-addressable resources. By using this approach, an
-            organization can more quickly and easily share relevant incident and indicator
-            information with a much larger and potentially more diverse constituency. A consumer may
-            leverage virtually any available HTTP user agent in order to make requests of the
+          <t> Applying the REST architectural style to the problem domain of security information
+            sharing would take the approach of exposing information in any relevant type as simple
+            Web-addressable resources. Each provider would then maintain their own repository of
+            this data, with public and private sections as needed. Any producer or consumer can then
+            discover these repositories, search for relevant feeds, and pull information from them.
+            By using this approach, an organization can more quickly and easily share relevant data
+            representations with a much larger and potentially more diverse constituency. A consumer
+            may leverage virtually any available HTTP user agent in order to make requests of the
             service provider. This improved ease of use could enable more rapid adoption and broader
             participation, thereby improving security for everyone. <vspace blankLines="1"/> A key
-            interoperability aspect of any RESTful Web service will be the choices regarding the
-            available resource representations. For example, clients may request that a given
-            resource representation be returned as either XML or JSON. In order to enable
-            back-compatibility and interoperability with existing implementations, multiple
-             formats are specified for this transport binding as optional data representations for resources. In addition
-            to the supported representations, an implementation MAY support additional representations
-            if and as needed such as format extensions or other schemas. For
-            example, an implementation may choose to provide support for returning a JSON
-            representation of an incident resource. <vspace blankLines="1"/> Finally, an important
+            interoperability aspect of any RESTful Web service is regarding the available resource
+            representations. For example, clients may request that a given resource representation
+            be returned as either XML or JSON, or as some other specification. In order to enable
+            back-compatibility and interoperability with existing implementations, the RESTful
+            approach allows the provider to make differing formats available proactively, allowing
+            the consumer to simply select the version that best suits them without any further
+            requests of the providing server.<vspace blankLines="1"/> Finally, an important
             principle of the REST architectural style is the use of hypertext links as the
             embodiment of application state (HATEOAS). Rather than the server maintaining
             conversational state for each client context, the server will instead include a suitable
@@ -176,48 +187,45 @@
             deleting the resource representation. The client may also be provided with hypertext
             links that can be used to navigate to any related resource. For example, the resource
             representation for an incident object may contain links to the related indicator
-            resource(s). <vspace blankLines="1"/> This document specifies the use of <xref
-              target="RFC4287">Atom Syndication Format</xref> and <xref target="RFC5023">Atom
-              Publishing Protocol</xref> as the mechanism for representing the required hypertext
-            links. </t>
+            resource(s).  </t>
           <section title="A Resource-Oriented Use Case: &quot;Mashup&quot;" anchor="mashup">
             <t> In this section we consider a non-normative example use case scenario for creating a
-              cyber security "mashup". <vspace blankLines="1"/> Any operator can authorize any or
-              all members of the sharing community to quickly and easily navigate through any of the
-              cyber security information that that provider is willing to share. An analyst may then
-              make HTTP(S) requests to collect vulnerability information known at one producer and
-              threat actor data being made available from another producer. The resulting
-              correlations may yield new insights that enable a more timely and effective defensive
-              response. Of course, this report may, in turn, be made available to others as a new
-              Web-addressable resource, reachable via another URL. By employing the RESTful Web
-              service approach the effectiveness of the collaboration amongst a consortium of cyber
-              security stakeholders can be greatly improved. </t>
+              cyber security "mashup". <vspace blankLines="1"/> A producer creates and maintains a
+              feed of information on threat actors, whilst another creates and maintains a feed of
+              attack indicators. Each has authorized a large consortium of security analysts to
+              access these feeds as they see fit. Any one of these analysts can then make HTTP(s)
+              requests to the servers to collect sets of information from each provider. The
+              resulting correlations may yield new insights that enable a more timely and effective
+              defensive response. Of course, this report may, in turn, be made available to others
+              as a new Web-addressable resource, reachable via another URL. By employing the RESTful
+              Web service approach the effectiveness of the collaboration amongst a consortium of
+              cyber security stakeholders can be greatly improved. </t>
           </section>
         </section>
       </section>
     </section>
     <section title=" Atom Publication Protocol and Atom Syndication Format TODO" anchor="atom">
-      <t> As described in <xref target="RFC5023">Atom Publishing Protocol</xref>, an Atom Service
-        Document is an XML-based document format that allows a client to dynamically discover the
-        collections provided by a publisher. <vspace blankLines="1"/> As described in <xref
-          target="RFC4287">Atom Syndication Format</xref>, Atom is an XML-based document format that
-        describes lists of related information items known as collections, or "feeds". Each feed
-        document contains a collection of zero or more related information items called "member
-        entries" or "entries". <vspace blankLines="1"/> When applied to the problem domain of cyber
-        security information sharing, an Atom feed may be used to represent any meaningful
-        collection of information resources such as a set of incidents, or indicators. Each entry in
-        a feed could then represent an individual incident, or indicator, or some other resource, as
-        appropriate. Additional feeds could be used to represent other meaningful and useful
-        collections of cyber security resources. A feed may be categorized, and any feed may contain
-        information from zero or more categories. The naming scheme and the semantic meaning of the
-        terms used to identify an Atom category are application-defined.<vspace blankLines="1"/>This
-        document assumes that the reader has an understanding of both Atom documents. Further
-        discussion of Atom's application to this domain a well of examples of its use are provided
-        in the BCG document.</t>
+      <t> This document specifies the use of Atom Syndication Format and Atom Publishing Protocol as
+        the mechanism for implementing a RESTful architecture<vspace blankLines="1"/> As described
+        in <xref target="RFC5023">Atom Publishing Protocol</xref>, an Atom Service Document is an
+        XML-based document format that allows a client to dynamically discover the collections
+        provided by a publisher. <vspace blankLines="1"/> As described in <xref target="RFC4287"
+          >Atom Syndication Format</xref>, Atom is an XML-based document format that describes lists
+        of related information items known as collections, or "feeds". Each feed document contains a
+        collection of zero or more related information items called "member entries" or "entries".
+          <vspace blankLines="1"/> When applied to the problem domain of security automation
+        information sharing, an Atom feed may be used to represent any meaningful collection of
+        information resources such as a set of configuration checklists or software vulnerabilities.
+        Each entry in a feed could then represent an individual resource as appropriate. Additional
+        feeds could be used to represent other meaningful and useful collections of cyber security
+        resources. A feed may be categorized, and any feed may contain information from zero or more
+        categories. The naming scheme and the semantic meaning of the terms used to identify an Atom
+        category are application-defined.<vspace blankLines="1"/>This document assumes that the
+        reader has an understanding of both Atom documents.</t>
     </section>
     <section title=" Normative Requirements TODO" anchor="normative-requirements">
       <t>This section provides the NORMATIVE requirements for using Atom format and Atom Pub as a
-        RESTful binding for cyber security information sharing.</t>
+        RESTful binding for security automation information sharing.</t>
       <section title="Atom Requirements" anchor="atom-req">
         <t>Implementations of this specification MUST implement all requirements specified in Atom
           Publishing Protocol and the Atom Syndication Format. (TODO: work on a more normative and
@@ -240,11 +248,12 @@
       </section>
       <section title="Security Resource Categories" anchor="normative-expectation-impact">
         <t>Feed implementers SHOULD provide Atom categories that correspond to categories described
-        in the IANA table of security resource categories (see IANA Considerations).  Feed implementers
-        MAY provide Atom categories that do not correspond to categoreis described in that IANA table,
-        but run the risk of losing interoperability when doing so.<vspace blankLines="1"/>Note that 
-        additional documents may specify mandatory-to-implement categories for domain-specific reasons.
-        This draft is not concerned with such MTI categories.</t>
+          in the IANA table of security resource categories (see IANA Considerations). Feed
+          implementers MAY provide Atom categories that do not correspond to categories described in
+          that IANA table, but run the risk of losing interoperability when doing so.<vspace
+            blankLines="1"/>Note that additional documents may specify mandatory-to-implement
+          categories for domain-specific reasons. This draft is not concerned with such MTI
+          categories.</t>
 
       </section>
       <section title="User Authentication" anchor="normative-user-auth">
@@ -294,9 +303,9 @@
       </section>
       <section title="Service Discovery">
         <t>This specification requires that a implementation MUST publish an Atom Service Document
-          that describes the set of cyber security information sharing feeds that are provided.
-            <vspace blankLines="1"/> The service document SHOULD be discoverable via the
-          organization's Web home page or another well-known public resource. </t>
+          that describes the set of security information sharing feeds that are provided. <vspace
+            blankLines="1"/> The service document SHOULD be discoverable via the organization's Web
+          home page or another well-known public resource. TODO: Standardize location of doc?</t>
         <section title="Workspaces">
           <t>The service document MAY include multiple workspaces. Any producer providing both
             public feeds and private consortium feeds MUST place these different classes of feeds
@@ -344,8 +353,8 @@
             with the resource.</c>
           <c>MUST</c>
           <c>information</c>
-          <c>Provides a link to a collection of zero or more instances of cyber security information
-            that is associated with the resource.</c>
+          <c>Provides a link to a collection of zero or more instances of information that are
+            associated with the resource.</c>
           <c>MUST</c>
         </texttable>
         <t> Unless specifically registered with IANA these short names MUST be fully qualified via
@@ -360,16 +369,19 @@
           link and continue processing the remaining resource representation as if the offending
           link element did not appear. </t>
       </section>
-      <section title="Member Entry Forward Security">
-        <t>As described in Authorization Policy Enforcement a RESTful model for cyber security
-          information sharing requires that all of the required security enforcement for feeds and
-          entries MUST be enforced at the source system, at the point the representation of the
-          given resource(s) is created. A provider SHALL NOT return any feed content or member entry
-          content for which the client identity has not been specifically authenticated, authorized,
-          and audited. <vspace blankLines="1"/> Sharing communities that have a requirement for
-          forward message security (such that client systems are required to participate in
-          providing message level security and/or distributed authorization policy enforcement),
-          MUST use TODO. </t>
+      <section title="Security Requirements TODO">
+        <t>AUTHOR NOTE: Authorization and Authentication requirements need to be hashed out</t>
+        <t>All security measures MUST be enforced at the source, that is, a provider SHALL NOT
+          return any feed content or member entry content for which the client identity has not been
+          specifically authenticated, authorized, and audited. </t>
+        <t> Sharing communities that have a requirement for forward message security (such that
+          client systems are required to participate in providing message level security and/or
+          distributed authorization policy enforcement), MUST use TODO. 
+          <vspace/>The implementation
+          details of the authorization scheme chosen by a ROLIE-compliant provider are out of scope
+          for this specification. Implementers are free to choose any suitable authorization
+          mechanism that is capable of fulfilling the policy enforcement requirements relevant to
+          their consortium and/or organization.</t>
       </section>
       <section title="Date Mapping">
         <t>The Atom feed &lt;updated&gt; element MUST be populated with the current time at the
@@ -442,6 +454,283 @@
      
       
     </section>
+         <section title="Non-Normative Examples" anchor="non-norm-ex">
+        <section title="Service Discovery" anchor="svc-doc">
+          <t>This section provides a non-normative example of a client doing service discovery.
+          TODO: Standardize location of doc?<vspace blankLines="1"/> An Atom service document
+          enables a client to dynamically discover what feeds a particular publisher makes
+          available. Thus, a provider uses an Atom service document to enable clients or other
+          authorized parties to determine what specific information the provider makes available to
+          the community. The service document could be made available at any well known location,
+          such as via a link from the CSIRT's home page. One common technique is to include a link
+          in the &lt;HEAD&gt; section of the organization's home page, as shown below: <vspace
+            blankLines="1"/>
+          <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+            <preamble>Example of bootstrapping Service Document discovery:</preamble>
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      <link rel="introspection"  type="application/atomsvc+xml" title="Atom Publishing Protocol Service Document" href="/csirt/svcdoc.xml" />
+
+          ]]></artwork>
+          </figure>
+          <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+            <preamble>A client may then format an HTTP GET request to retrieve the service
+              document:</preamble>
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+GET /provider/svcdoc.xml
+Host: www.example.org
+Accept: application/atomsvc+xml
+
+]]></artwork>
+            <postamble>Notice the use of the HTTP Accept: request header, indicating the MIME type
+              for Atom service discovery. The response to this GET request will be an XML document
+              that contains information on the specific feed collections that are provided by the
+              CSIRT. </postamble>
+          </figure>
+          <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+            <preamble>Example HTTP GET response:</preamble>
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:09:11 GMT
+      Content-Length: 570
+      Content-Type: application/atomsvc+xml;charset="utf-8"
+
+      <?xml version="1.0" encoding="UTF-8"?>
+      <service xmlns="http://www.w3.org/2007/app"
+               xmlns:atom="http://www.w3.org/2005/Atom">
+          <workspace xml:lang="en-US" xmlns:xml="http://www.w3.org/XML/1998/namespace">
+            <atom:title type="text">Incidents</atom:title>
+            <collection  href="http://example.org/provider/incidents">
+               <atom:title type="text">Incidents Feed</atom:title>
+               <accept>application/atom+xml; type=entry</accept>
+            </collection>            
+          </workspace>
+      </service>
+
+]]></artwork>
+            <postamble>This simple Service Document example shows that this server provides one
+              workspace, named "Incidents." Within that workspace, the producer makes one feed
+              collection available. When attempting to GET or POST entries to that feed collection,
+              the client must indicate a content type of application/atom+xml. </postamble>
+          </figure>
+          <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+            <preamble>A server may also offer a number of different feeds, each containing different
+              types of security automation information. In the following example, the feeds have
+              been categorized. This categorization will help the clients to decide which feeds will
+              meet their needs. </preamble>
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:10:11 GMT
+      Content-Length: 1912
+      Content-Type: application/atomsvc+xml;charset="utf-8"
+
+       <?xml version="1.0" encoding='utf-8'?>
+          <service xmlns="http://www.w3.org/2007/app"
+            xmlns:atom="http://www.w3.org/2005/Atom">
+            <workspace>
+              <atom:title>Public Security Information Sharing</atom:title>
+              <collection href="http://example.org/provider/public/vulnerabilties" >
+                <atom:title>Public Vulnerabilties</atom:title>
+                <categories fixed="yes">
+                  <atom:category term="vulnerabilities" />
+                </categoies>
+                <accept>application/atom+xml; type=entry</accept>
+              </collection>
+              <collection href="http://example.org/provider/public/incidents" >
+                <atom:title>Public Incidents</atom:title>
+                <categories fixed="yes">
+                  <atom:category scheme="http://example.org/provider/restriction" term="public" />
+                  <atom:category scheme="http://example.org/provider/purpose" term="reporting" />
+                </categoies>
+                <accept>application/atom+xml; type=entry</accept>
+            </collection>            
+            </workspace>
+            <workspace>
+              <atom:title>Private Consortium Sharing</atom:title>
+              <collection href="http://example.org/provider/private/incidents" >
+                <atom:title>Incidents</atom:title>
+                <accept>application/atom+xml;type=entry</accept>
+                <categories fixed="yes">
+                  <atom:category term="incident" />
+                </categories>
+              </collection>
+            </workspace>
+          </service>
+          
+          ]]></artwork>
+            <postamble>In this example, the CSIRT is providing a total of three feed collections,
+              organized into two different workspaces. The first workspace contains two feeds,
+              consisting of publicly available software vulnerabilities and publicly available
+              incidents, respectively. The second workspace provides one additional feed, for use by
+              a sharing consortium. The feed contains incident information containing entries
+              related to three purposes: traceback, mitigation, and reporting. The entries in this
+              feed are categorized with a restriction of either "Need-to-Know" or "private". An
+              appropriately authenticated and authorized client may then proceed to make GET
+              requests for one or more of these feeds. The publicly provided incident information
+              may be accessible with or without authentication. However, users accessing the feed
+              targeted to the private sharing consortium would be expected to authenticate, and
+              appropriate authorization policies would subsequently be enforced by the feed
+              provider. </postamble>
+          </figure>
+        </t>
+        </section>
+        <section title="Feed Retrieval" anchor="feed-doc">
+          <t> This section provides a non-normative example of a client retrieving an incident feed.
+            TODO<vspace blankLines="1"/> Having discovered the available cyber security information
+          sharing feeds, an authenticated and authorized client who is a member of the private
+          sharing consortium may be interested in receiving the feed of known incidents. The client
+          may retrieve this feed by performing an HTTP GET operation on the indicated URL. <figure
+            height="" suppress-title="false" width="" alt="" title="" align="left">
+            <preamble>Example HTTP GET request for a Feed:</preamble>
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+GET /provider/private/incidents
+Host: www.example.org
+Accept: application/atom+xml
+
+           ]]></artwork>
+            <postamble>The corresponding HTTP response would be an XML document containing the
+              incidents feed: </postamble>
+          </figure>
+          <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+            <preamble>Example HTTP GET response for a Feed:</preamble>
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:20:11 GMT
+      Content-Length: 2882
+      Content-Type: application/atom+xml;type=feed;charset="utf-8"
+
+      <?xml version="1.0" encoding="UTF-8"?>
+      <feed xmlns="http://www.w3.org/2005/Atom"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.w3.org/2005/Atom file:/C:/schemas/atom.xsd
+                              urn:ietf:params:xml:ns:xml-1.0 file:/C:/schemas/xmlIncidents-1.0.xsd"
+          xml:lang="en-US">
+      
+          <generator version="1.0" xml:lang="en-US">Example Provider ROLIE Feed Generator</generator>
+          <id xml:lang="en-US">http://www.example.org/provider/private/incidents</id>
+          <title type="text" xml:lang="en-US">Atom formatted representation of a feed of XML incident documents</title>
+          <updated xml:lang="en-US">2012-05-04T18:13:51.0Z</updated> 
+          <author>
+              <email>provider@example.org</email>
+              <name>Example Provider</name>
+          </author>
+      
+          <!-- By convention there is usually a self link for the feed -->
+          <link href="http://www.example.org/provider/private/incidents" rel="self"/>
+                   
+          <entry>
+              <id>http://www.example.org/provider/private/incidents/123456</id>
+              <title>Sample Incident</title>
+              <link href="http://www.example.org/provider/private/incidents/123456" rel="self" type="xml"/>       <!-- by convention -->
+              <link href="http://www.example.org/provider/private/incidents/123456" rel="alternate" type="xml"/>  <!-- required by Atom spec -->
+              <published>2014-08-04T18:13:51.0Z</published>
+              <updated>2014-08-05T18:13:51.0Z</updated>
+              <!-- The category is taken from the content IANA table -->
+              <category term="incident"/>
+              <summary>A short description of this resource</summary>
+          </entry>
+          
+          <entry>
+              <!-- ...another entry... -->
+          </entry>
+                    
+      </feed>
+
+
+]]></artwork>
+            <postamble>This feed document has two atom entries, one of which has been elided. The
+              completed entry illustrates an Atom &lt;entry&gt; element that provides a summary of
+              essential details about one particular incident. Based upon this summary information
+              and the provided category information, a client may choose to do an HTTP GET operation
+              to retrieve the full details of the incident. This example exemplifies the benefits a
+              RESTful alternative has to traditional point-to-point messaging systems. </postamble>
+          </figure>
+        </t>
+        </section>
+        <section title="Entry Retrieval" anchor="entry-doc">
+          <t> This section provides a non-normative example of a client retrieving an incident as an
+          Atom entry. TODO<vspace blankLines="1"/> Having retrieved the feed of interest, the client
+          may then decide based on the description and/or category information that one of the
+          entries in the feed is of further interest. The client may retrieve this incident Entry by
+          performing an HTTP GET operation on the indicated URL. <figure height=""
+            suppress-title="false" width="" alt="" title="" align="left">
+            <preamble>Example HTTP GET request for an Entry:</preamble>
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+              
+GET /provider/private/incidents/123456
+Host: www.example.org
+Accept: application/atom+xml
+
+           ]]></artwork>
+            <postamble>The corresponding HTTP response would be an XML document containing the
+              incident: </postamble>
+          </figure>
+          <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+            <preamble>Example HTTP GET response for an Entry:</preamble>
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+      HTTP/1.1 200 OK
+      Date: Fri, 24 Aug 2012 17:30:11 GMT
+      Content-Length: 4965
+      Content-Type: application/atom+xml;type=entry;charset="utf-8"
+
+      <?xml version="1.0" encoding="UTF-8"?>        
+      <entry>
+        <id>http://www.example.org/provider/private/incidents/123456</id>
+        <title>Sample Incident</title>
+        <link href="http://www.example.org/csirt/private/incidents/123456" rel="self" type="xml"/>       <!-- by convention -->
+        <link href="http://www.example.org/csirt/private/incidents/123456" rel="alternate" type="xml"/>  <!-- required by Atom spec -->
+        <published>2012-08-04T18:13:51.0Z</published>
+        <updated>2012-08-05T18:13:51.0Z</updated>
+        <!-- The category is based upon IANA table content model -->
+        <category term="incident" />
+        <summary>A short description of this incident resource</summary>
+      
+  ////ALL TODO VVVVV
+        <!-- Refer to section 5.9 for the list of supported (cyber information-specific) link relationships -->
+        <!-- Typical operations that can be performed on this IODEF message include edit -->
+        <link href="http://www.example.org/csirt/private/incidents/123456" rel="edit"/>
+                  
+        <!-- the next and previous are just sequential access, may not map to anything related to this IODEF Incident ID -->
+        <link href="http://www.example.org/csirt/private/incidents/123457" rel="next"/>
+        <link href="http://www.example.org/csirt/private/incidents/123455" rel="previous"/>
+      
+        <!-- navigate up to the full collection.  Might also be rel="collection" as per IANA registry -->
+        <link href="http://www.example.org/csirt/private/incidents" rel="up"/>
+       
+/////ALL TODO ^^^^^
+        <content type="application/xml">
+          <xml>
+            <tag>
+              <data> Example </data>
+             </tag>
+          </xml>
+        </content>
+      </entry>
+          
+          ]]></artwork>
+            <postamble>As can be seen in the example response, above, an xml document is contained
+              within the Atom &lt;content&gt; element. The client may now process thexml document as
+              needed.</postamble>
+          </figure>
+        </t>
+          <t> Note also that, as described previously, the content of the Atom &lt;category&gt;
+          element is application-defined. The Atom categories have been assigned based on the IANA
+          table content model.<vspace blankLines="1"/> Finally, it should be noted that in order to
+          optimize the client experience, and avoid an additional round trip, a feed provider may
+          choose to include the entry content inline, as part of the feed document. That is, an Atom
+          &lt;entry&gt; element within a Feed document may contain an Atom &lt;content&gt; element
+          as a child. In this case, the client will receive the full content of the entries within
+          the feed. The decision of whether to include the entry content inline or to include it as
+          a link is a design choice left to the feed provider (e.g. based upon local environmental
+          factors such as the number of entries contained in a feed, the available network
+          bandwidth, the available server compute cycles, the expected client usage patterns, etc.). </t>
+        </section>
+         </section>
     <section title="Security Considerations TODO" anchor="sec-security">
       <t>This document defines a resource-oriented approach to lightweight information exchange
         using HTTP, TLS, Atom Syndicate Format, and Atom Publishing Protocol. As such, implementers
