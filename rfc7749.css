@@ -4,6 +4,12 @@ Updated by Stephen Banghart (stephen.banghart@nist.gov)
 
 TODO: Figure out how to generate table structures.
 */
+
+@namespace oxy url('http://www.oxygenxml.com/extensions/author');
+
+t,front,texttable,section{
+width:650px;
+}
 rfc {
   font-family: fixed;
   font-size: 12pt;
@@ -154,7 +160,14 @@ preamble, postamble {
   margin-left: 2em;
 }
 
-xref:after {
+xref{width:auto;}
+
+oxy|entity[name='gt']{ 
+display:inline !important;
+width:auto !important;
+}
+
+xref:after {	
   content: " [" attr(target) "]";
   font-style: italic;
 }
@@ -165,18 +178,17 @@ content: ' ';
 }
 
 texttable {
+	
 display:block;
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
-    width:1000px;
+
 }
-ttcol{display:block;}
+ttcol{display:block;text-align:center;}
 c {
 display: block;
-    text-align:center;
+
 border: 1px solid;
-width: 50%;
+
 }
 
 reference               {
