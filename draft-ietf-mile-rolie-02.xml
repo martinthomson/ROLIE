@@ -261,7 +261,7 @@
             title="A Resource-Oriented Use Case: &quot;Mashup&quot;"
             anchor="mashup">
             <t> In this section we consider a non-normative example use
-              case scenario for creating a cyber security "mashup". </t>
+              case scenario for creating a computer security "mashup". </t>
             <t> A producer creates and maintains a feed of information on
               threat actors, whilst another creates and maintains a feed
               of attack indicators. Each has authorized a large
@@ -302,11 +302,11 @@
         configuration checklists or software vulnerabilities. Each entry
         in a feed could then represent an individual resource as
         appropriate. Additional feeds could be used to represent other
-        meaningful and useful collections of cyber security resources. A
-        feed may be categorized, and any feed may contain information
-        from zero or more categories. The naming scheme and the semantic
-        meaning of the terms used to identify an Atom category are
-        application-defined.</t>
+        meaningful and useful collections of security automation
+        resources. A feed may be categorized, and any feed may contain
+        information from zero or more categories. The naming scheme and
+        the semantic meaning of the terms used to identify an Atom
+        category are application-defined.</t>
       <t>This document assumes that the reader has an understanding of
         both Atom documents.</t>
     </section>
@@ -755,9 +755,9 @@ Accept: application/atomsvc+xml
       <section title="Feed Retrieval" anchor="feed-doc">
         <t> This section provides a non-normative example of a client
           retrieving an incident feed. TODO</t>
-        <t> Having discovered the available cyber security information
-          sharing feeds, an authenticated and authorized client who is a
-          member of the private sharing consortium may be interested in
+        <t> Having discovered the available security information sharing
+          feeds, an authenticated and authorized client who is a member
+          of the private sharing consortium may be interested in
           receiving the feed of known incidents. The client may retrieve
           this feed by performing an HTTP GET operation on the indicated
           URL. <figure height="" suppress-title="false" width="" alt=""
