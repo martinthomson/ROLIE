@@ -189,14 +189,22 @@ ttcol{
 }
 
 c {
+  display:block;
   width:40%;
   border:1px solid black;
 }
 
-
-border: 1px solid;
-
+/* Attempts to get tables to generate correctly.
+c:nth-child(even){ 
+  border-style:dotted;
 }
+
+
+c:nth-child(even):after {
+  display:block;
+  content: ' ';
+}
+*/
 
 
 
