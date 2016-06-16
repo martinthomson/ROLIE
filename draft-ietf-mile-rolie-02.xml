@@ -341,19 +341,6 @@
             Archiving</xref> to provide capabilities for paging and
           archiving of feeds. </t>
       </section>
-      <section title="Security Resource Categories"
-        anchor="normative-expectation-impact">
-        <t>Feed implementers SHOULD provide Atom categories that
-          correspond to categories described in the IANA table of
-          security resource categories (see IANA Considerations). Feed
-          implementers MAY provide Atom categories that do not correspond
-          to categories described in that IANA table, but run the risk of
-          losing interoperability when doing so.</t>
-        <t>Note that additional documents may specify
-          mandatory-to-implement categories for domain-specific reasons.
-          This draft is not concerned with such MTI categories.</t>
-
-      </section>
       <section title="User Authentication" anchor="normative-user-auth">
         <t>Implementations MUST support user authentication. User
           authentication MAY be enabled for specific feeds.</t>
@@ -446,8 +433,9 @@
           categories. The collection category set MUST contain at least
           the union of all the member entry categories. A collection MAY
           have additional category metadata that are unique to the
-          collection, and not applicable to any individual member entry.
-        </t>
+          collection, and not applicable to any individual member
+          entry.</t>
+        <t>For category requirements see Section 6, Content Model.</t>
       </section>
       <section title="Link Relations">
         <t> In addition to the standard Link Relations defined by the
@@ -548,6 +536,8 @@
         formats. Each format has a document describing requirements for
         implementing the representation in ROLIE, as well as use cases
         and examples for that format. TODO: Expand</t>
+      <t>Feed implementers MAY provide Atom categories that do not correspond to categories described in that IANA table, but run the risk of losing interoperability when doing so.
+        Note that additional documents may specify mandatory-to-implement categories for domain-specific reasons. This draft is not concerned with such MTI categories.</t>
       <t> TODO: IANA Table for each category</t>
       <t> The &lt;content&gt; element of the Atom entry MUST contain an
         appropriate XML namespace declaration. </t>

@@ -160,11 +160,13 @@ preamble, postamble {
   margin-left: 2em;
 }
 
-xref{width:auto;}
+xref{
+  width:auto;
+}
 
 oxy|entity[name='gt']{ 
-display:inline !important;
-width:auto !important;
+  display:inline !important;
+  width:auto !important;
 }
 
 xref:after {	
@@ -173,23 +175,30 @@ xref:after {
 }
 
 vspace:before { 
-display: block;
-content: ' ';
+  display: block;
+  content: ' ';
 }
 
 texttable {
-	
-display:block;
-    text-align: center;
-
+  display:block;
 }
-ttcol{display:block;text-align:center;}
+
+ttcol{
+  display:block;
+  text-align:center;
+}
+
 c {
-display: block;
+  width:40%;
+  border:1px solid black;
+}
+
 
 border: 1px solid;
 
 }
+
+
 
 reference               {
             display: block; margin-top: 6pt;
