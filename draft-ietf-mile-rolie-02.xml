@@ -405,10 +405,19 @@
           security information sharing feeds that are provided. </t>
         <t> The service document SHOULD be discoverable via the
           organization's Web home page or another well-known public
-          resource. TODO: Standardize location of doc?</t>
+          resource. </t>
+        <t>
+          The service document SHOULD (TODO: MUST?) be located at the
+          standardized location "SERVERROOT/ROLIE/servicedocument". This
+          document MAY be a link to the actual service document.
+        </t>
+        <t> When deploying a service document for use by a closed
+          consortium, the service document MAY also be digitally signed
+          and/or encrypted, using XML DigSig and/or XML Encryption,
+          respectively. </t>
         <section title="Workspaces">
           <t>The service document MAY include multiple workspaces. Any
-            producer providing both public feeds and private consortium
+            producer providing both public feeds and private
             feeds MUST place these different classes of feeds into
             different workspaces, and provide appropriate descriptions
             and naming conventions to indicate the intended audience of
@@ -418,14 +427,6 @@
           <t>An implementation MAY provide any number of collections
             within a given Workspace. It is RECOMMENDED that each
             collection appear in only a single Workspace.</t>
-        </section>
-        <section title="Service Document Security">
-          <t>Access to the service document MUST be protected via
-            server-authenticated TLS and a server-side certificate. </t>
-          <t> When deploying a service document for use by a closed
-            consortium, the service document MAY also be digitally signed
-            and/or encrypted, using XML DigSig and/or XML Encryption,
-            respectively. </t>
         </section>
       </section>
       <section title="Category Mapping" anchor="category-mapping">
@@ -538,9 +539,7 @@
         and examples for that format. TODO: Expand</t>
       <t>Feed implementers MAY provide Atom categories that do not correspond to categories described in that IANA table, but run the risk of losing interoperability when doing so.
         Note that additional documents may specify mandatory-to-implement categories for domain-specific reasons. This draft is not concerned with such MTI categories.</t>
-      <t> TODO: IANA Table for each category</t>
-      <t> The &lt;content&gt; element of the Atom entry MUST contain an
-        appropriate XML namespace declaration. </t>
+      <t> TODO: IANA Table callouts</t>
     </section>
     <section title="IANA Considerations TODO" anchor="sec-iana">
       <t>This document defines a resource-oriented approach to security
@@ -600,10 +599,247 @@
         RFC3688.</t>
 
       <t>TODO: Complete registration request specifics.</t>
-
-
     </section>
-    <section title="Non-Normative Examples" anchor="non-norm-ex">
+    <section title="Security Considerations TODO" anchor="sec-security">
+      <t>This document defines a resource-oriented approach to
+        lightweight information exchange using HTTP, TLS, Atom Syndicate
+        Format, and Atom Publishing Protocol. As such, implementers must
+        understand the security considerations described in those
+        specifications. </t>
+      <t> In addition, there are a number of additional security
+        considerations that are unique to this specification. </t>
+      <t> The approach described herein is based upon all policy
+        enforcements being implemented at the point when a resource
+        representation is created. As such, producers sharing cyber
+        security information using this specification must take care to
+        authenticate their HTTP clients using a suitably strong user
+        authentication mechanism. Sharing communities that are exchanging
+        information on well-known indicators and incidents for purposes
+        of public education may choose to rely upon, e.g. HTTP
+        Authentication, or similar. However, sharing communities that are
+        engaged in sensitive collaborative analysis and/or operational
+        response for indicators and incidents targeting high value
+        information systems should adopt a suitably stronger user
+        authentication solution, such as TLS client certificates, or a
+        risk-based or multi-factor approach. In general, trust in the
+        sharing consortium will depend upon the members maintaining
+        adequate user authentication mechanisms. </t>
+      <t> Collaborating consortiums may benefit from the adoption of a
+        federated identity solution, such as those based upon <xref
+          target="SAML-core">SAML-core</xref> and <xref
+          target="SAML-bind">SAML-bind</xref> and <xref
+          target="SAML-prof">SAML-prof</xref> for Web-based
+        authentication and cross-organizational single sign-on.
+        Dependency on a trusted third party identity provider implies
+        that appropriate care must be exercised to sufficiently secure
+        the Identity provider. Any attacks on the federated identity
+        system would present a risk to the CSIRT, as a relying party.
+        Potential mitigations include deployment of a federation-aware
+        identity provider that is under the control of the information
+        sharing consortium, with suitably stringent technical and
+        management controls. </t>
+      <t> Authorization of resource representations is the responsibility
+        of the source system, i.e. based on the authenticated user
+        identity associated with an HTTP(S) request. The required
+        authorization policies that are to be enforced must therefore be
+        managed by the security administrators of the source system.
+        Various authorization architectures would be suitable for this
+        purpose, such as <eref
+          target="http://csrc.nist.gov/groups/SNS/rbac/">RBAC</eref>
+        and/or ABAC, as embodied in <xref target="XACML">XACML</xref>. In
+        particular, implementers adopting XACML may benefit from the
+        capability to represent their authorization policies in a
+        standardized, interoperable format. </t>
+      <t> Additional security requirements such as enforcing
+        message-level security at the destination system could supplement
+        the security enforcements performed at the source system, however
+        these destination-provided policy enforcements are out of scope
+        for this specification. Implementers requiring this capability
+        should consider leveraging, e.g. the &lt;RIDPolicy&gt; element in
+        the RID schema. Refer to RFC6545 section 9 for more information. </t>
+      <t> When security policies relevant to the source system are to be
+        enforced at both the source and destination systems, implementers
+        must take care to avoid unintended interactions of the separately
+        enforced policies. Potential risks will include unintended denial
+        of service and/or unintended information leakage. These problems
+        may be mitigated by avoiding any dependence upon enforcements
+        performed at the destination system. When distributed enforcement
+        is unavoidable, the usage of a standard language (e.g. XACML) for
+        the expression of authorization policies will enable the source
+        and destination systems to better coordinate and align their
+        respective policy expressions. </t>
+      <t> Adoption of the information sharing approach described in this
+        document will enable users to more easily perform correlations
+        across separate, and potentially unrelated, cyber security
+        information providers. A client may succeed in assembling a data
+        set that would not have been permitted within the context of the
+        authorization policies of either provider when considered
+        individually. Thus, providers may face a risk of an attacker
+        obtaining an access that constitutes an undetected separation of
+        duties (SOD) violation. It is important to note that this risk is
+        not unique to this specification, and a similar potential for
+        abuse exists with any other cyber security information sharing
+        protocol. However, the wide availability of tools for HTTP
+        clients and Atom feed handling implies that the resources and
+        technical skills required for a successful exploit may be less
+        than it was previously. This risk can be best mitigated through
+        appropriate vetting of the client at account provisioning time.
+        In addition, any increase in the risk of this type of abuse
+        should be offset by the corresponding increase in effectiveness
+        that this specification affords to the defenders. </t>
+      <t> While it is a goal of this specification to enable more agile
+        cyber security information sharing across a broader and varying
+        constituency, there is nothing in this specification that
+        necessarily requires this type of deployment. A cyber security
+        information sharing consortium may chose to adopt this
+        specification while continuing to operate as a gated community
+        with strictly limited membership. </t>
+    </section>
+    
+    <section title="Acknowledgements" anchor="acknowledgements">
+      <t>The author gratefully acknowledges the valuable contributions of
+        Tom Maguire, Kathleen Moriarty, and Vijayanand Bharadwaj. These
+        individuals provided detailed review comments on earlier drafts,
+        and many suggestions that have helped to improve this document
+        .</t>
+    </section>
+  </middle>
+  <back>
+    <references title="Normative References">
+      <?rfc include="reference.RFC.2119" ?>
+      <?rfc include="reference.RFC.7235" ?>
+      <?rfc include="reference.RFC.4287" ?>
+      <?rfc include="reference.RFC.5005" ?>
+      <?rfc include="reference.RFC.5023" ?>
+      <?rfc include="reference.RFC.5070" ?>
+      <?rfc include="reference.RFC.6545" ?>
+      <reference anchor="opensearch"
+        target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
+        <front>
+          <title>OpenSearch 1.1 draft 5 specification</title>
+          <author initials="D." surname="Clinton"
+            fullname="Dewitt Clinton">
+            <organization abbrev="OpenSearch"> OpenSearch Community
+            </organization>
+          </author>
+          <date year="2011"/>
+        </front>
+      </reference>
+      <reference anchor="SAML-core"
+        target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
+        <front>
+          <title>Assertions and Protocols for the OASIS Security
+            Assertion Markup Language (SAML) V2.0 </title>
+          <author initials="S." surname="Cantor" fullname="Scott Cantor">
+            <organization/>
+          </author>
+          <author initials="J." surname="Kemp" fullname="John Kemp">
+            <organization/>
+          </author>
+          <author initials="R." surname="Philpott"
+            fullname="Rob Philpott">
+            <organization/>
+          </author>
+          <author initials="E." surname="Mahler" fullname="Eve Mahler">
+            <organization/>
+          </author>
+          <date day="15" month="March" year="2005"/>
+        </front>
+        <seriesInfo name="OASIS Standard" value=""/>
+      </reference>
+      <reference anchor="SAML-prof"
+        target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf">
+        <front>
+          <title>Profiles for the OASIS Security Assertion Markup
+            Language (SAML) V2.0</title>
+          <author initials="J." surname="Hughes" fullname="John Hughes">
+            <organization/>
+          </author>
+          <author initials="S." surname="Cantor" fullname="Scott Cantor">
+            <organization/>
+          </author>
+          <author initials="J." surname="Hodges" fullname="Jeff Hodges">
+            <organization/>
+          </author>
+          <author initials="F." surname="Hirsch"
+            fullname="Frederick Hirsch">
+            <organization/>
+          </author>
+          <author initials="P." surname="Mishra"
+            fullname="Prateek Mishra">
+            <organization/>
+          </author>
+          <author initials="R." surname="Philpott"
+            fullname="Rob Philpott">
+            <organization/>
+          </author>
+          <author initials="E." surname="Mahler" fullname="Eve Mahler">
+            <organization/>
+          </author>
+          <date day="15" month="March" year="2005"/>
+        </front>
+        <seriesInfo name="OASIS Standard" value=""/>
+      </reference>
+      <reference anchor="SAML-bind"
+        target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf">
+        <front>
+          <title>Bindings for the OASIS Security Assertion Markup
+            Language (SAML) V2.0 </title>
+          <author initials="S." surname="Cantor" fullname="Scott Cantor">
+            <organization/>
+          </author>
+          <author initials="F." surname="Hirsch"
+            fullname="Frederick Hirsch">
+            <organization/>
+          </author>
+          <author initials="J." surname="Kemp" fullname="John Kemp">
+            <organization/>
+          </author>
+          <author initials="R." surname="Philpott"
+            fullname="Rob Philpott">
+            <organization/>
+          </author>
+          <author initials="E." surname="Mahler" fullname="Eve Mahler">
+            <organization/>
+          </author>
+          <date day="15" month="March" year="2005"/>
+        </front>
+        <seriesInfo name="OASIS Standard" value=""/>
+      </reference>
+    </references>
+    <references title="Informative References">
+      <reference anchor="XACML"
+        target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
+        <front>
+          <title>eXtensible Access Control Markup Language (XACML)
+            Version 3.0</title>
+          <author initials="E." surname="Rissanen"
+            fullname="Erik Rissanen">
+            <organization/>
+          </author>
+          <date day="10" month="August" year="2010"/>
+        </front>
+      </reference>
+      <reference anchor="REST"
+        target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
+        <front>
+          <title>Architectural Styles and the Design of Network-based
+            Software Architectures</title>
+          <author initials="R." surname="Fielding"
+            fullname="Roy Thomas Fielding">
+            <organization abbrev="UCI"> University of California, Irvine;
+              Department of Information and Computer Science
+            </organization>
+          </author>
+          <date year="2000"/>
+        </front>
+        <format type="text/html"
+          target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"
+          octets="7287"/>
+      </reference>
+      <?rfc include="reference.RFC.6546" ?>
+    </references>
+    <section title="Use Case Examples">
       <section title="Service Discovery" anchor="svc-doc">
         <t>This section provides a non-normative example of a client
           doing service discovery. TODO: Standardize location of doc?</t>
@@ -910,244 +1146,6 @@ Accept: application/atom+xml
           expected client usage patterns, etc.). </t>
       </section>
     </section>
-    <section title="Security Considerations TODO" anchor="sec-security">
-      <t>This document defines a resource-oriented approach to
-        lightweight information exchange using HTTP, TLS, Atom Syndicate
-        Format, and Atom Publishing Protocol. As such, implementers must
-        understand the security considerations described in those
-        specifications. </t>
-      <t> In addition, there are a number of additional security
-        considerations that are unique to this specification. </t>
-      <t> The approach described herein is based upon all policy
-        enforcements being implemented at the point when a resource
-        representation is created. As such, producers sharing cyber
-        security information using this specification must take care to
-        authenticate their HTTP clients using a suitably strong user
-        authentication mechanism. Sharing communities that are exchanging
-        information on well-known indicators and incidents for purposes
-        of public education may choose to rely upon, e.g. HTTP
-        Authentication, or similar. However, sharing communities that are
-        engaged in sensitive collaborative analysis and/or operational
-        response for indicators and incidents targeting high value
-        information systems should adopt a suitably stronger user
-        authentication solution, such as TLS client certificates, or a
-        risk-based or multi-factor approach. In general, trust in the
-        sharing consortium will depend upon the members maintaining
-        adequate user authentication mechanisms. </t>
-      <t> Collaborating consortiums may benefit from the adoption of a
-        federated identity solution, such as those based upon <xref
-          target="SAML-core">SAML-core</xref> and <xref
-          target="SAML-bind">SAML-bind</xref> and <xref
-          target="SAML-prof">SAML-prof</xref> for Web-based
-        authentication and cross-organizational single sign-on.
-        Dependency on a trusted third party identity provider implies
-        that appropriate care must be exercised to sufficiently secure
-        the Identity provider. Any attacks on the federated identity
-        system would present a risk to the CSIRT, as a relying party.
-        Potential mitigations include deployment of a federation-aware
-        identity provider that is under the control of the information
-        sharing consortium, with suitably stringent technical and
-        management controls. </t>
-      <t> Authorization of resource representations is the responsibility
-        of the source system, i.e. based on the authenticated user
-        identity associated with an HTTP(S) request. The required
-        authorization policies that are to be enforced must therefore be
-        managed by the security administrators of the source system.
-        Various authorization architectures would be suitable for this
-        purpose, such as <eref
-          target="http://csrc.nist.gov/groups/SNS/rbac/">RBAC</eref>
-        and/or ABAC, as embodied in <xref target="XACML">XACML</xref>. In
-        particular, implementers adopting XACML may benefit from the
-        capability to represent their authorization policies in a
-        standardized, interoperable format. </t>
-      <t> Additional security requirements such as enforcing
-        message-level security at the destination system could supplement
-        the security enforcements performed at the source system, however
-        these destination-provided policy enforcements are out of scope
-        for this specification. Implementers requiring this capability
-        should consider leveraging, e.g. the &lt;RIDPolicy&gt; element in
-        the RID schema. Refer to RFC6545 section 9 for more information. </t>
-      <t> When security policies relevant to the source system are to be
-        enforced at both the source and destination systems, implementers
-        must take care to avoid unintended interactions of the separately
-        enforced policies. Potential risks will include unintended denial
-        of service and/or unintended information leakage. These problems
-        may be mitigated by avoiding any dependence upon enforcements
-        performed at the destination system. When distributed enforcement
-        is unavoidable, the usage of a standard language (e.g. XACML) for
-        the expression of authorization policies will enable the source
-        and destination systems to better coordinate and align their
-        respective policy expressions. </t>
-      <t> Adoption of the information sharing approach described in this
-        document will enable users to more easily perform correlations
-        across separate, and potentially unrelated, cyber security
-        information providers. A client may succeed in assembling a data
-        set that would not have been permitted within the context of the
-        authorization policies of either provider when considered
-        individually. Thus, providers may face a risk of an attacker
-        obtaining an access that constitutes an undetected separation of
-        duties (SOD) violation. It is important to note that this risk is
-        not unique to this specification, and a similar potential for
-        abuse exists with any other cyber security information sharing
-        protocol. However, the wide availability of tools for HTTP
-        clients and Atom feed handling implies that the resources and
-        technical skills required for a successful exploit may be less
-        than it was previously. This risk can be best mitigated through
-        appropriate vetting of the client at account provisioning time.
-        In addition, any increase in the risk of this type of abuse
-        should be offset by the corresponding increase in effectiveness
-        that this specification affords to the defenders. </t>
-      <t> While it is a goal of this specification to enable more agile
-        cyber security information sharing across a broader and varying
-        constituency, there is nothing in this specification that
-        necessarily requires this type of deployment. A cyber security
-        information sharing consortium may chose to adopt this
-        specification while continuing to operate as a gated community
-        with strictly limited membership. </t>
-    </section>
-    <section title="Acknowledgements" anchor="acknowledgements">
-      <t>The author gratefully acknowledges the valuable contributions of
-        Tom Maguire, Kathleen Moriarty, and Vijayanand Bharadwaj. These
-        individuals provided detailed review comments on earlier drafts,
-        and many suggestions that have helped to improve this document
-        .</t>
-    </section>
-  </middle>
-  <back>
-    <references title="Normative References">
-      <?rfc include="reference.RFC.2119" ?>
-      <?rfc include="reference.RFC.7235" ?>
-      <?rfc include="reference.RFC.4287" ?>
-      <?rfc include="reference.RFC.5005" ?>
-      <?rfc include="reference.RFC.5023" ?>
-      <?rfc include="reference.RFC.5070" ?>
-      <?rfc include="reference.RFC.6545" ?>
-      <reference anchor="opensearch"
-        target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
-        <front>
-          <title>OpenSearch 1.1 draft 5 specification</title>
-          <author initials="D." surname="Clinton"
-            fullname="Dewitt Clinton">
-            <organization abbrev="OpenSearch"> OpenSearch Community
-            </organization>
-          </author>
-          <date year="2011"/>
-        </front>
-      </reference>
-      <reference anchor="SAML-core"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
-        <front>
-          <title>Assertions and Protocols for the OASIS Security
-            Assertion Markup Language (SAML) V2.0 </title>
-          <author initials="S." surname="Cantor" fullname="Scott Cantor">
-            <organization/>
-          </author>
-          <author initials="J." surname="Kemp" fullname="John Kemp">
-            <organization/>
-          </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
-            <organization/>
-          </author>
-          <author initials="E." surname="Mahler" fullname="Eve Mahler">
-            <organization/>
-          </author>
-          <date day="15" month="March" year="2005"/>
-        </front>
-        <seriesInfo name="OASIS Standard" value=""/>
-      </reference>
-      <reference anchor="SAML-prof"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf">
-        <front>
-          <title>Profiles for the OASIS Security Assertion Markup
-            Language (SAML) V2.0</title>
-          <author initials="J." surname="Hughes" fullname="John Hughes">
-            <organization/>
-          </author>
-          <author initials="S." surname="Cantor" fullname="Scott Cantor">
-            <organization/>
-          </author>
-          <author initials="J." surname="Hodges" fullname="Jeff Hodges">
-            <organization/>
-          </author>
-          <author initials="F." surname="Hirsch"
-            fullname="Frederick Hirsch">
-            <organization/>
-          </author>
-          <author initials="P." surname="Mishra"
-            fullname="Prateek Mishra">
-            <organization/>
-          </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
-            <organization/>
-          </author>
-          <author initials="E." surname="Mahler" fullname="Eve Mahler">
-            <organization/>
-          </author>
-          <date day="15" month="March" year="2005"/>
-        </front>
-        <seriesInfo name="OASIS Standard" value=""/>
-      </reference>
-      <reference anchor="SAML-bind"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf">
-        <front>
-          <title>Bindings for the OASIS Security Assertion Markup
-            Language (SAML) V2.0 </title>
-          <author initials="S." surname="Cantor" fullname="Scott Cantor">
-            <organization/>
-          </author>
-          <author initials="F." surname="Hirsch"
-            fullname="Frederick Hirsch">
-            <organization/>
-          </author>
-          <author initials="J." surname="Kemp" fullname="John Kemp">
-            <organization/>
-          </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
-            <organization/>
-          </author>
-          <author initials="E." surname="Mahler" fullname="Eve Mahler">
-            <organization/>
-          </author>
-          <date day="15" month="March" year="2005"/>
-        </front>
-        <seriesInfo name="OASIS Standard" value=""/>
-      </reference>
-    </references>
-    <references title="Informative References">
-      <reference anchor="XACML"
-        target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
-        <front>
-          <title>eXtensible Access Control Markup Language (XACML)
-            Version 3.0</title>
-          <author initials="E." surname="Rissanen"
-            fullname="Erik Rissanen">
-            <organization/>
-          </author>
-          <date day="10" month="August" year="2010"/>
-        </front>
-      </reference>
-      <reference anchor="REST"
-        target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
-        <front>
-          <title>Architectural Styles and the Design of Network-based
-            Software Architectures</title>
-          <author initials="R." surname="Fielding"
-            fullname="Roy Thomas Fielding">
-            <organization abbrev="UCI"> University of California, Irvine;
-              Department of Information and Computer Science
-            </organization>
-          </author>
-          <date year="2000"/>
-        </front>
-        <format type="text/html"
-          target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"
-          octets="7287"/>
-      </reference>
-      <?rfc include="reference.RFC.6546" ?>
-    </references>
     <section title="Change Tracking" anchor="delta">
       <t>Changes since draft-field-mile-rolie-01 version, December, 2015
         to May 27, 2016: <list style="symbols">
