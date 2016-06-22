@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd"
+[
+<!ENTITY RFC4287 SYSTEM
+"http://xml.resource.org/public/rfc/bibxml/reference.RFC.4287.xml">
+<!ENTITY RFC2119 SYSTEM
+"http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC5070 SYSTEM
+"http://xml.resource.org/public/rfc/bibxml/reference.RFC.5070.xml">
+<!ENTITY RFC5023 SYSTEM
+"http://xml.resource.org/public/rfc/bibxml/reference.RFC.5023.xml">
+<!ENTITY RFC5005 SYSTEM
+"http://xml.resource.org/public/rfc/bibxml/reference.RFC.5005.xml">
+<!ENTITY RFC7235 SYSTEM
+"http://xml.resource.org/public/rfc/bibxml/reference.RFC.7235.xml">
+<!ENTITY RFC6546 SYSTEM
+"http://xml.resource.org/public/rfc/bibxml/reference.RFC.6546.xml">
+]
+>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200902" category="info" docName="draft-ietf-mile-rolie-02">
   <!-- Working draft of draft02 -->
@@ -8,6 +25,7 @@
   <?rfc subcompact="no"?>
   <?rfc toc="yes"?>
   <?rfc symrefs="yes"?>
+  
   <front>
     <title abbrev="ROLIE">Resource-Oriented Lightweight Information
       Exchange</title>
@@ -706,13 +724,13 @@
   </middle>
   <back>
     <references title="Normative References">
-      <?rfc include="reference.RFC.2119" ?>
-      <?rfc include="reference.RFC.7235" ?>
-      <?rfc include="reference.RFC.4287" ?>
-      <?rfc include="reference.RFC.5005" ?>
-      <?rfc include="reference.RFC.5023" ?>
-      <?rfc include="reference.RFC.5070" ?>
-      <?rfc include="reference.RFC.6545" ?>
+      &RFC4287;
+      &RFC2119;
+      &RFC5070;
+      &RFC5023;
+      &RFC5005;
+      &RFC7235;
+      &RFC6546;
       <reference anchor="opensearch"
         target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
         <front>
