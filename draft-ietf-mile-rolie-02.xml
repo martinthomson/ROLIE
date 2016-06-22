@@ -855,7 +855,6 @@
           target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"
           octets="7287"/>
       </reference>
-      <?rfc include="reference.RFC.6546" ?>
     </references>
     <section title="Use Case Examples">
       <section title="Service Discovery" anchor="svc-doc">
