@@ -10,6 +10,8 @@ The main draft is WIP, and can be found under the name draft-ietf-mile-rolie-02.
 
 The secondary CSIRT document spun off of the main document is heavily WIP and can be found under the name draft-banghart-mile-rolie-csirt.xml. This document does not currently compile correctly under xml2rfc, nor does it have correct front and back matter.
 
+An experimental CSS file is being worked on within this Repo for real-time rendering of RFC documents. It can be found under the title rfc7749.css. For now issues may be opened regarding this side project, although if it continues to be a source of discussion it will be moved to a seperate location.
+
 ## Contributing
 
 Before submitting feedback, please familiarize yourself with our current issues
@@ -50,6 +52,8 @@ providing a link to the issue in the message body.
 ## Building the Draft
 
 The main draft currently compiles using xml2rfc, and the master branch shouldn't produce any major Idnits errors.
+
+The CSS file included can generate a rough estimation of the built draft when applied to the XML. Please note that this building process is NOT officially supported, and does NOT generate an accurate representation. The rendered document is for estimation ONLY. At the moment this CSS file is written in the oXygen Editor CSS subset, this is liable to change.
 
 
 ## NOTE WELL
