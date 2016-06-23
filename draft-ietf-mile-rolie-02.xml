@@ -1117,9 +1117,9 @@
         <figure height="" suppress-title="false" width="" alt=""
           title="" align="left">
           <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
- GET /provider/private/incidents/123456
- Host: www.example.org
- Accept: application/atom+xml   ]]></artwork>
+  GET /provider/private/incidents/123456
+  Host: www.example.org
+  Accept: application/atom+xml   ]]></artwork>
         </figure>
 
         <t>The corresponding HTTP response would be an XML document
