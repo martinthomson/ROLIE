@@ -6,10 +6,12 @@ TODO: Figure out how to generate table structures.
 */
 
 @namespace oxy url('http://www.oxygenxml.com/extensions/author');
+*{width:auto;}
 
-t,front,texttable,section{
+front,back,middle{
 width:650px;
 }
+
 rfc {
   font-family: fixed;
   font-size: 12pt;
@@ -206,10 +208,8 @@ c:nth-child(even):after {
 }
 */
 
-
-
 reference               {
-            display: block; margin-top: 6pt;
+            margin-top: 6pt; display:block;
             text-indent: -6.5em; margin-left: 6.5em;
 }
 reference:before        { content: "[" attr(anchor) "] "; }
@@ -223,6 +223,4 @@ reference seriesInfo:before { content: ", " attr(name) " " attr(value);}
 reference area          { display: none; }
 reference keyword       { display: none; }
 reference:after         { content: "."; }
-
-
-
+reference abstract {display:none;}
