@@ -34,7 +34,8 @@
         <email>jfield@pivotal.io</email>
       </address>
     </author>
-    <author initials="S.A." surname="Banghart" fullname="Stephen A. Banghart">
+    <author initials="S.A." surname="Banghart"
+      fullname="Stephen A. Banghart">
       <organization abbrev="NIST">National Institute of Standards and
         Technology</organization>
       <address>
@@ -52,20 +53,25 @@
     <area>Security</area>
     <workgroup>MILE Working Group</workgroup>
     <abstract>
-      <t>This document defines a resource-oriented approach for security automation information
-        discovery and sharing. Using this approach, producers may publish, share and exchange
-        representations of security incidents, attack indicators, software vulnerabilities,
-        configuration checklists, and other security automation information as Web-addressable
-        resources. Furthermore, consumers and other stakeholders may access and search this security
-        information as needed, establishing a rapid and on-demand information exchange network for
-        restricted internal use or public access repositories. This specification extends the Atom
-        Publishing Protocol and Atom Syndication Format to transport and share security automation
-        resource representations.</t>
+      <t>This document defines a resource-oriented approach for security
+        automation information discovery and sharing. Using this
+        approach, producers may publish, share and exchange
+        representations of security incidents, attack indicators,
+        software vulnerabilities, configuration checklists, and other
+        security automation information as Web-addressable resources.
+        Furthermore, consumers and other stakeholders may access and
+        search this security information as needed, establishing a rapid
+        and on-demand information exchange network for restricted
+        internal use or public access repositories. This specification
+        extends the Atom Publishing Protocol and Atom Syndication Format
+        to transport and share security automation resource
+        representations.</t>
     </abstract>
     <note title="Contributing to this document">
       <!--RFC EDITOR - Please remove this note before publishing -->
       <t>The source for this draft is being maintained in GitHub.
-        Suggested changes should be submitted as pull requests at <eref target="https://github.com/CISecurity/ROLIE"/>. Instructions
+        Suggested changes should be submitted as pull requests at <eref
+          target="https://github.com/CISecurity/ROLIE"/>. Instructions
         are on that page as well. Editorial changes can be managed in
         GitHub, but any substantial issues need to be discussed on the
         MILE mailing list.</t>
@@ -73,33 +79,44 @@
   </front>
   <middle>
     <section title="Introduction" anchor="starting-intro">
-      <t>This document defines a resource-oriented approach to security automation information
-        sharing that follows the <xref target="REST" format="title" pageno="false">REST</xref>
-        architectural style. In this approach, computer security resources are maintained in
-        web-accessible repositories structured as <xref target="RFC4287">Atom Syndication
-          Format</xref> feeds. Representations of content are categorized and organized into indexed
-        collections, which are requested by the consumer. As the set of resource collections are
-        forward facing, the consumer may search all available content for which they are authorized
-        to view and request that which is desired. Through use of granular authentication and access
-        controls, only authorized consumers may be permitted the ability to view, read, or write to
-        a given feed. This approach is in contrast to, and meant to improve on, the traditional
-        point-to-point messaging system, in which consumers must request individual pieces of
-        information from a server following a triggering event. The point-to-point approach creates
-        a closed system of information sharing that encourages duplication of effort and hinders
-        automated security systems.</t>
-      <t>The goal of this document is to define a RESTful approach to security information
-        communication with two primary intents: 1) increasing communication and sharing of incident
-        reports, vulnerability assessments, configuration checklists, and other security automation
-        information between producers, operators, and consumers; and 2) establishing a standardized
-        communication system to support automated computer security systems.</t>
-      <t>In order to deal with the great variety in security automation information types and
-        associated resource representations, this specification defines extension points that can be
-        used to add support for new information types and associated resource representations by
-        means of additional supplementary specification documents. This primary document is resource
-        representation agnostic, and defines the core requirements of all implementations. Those
-        seeking to provide support for specific security automation information types should refer
-        to the specification for that format described by the IANA registry found in section
-        TODO.</t>
+      <t>This document defines a resource-oriented approach to security
+        automation information sharing that follows the <xref
+          target="REST" format="title" pageno="false">REST</xref>
+        architectural style. In this approach, computer security
+        resources are maintained in web-accessible repositories
+        structured as <xref target="RFC4287">Atom Syndication
+          Format</xref> feeds. Representations of content are
+        categorized and organized into indexed collections, which are
+        requested by the consumer. As the set of resource collections
+        are forward facing, the consumer may search all available
+        content for which they are authorized to view and request that
+        which is desired. Through use of granular authentication and
+        access controls, only authorized consumers may be permitted the
+        ability to view, read, or write to a given feed. This approach
+        is in contrast to, and meant to improve on, the traditional
+        point-to-point messaging system, in which consumers must request
+        individual pieces of information from a server following a
+        triggering event. The point-to-point approach creates a closed
+        system of information sharing that encourages duplication of
+        effort and hinders automated security systems.</t>
+      <t>The goal of this document is to define a RESTful approach to
+        security information communication with two primary intents: 1)
+        increasing communication and sharing of incident reports,
+        vulnerability assessments, configuration checklists, and other
+        security automation information between producers, operators,
+        and consumers; and 2) establishing a standardized communication
+        system to support automated computer security systems.</t>
+      <t>In order to deal with the great variety in security automation
+        information types and associated resource representations, this
+        specification defines extension points that can be used to add
+        support for new information types and associated resource
+        representations by means of additional supplementary
+        specification documents. This primary document is resource
+        representation agnostic, and defines the core requirements of
+        all implementations. Those seeking to provide support for
+        specific security automation information types should refer to
+        the specification for that format described by the IANA registry
+        found in section TODO.</t>
     </section>
     <section title="Terminology" anchor="ext-terminology">
       <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL
@@ -110,68 +127,87 @@
         be found in Section 2 of <xref target="RFC5070"/>.</t>
     </section>
     <section title="Background and Motivation" anchor="back-motive">
-      <t>It is well known that the field of threats to computer security is evolving ever more
-        rapidly as time goes on. As software increases in complexity, the number of vulnerabilities
-        in systems and networks can increase exponentially. Threat actors looking to exploit these
-        vulnerabilities are making more frequent and more widely distributed attacks across a large
-        variety of systems. The adoption of liberal information sharing amongst attackers creates a
-        window of as little as a few hours between the discovery of a vulnerability and attacks on a
-        vulnerable system. As the skills and knowledge required to identify and combat these attacks
-        become more and more specialized, even a well established and secure system may find itself
-        unable to quickly respond to an incident. Effective identification of and response to a
-        sophisticated attack requires open cooperation and collaboration between defending
+      <t>It is well known that the field of threats to computer security
+        is evolving ever more rapidly as time goes on. As software
+        increases in complexity, the number of vulnerabilities in
+        systems and networks can increase exponentially. Threat actors
+        looking to exploit these vulnerabilities are making more
+        frequent and more widely distributed attacks across a large
+        variety of systems. The adoption of liberal information sharing
+        amongst attackers creates a window of as little as a few hours
+        between the discovery of a vulnerability and attacks on a
+        vulnerable system. As the skills and knowledge required to
+        identify and combat these attacks become more and more
+        specialized, even a well established and secure system may find
+        itself unable to quickly respond to an incident. Effective
+        identification of and response to a sophisticated attack
+        requires open cooperation and collaboration between defending
         operators, software vendors, and end-users.</t>
-      <t>Existing approaches to computer security information sharing often use message exchange
-        patterns that are point-to-point, and event-driven. Sometimes, information that may be
-        useful to share with multiple peers is only made available to peers after they have
-        specifically requested it. Unfortunately, a sharing peer may not know, a priori, what
-        information to request from another peer. Some exsisting systems provide a mechanism for
-        unsolicited information requests, however these reports are again sent point-to-point, and
-        must be reviewed for relevance and then prioritized for action by the recipient, introducing
-        additional latency.</t>
-      <t>In order to adequately combat evolving threats, computer security information resource
-        providers should be enabled to share selected information proactively as appropriate.
-        Proactive sharing greatly aids knowledge dissemination, and improves response times and
-        usability.</t>
-      <t>For example, a security analyst can benefit by having the ability to search a comprehensive
-        collection of attack indicators that have been published by a government agency, or by
-        another member of a sharing consortium. The representation of each indicator may include
-        links to the related resources, enabling an appropriately authenticated and authorized
-        analyst to freely navigate the information space of indicators, incidents, vulnerabilities,
-        and other computer security domain concepts as needed. In this way, an analyst can more
-        effectively utilize the super set of information made publicly available.</t>
-      <t>Consider also the case of an automated endpoint management system attempting to proactively
-        prevent software flaws from compromising the security of the affected systems. During its
-        full network sweep, the endpoint monitoring system would check each endpoint for outdated or
-        vulnerable software. This system would benefit from having access to not only the software
-        vendor's list of vulnerabilities, but also vulnerabilities discovered by other vulnerability
-        researchers. An advanced system could even give back to this sharing consortium by sharing
-        any vulnerabilities that it discovers. The natural conclusion of such a sharing network is
-        an automated security solution that can dynamically find and collect information from a
-        globally distributed web of information repositories.</t>
-      <t> The following section discusses additional specific technical
+      <t>Existing approaches to computer security information sharing
+        often use message exchange patterns that are point-to-point, and
+        event-driven. Sometimes, information that may be useful to share
+        with multiple peers is only made available to peers after they
+        have specifically requested it. Unfortunately, a sharing peer
+        may not know, a priori, what information to request from another
+        peer. Some exsisting systems provide a mechanism for unsolicited
+        information requests, however these reports are again sent
+        point-to-point, and must be reviewed for relevance and then
+        prioritized for action by the recipient, introducing additional
+        latency.</t>
+      <t>In order to adequately combat evolving threats, computer
+        security information resource providers should be enabled to
+        share selected information proactively as appropriate. Proactive
+        sharing greatly aids knowledge dissemination, and improves
+        response times and usability.</t>
+      <t>For example, a security analyst can benefit by having the
+        ability to search a comprehensive collection of attack
+        indicators that have been published by a government agency, or
+        by another member of a sharing consortium. The representation of
+        each indicator may include links to the related resources,
+        enabling an appropriately authenticated and authorized analyst
+        to freely navigate the information space of indicators,
+        incidents, vulnerabilities, and other computer security domain
+        concepts as needed. In this way, an analyst can more effectively
+        utilize the super set of information made publicly
+        available.</t>
+      <t>Consider also the case of an automated endpoint management
+        system attempting to proactively prevent software flaws from
+        compromising the security of the affected systems. During its
+        full network sweep, the endpoint monitoring system would check
+        each endpoint for outdated or vulnerable software. This system
+        would benefit from having access to not only the software
+        vendor's list of vulnerabilities, but also vulnerabilities
+        discovered by other vulnerability researchers. An advanced
+        system could even give back to this sharing consortium by
+        sharing any vulnerabilities that it discovers. The natural
+        conclusion of such a sharing network is an automated security
+        solution that can dynamically find and collect information from
+        a globally distributed web of information repositories.</t>
+      <t>The following section discusses additional specific technical
         issues that motivated the development of this alternative
         approach.</t>
-      <section title="Message-oriented versus Resource-oriented Architecture" anchor="msg-vs-roa">
+      <section
+        title="Message-oriented versus Resource-oriented Architecture"
+        anchor="msg-vs-roa">
         <t>The existing approaches to computer security information
           sharing are based upon message-oriented interactions. The
           following paragraphs explore some of the architectural
           constraints associated with message-oriented interactions and
-          consider the relative merits of an alternative model based on a
-          Resource-oriented architecture for use in some use case
+          consider the relative merits of an alternative model based on
+          a Resource-oriented architecture for use in some use case
           scenarios.</t>
-        <t>ROLIE specifies a resource-oriented architecture that attempts
-          to address the issues present in a message-oriented
+        <t>ROLIE specifies a resource-oriented architecture that
+          attempts to address the issues present in a message-oriented
           architecture.</t>
         <section title="Message-oriented Architecture" anchor="message">
           <t>In general, message-based integration architectures may be
             based upon either an RPC-style or a document-style binding.
             The message types defined by RID represent an example of an
-            RPC-style request. This approach imposes implied requirements
-            for conversational state management on both of the
-            communicating RID endpoint(s). Experience has shown that this
-            state management frequently becomes the limiting factor with
-            respect to the runtime scalability of an RPC-style
+            RPC-style request. This approach imposes implied
+            requirements for conversational state management on both of
+            the communicating RID endpoint(s). Experience has shown that
+            this state management frequently becomes the limiting factor
+            with respect to the runtime scalability of an RPC-style
             architecture.</t>
           <t>In addition, the practical scalability of a peer-to-peer
             message-based approach will be limited by the administrative
@@ -185,99 +221,263 @@
             significantly larger number of participating peers, a
             different architectural approach will be required. Towards
             the goal to create a large-scale network of entities sharing
-            information, this traditional architecture only creates small
-            and isolated groupings of sharing, encouraging effort
-            duplication between these sharing islands. One alternative to
-            the message-based approach that has demonstrated scalability
-            and a high degree of connectedness is the <xref target="REST">REST</xref> architectural style.</t>
+            information, this traditional architecture only creates
+            small and isolated groupings of sharing, encouraging effort
+            duplication between these sharing islands. One alternative
+            to the message-based approach that has demonstrated
+            scalability and a high degree of connectedness is the <xref
+              target="REST">REST</xref> architectural style.</t>
         </section>
-        <section title="Resource-Oriented Architecture" anchor="roa-benefits">
-          <t>Applying the REST architectural style to the problem domain of security information
-            sharing involves exposing information in any relevant type as simple Web-addressable
-            resources. Each provider maintains their own repository of data, with public and private
-            sections as needed. Any producer or consumer can then discover these repositories,
-            search for relevant feeds, and pull information from them. By using this approach, an
-            organization can more quickly and easily share relevant data representations with a much
-            larger and potentially more diverse constituency. A consumer may leverage virtually any
-            available HTTP user agent in order to make requests of the service provider. This
-            improved ease of use enables more rapid adoption
-            and broader participation, thereby improving security for everyone.</t>
-          <t>A key aspect of any RESTful Web service is the ability provide multiple resource
-            representations. For example, clients may request that a given resource representation
-            be returned as XML, JSON, or in some other format. In order to enable
-            backwards-compatibility and interoperability with existing implementations, the RESTful
-            approach allows the provider to make differing formats available proactively, allowing
-            the consumer to simply select the version that best suits them.</t>
-          <t>Finally, an important principle of the REST architectural style is the focus on
-            hypermedia as the engine of application state (HATEOAS). Rather than the server
-            maintaining conversational state for each client, the server will instead include a
-            suitable set of hyperlinks in the resource representation that is returned to the
-            client. The included hyperlinks provide the client with a specific set of permitted
-            state transitions. Using these links the client may perform an operation, such as
-            updating or deleting the resource representation. The client may also be provided with
-            hypertext links that can be used to navigate to any related resource. For example, the
-            resource representation for an incident object may contain links to the related
-            indicator resource(s). In this way, the server remains stateless with respect to a
-            series of client requests.</t>
-          <section title="A Resource-Oriented Use Case: &quot;Mashup&quot;" anchor="mashup">
-            <t>In this section we consider an example scenario for creating a computer security
-              "mashup".</t>
-            <t>A producer creates and maintains a feed of information on threat actors, whilst
-              another creates and maintains a feed of attack indicators. Each has authorized a large
-              consortium of security analysts to access these feeds as they see fit. Any one of
-              these analysts can then make HTTP(s) requests to the servers to collect sets of
-              information from each provider. The resulting correlations may yield new insights that
-              enable a more timely and effective defensive response. Of course, this report may, in
-              turn, be made available to others as a new Web-addressable resource, reachable via
-              another URL. By exposing information using the RESTful approach in this way, the
-              effectiveness of the collaboration amongst a consortium of cyber security stakeholders
-              can be greatly improved.</t>
+        <section title="Resource-Oriented Architecture"
+          anchor="roa-benefits">
+          <t>Applying the REST architectural style to the problem domain
+            of security information sharing involves exposing
+            information in any relevant type as simple Web-addressable
+            resources. Each provider maintains their own repository of
+            data, with public and private sections as needed. Any
+            producer or consumer can then discover these repositories,
+            search for relevant feeds, and pull information from them.
+            By using this approach, an organization can more quickly and
+            easily share relevant data representations with a much
+            larger and potentially more diverse constituency. A consumer
+            may leverage virtually any available HTTP user agent in
+            order to make requests of the service provider. This
+            improved ease of use enables more rapid adoption and broader
+            participation, thereby improving security for everyone.</t>
+          <t>A key aspect of any RESTful Web service is the ability
+            provide multiple resource representations. For example,
+            clients may request that a given resource representation be
+            returned as XML, JSON, or in some other format. In order to
+            enable backwards-compatibility and interoperability with
+            existing implementations, the RESTful approach allows the
+            provider to make differing formats available proactively,
+            allowing the consumer to simply select the version that best
+            suits them.</t>
+          <t>Finally, an important principle of the REST architectural
+            style is the focus on hypermedia as the engine of
+            application state (HATEOAS). Rather than the server
+            maintaining conversational state for each client, the server
+            will instead include a suitable set of hyperlinks in the
+            resource representation that is returned to the client. The
+            included hyperlinks provide the client with a specific set
+            of permitted state transitions. Using these links the client
+            may perform an operation, such as updating or deleting the
+            resource representation. The client may also be provided
+            with hypertext links that can be used to navigate to any
+            related resource. For example, the resource representation
+            for an incident object may contain links to the related
+            indicator resource(s). In this way, the server remains
+            stateless with respect to a series of client requests.</t>
+          <section
+            title="A Resource-Oriented Use Case: &quot;Mashup&quot;"
+            anchor="mashup">
+            <t>In this section we consider an example scenario for
+              creating a computer security "mashup".</t>
+            <t>A producer creates and maintains a feed of information on
+              threat actors, whilst another creates and maintains a feed
+              of attack indicators. Each has authorized a large
+              consortium of security analysts to access these feeds as
+              they see fit. Any one of these analysts can then make
+              HTTP(s) requests to the servers to collect sets of
+              information from each provider. The resulting correlations
+              may yield new insights that enable a more timely and
+              effective defensive response. Of course, this report may,
+              in turn, be made available to others as a new
+              Web-addressable resource, reachable via another URL. By
+              exposing information using the RESTful approach in this
+              way, the effectiveness of the collaboration amongst a
+              consortium of cyber security stakeholders can be greatly
+              improved.</t>
           </section>
         </section>
       </section>
     </section>
-    <section title="Use of the Atom Publishing Protocol and Atom Syndication Format TODO" anchor="atom">
-      <t>This section specifies the use of the Atom Syndication Format and Atom Publishing Protocol (AtomPub)
-        as the mechanism for implementing a RESTful architecture</t>
-      <t>As described in <xref target="RFC5023">AtomPub</xref> section 8, a Service Document is an XML-based
-        document format that allows a client to dynamically discover the
-        collections provided by a publisher.</t>
-      <t>As described in <xref target="RFC4287">Atom Syndication Format</xref>, an Atom feed is an XML-based
-        document format that describes a list of related information items, also known as a collection.
-        Each feed document contains a collection of zero or more related information items
-        individually called a "member entry" or "entry".</t>
-      <t>When applied to the problem domain of security automation information sharing, an Atom feed
-        may be used to represent any meaningful collection of information resources including a set
-        of configuration checklists or software vulnerabilities. Each entry in a feed represents an
-        individual resource, such as a specific checklist or software vulnerability record.
-        Additional feeds could be used to represent collections of other meaningful and useful
-        security automation resources. A feed may be categorized and may contain information from
-        zero or more categories.
-        The
-        naming scheme and the semantic meaning of the terms used to identify an Atom category are
+    <section
+      title="Normative Requirements for Use of the Atom Publishing Protocol and Atom Syndication Format TODO"
+      anchor="atom">
+      <t>This section specifies the use of the Atom Syndication Format
+        and Atom Publishing Protocol (AtomPub) as the mechanism for
+        implementing a RESTful architecture</t>
+      <t>As described in <xref target="RFC5023">AtomPub</xref> section
+        8, a Service Document is an XML-based document format that
+        allows a client to dynamically discover the collections provided
+        by a publisher.</t>
+      <t>As described in <xref target="RFC4287">Atom Syndication
+          Format</xref>, an Atom feed is an XML-based document format
+        that describes a list of related information items, also known
+        as a collection. Each feed document contains a collection of
+        zero or more related information items individually called a
+        "member entry" or "entry".</t>
+      <t>When applied to the problem domain of security automation
+        information sharing, an Atom feed may be used to represent any
+        meaningful collection of information resources including a set
+        of configuration checklists or software vulnerabilities. Each
+        entry in a feed represents an individual resource, such as a
+        specific checklist or software vulnerability record. Additional
+        feeds could be used to represent collections of other meaningful
+        and useful security automation resources. A feed may be
+        categorized and may contain information from zero or more
+        categories. The naming scheme and the semantic meaning of the
+        terms used to identify an Atom category are
         application-defined.</t>
-      <t>This document assumes that the reader has an understanding of both the AtomPub and Atom
-        Syndication Format specifications..</t>
-      <t>The remainder of this section provides requirements for using the Atom Syndication Format and
-        AtomPub as a RESTful binding for security automation information sharing.</t>
-      <section title="Atom Requirements" anchor="atom-req">
-        <t>Implementations of this specification MUST implement all
-          requirements specified in Atom Publishing Protocol and the
-          Atom Syndication Format. (TODO: work on a more normative and
-          perhaps constrained requirement.)</t>
+      <t>This document assumes that the reader has an understanding of
+        both the AtomPub and Atom Syndication Format
+        specifications..</t>
+      <t>The remainder of this section provides requirements for using
+        the Atom Syndication Format and AtomPub as a RESTful binding for
+        security automation information sharing.</t>
+      <section title="Service Discovery">
+        <t>This specification requires that an implementation MUST
+          publish an Atom Service Document that describes the set of
+          security information sharing feeds that are provided.</t>
+        <t>The service document SHOULD be discoverable via the
+          organization's Web home page or another well-known public
+          resource.</t>
+        <t>The service document SHOULD (TODO: MUST?) be located at the
+          standardized location "SERVERROOT/ROLIE/servicedocument". This
+          document MAY be a link to the actual service document.</t>
+        <t>When deploying a service document for use by a closed
+          consortium, the service document MAY also be digitally signed
+          and/or encrypted, using XML DigSig and/or XML Encryption,
+          respectively.</t>
       </section>
-      <section title="Transport Layer Security" anchor="normative-transport-sec">
+      <section title="Workspaces">
+        <t>The service document MAY include multiple workspaces. Any
+          producer providing both public feeds and private feeds MUST
+          place these different classes of feeds into different
+          workspaces, and provide appropriate descriptions and naming
+          conventions to indicate the intended audience of each
+          workspace.</t>
+      </section>
+      <section title="Collections">
+        <t>An implementation MAY provide any number of collections
+          within a given Workspace. It is RECOMMENDED that each
+          collection appear in only a single Workspace.</t>
+        <t>Note that collections are represented as Atom feeds as per
+          RFC 5023.</t>
+        <t>This Atom feed definition represents a stricter definition 
+          of the Atom entry element. Any element not specified here 
+          inherits its definition and requirements from RFC 4287.</t>
+        <figure height="" suppress-title="false" width="" alt=""
+          title="" align="left">
+          <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+   atomFeed =
+      element atom:feed {
+         atomCommonAttributes,
+         (atomAuthor*
+          & atomCategory
+          & atomContributor*
+          & atomGenerator?
+          & atomIcon?
+          & atomId
+          & atomLink*
+          & atomLogo?
+          & atomRights?
+          & atomSubtitle?
+          & atomTitle
+          & atomUpdated
+          & extensionElement*),
+         atomEntry*
+      }   ]]></artwork>
+        </figure>
+        <section title="atomCategory Element">
+          <t>
+            There MUST be exactly one atomCategory element in the
+            collection. This element contains a category from the IANA
+            table as discussed in Category Mapping and the Content Model
+            Section.
+          </t>
+        </section>
+        
+      </section>
+      <section title="Entries">
+        <t>Each entry in a collection represents a single content,
+          format, and type combination. That is, every representation is
+          contained in its own Entry. This Atom entry definition
+          represents a stricter definition of the Atom entry element.
+          Any element not specified here inherits its definition and
+          requirements from RFC 4287. </t>
+
+        <figure height="" suppress-title="false" width="" alt=""
+          title="" align="left">
+          <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+  atomEntry =
+    element atom:entry {
+      atomCommonAttributes,
+      (atomAuthor*
+      & atomCategory*
+      & atomContent
+      & rolie:format
+      & atomContributor*
+      & atomId
+      & atomLink*
+      & atomPublished?
+      & atomRights?
+      & atomSource?
+      & atomSummary?
+      & atomTitle
+      & atomUpdated
+      & extensionElement*)
+  }   ]]></artwork>
+        </figure>
+
+        <section title="rolie:format Element">
+          <t>
+            There MUST be exactly one rolie:format element in the Entry.
+            This format SHOULD be one of the formats listed under the
+            category of this entry as discussed in the Category Mapping and Content
+            Model sections.
+          </t>
+        </section>
+        <section title="atomCategory Element">
+          <t>There may be zero or more atomCategory elements. The
+            content of this attribute SHOULD be one of the categories
+            discussed in the Category Mapping and Content Model sections</t>
+          <t>
+            Should no atomCategory element be present, the entry
+            inherits its category from its containing Collection.
+          </t>
+        </section>
+        <section title="atomContent Element">
+          <t>
+            There MUST be exactly one atomContent element in the entry.
+           The content element MUST adhere to this definition:
+          </t>
+          <figure height="" suppress-title="false" width="" alt=""
+            title="" align="left">
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+  atomContent =
+    element atom:content {
+      atomCommonAttributes,
+      attribute type { atomMediaType },
+      attribute src { atomUri },
+      empty
+  }   ]]></artwork>
+          </figure>
+          <t>
+            The type attribute MUST be the serialization type of the
+            content, for example, XML or JSON.
+          </t>
+        </section>
+
+      </section>
+
+
+      <section title="Transport Layer Security"
+        anchor="normative-transport-sec">
         <t>Implementations MUST support server-authenticated TLS.</t>
         <t>Implementations MAY support mutually authenticated TLS.</t>
       </section>
-      <section title="Archiving and Paging" anchor="normative-archive-page">
+      <section title="Archiving and Paging"
+        anchor="normative-archive-page">
         <t>A feed can contain an arbitrary number of entries. In some
           cases, the complete response to a given query may consist of a
           logical result set that contains a large number of entries. As
           a practical matter, the full result set will likely need to be
-          divided into more manageable portions. For example, a query may
-          produce a full result set that may need to be grouped into
-          logical pages, for purposes of rendering on a user interface.</t>
+          divided into more manageable portions. For example, a query
+          may produce a full result set that may need to be grouped into
+          logical pages, for purposes of rendering on a user
+          interface.</t>
         <t>An historical feed may need to be stable, and/or divided into
           some defined epochs. Implementations SHOULD support the
           mechanisms described in <xref target="RFC5005">Feed Paging and
@@ -289,10 +489,10 @@
           authentication MAY be enabled for specific feeds.</t>
         <t>Implementations MAY support more than one client
           authentication method.</t>
-        <t> Servers participating in an information sharing consortium
+        <t>Servers participating in an information sharing consortium
           and supporting interactive user logins by members of the
-          consortium SHOULD support client authentication via a federated
-          identity scheme as per SAML 2.0.</t>
+          consortium SHOULD support client authentication via a
+          federated identity scheme as per SAML 2.0.</t>
         <t>Implementations MAY support client authenticated TLS.</t>
       </section>
       <section title="User Authorization" anchor="normative-user-authz">
@@ -302,17 +502,15 @@
           accesses, including individual Atom Entries, Atom Feeds, and
           Atom Service Documents.</t>
         <t>Authorization for a resource MAY be adjudicated based on the
-          value(s) of the associated Atom &lt;category&gt; element(s).</t>
-        <t>Any use of the &lt;category&gt; element(s) as an input to an
-          authorization policy decision MUST include both the "scheme"
-          and "term" attributes contained therein. As described in <xref target="category-mapping"/> below, the namespace of the
-          "term" attribute is scoped by the associated "scheme"
-          attribute.</t>
+          value(s) of the associated Atom &lt;category&gt;
+          element(s).</t>
       </section>
       <section title="HTTP methods" anchor="inc-http-methods">
-        <t>The following table defines the <xref target="RFC7235">HTTP</xref>
-          uniform interface methods supported by this specification:</t>
-        <texttable anchor="http-methods-table" title="Uniform Interface for Resource-Oriented Lightweight Indicator Exchange">
+        <t>The following table defines the <xref target="RFC7235"
+            >HTTP</xref> uniform interface methods supported by this
+          specification:</t>
+        <texttable anchor="http-methods-table"
+          title="Uniform Interface for Resource-Oriented Lightweight Indicator Exchange">
           <ttcol align="left">HTTP method</ttcol>
           <ttcol align="left">Description</ttcol>
           <c>GET</c>
@@ -335,36 +533,9 @@
           <c>PATCH</c>
           <c>Support TBD.</c>
         </texttable>
-        <t>Clients MUST be capable of recognizing and prepared to process
-          any standard HTTP status code, as defined in <xref target="RFC7235"/></t>
-      </section>
-      <section title="Service Discovery">
-        <t>This specification requires that an implementation MUST
-          publish an Atom Service Document that describes the set of
-          security information sharing feeds that are provided.</t>
-        <t>The service document SHOULD be discoverable via the
-          organization's Web home page or another well-known public
-          resource.</t>
-        <t>The service document SHOULD (TODO: MUST?) be located at the
-          standardized location "SERVERROOT/ROLIE/servicedocument". This
-          document MAY be a link to the actual service document.</t>
-        <t>When deploying a service document for use by a closed
-          consortium, the service document MAY also be digitally signed
-          and/or encrypted, using XML DigSig and/or XML Encryption,
-          respectively.</t>
-        <section title="Workspaces">
-          <t>The service document MAY include multiple workspaces. Any
-            producer providing both public feeds and private feeds MUST
-            place these different classes of feeds into different
-            workspaces, and provide appropriate descriptions and naming
-            conventions to indicate the intended audience of each
-            workspace.</t>
-        </section>
-        <section title="Collections">
-          <t>An implementation MAY provide any number of collections
-            within a given Workspace. It is RECOMMENDED that each
-            collection appear in only a single Workspace.</t>
-        </section>
+        <t>Clients MUST be capable of recognizing and prepared to
+          process any standard HTTP status code, as defined in <xref
+            target="RFC7235"/></t>
       </section>
       <section title="Category Mapping" anchor="category-mapping">
         <t>TODO An Atom collection MAY hold entries from one or more
@@ -381,7 +552,8 @@
           additional Link Relation terms, which are introduced
           specifically in support of the Resource-Oriented Lightweight
           Information Exchange protocol.</t>
-        <texttable anchor="link-relations-table" title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
+        <texttable anchor="link-relations-table"
+          title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
           <ttcol align="left">Name</ttcol>
           <ttcol align="left">Description</ttcol>
           <ttcol align="left">Conformance</ttcol>
@@ -404,33 +576,15 @@
         </texttable>
         <t>Unless specifically registered with IANA these short names
           MUST be fully qualified via concatenation with a base-uri. An
-          appropriate base-uri could be established via agreement amongst
-          the members of an information sharing consortium. For example,
-          the rel="indicators" relationship would become
+          appropriate base-uri could be established via agreement
+          amongst the members of an information sharing consortium. For
+          example, the rel="indicators" relationship would become
           rel="http://www.example.org/rolie/incidents/relationships/indicators."</t>
         <t>An Atom Entry MAY include additional link relationships not
           specified here. If a client encounters a link relationship of
           an unknown type the client MUST ignore the offending link and
-          continue processing the remaining resource representation as if
-          the offending link element did not appear.</t>
-      </section>
-      <section title="Security Requirements TODO">
-        <t>AUTHOR NOTE: Authorization and Authentication requirements
-          need to be hashed out</t>
-        <t>All security measures MUST be enforced at the source, that is,
-          a provider SHALL NOT return any feed content or member entry
-          content for which the client identity has not been specifically
-          authenticated, authorized, and audited.</t>
-        <t>Sharing communities that have a requirement for forward
-          message security (such that client systems are required to
-          participate in providing message level security and/or
-          distributed authorization policy enforcement), MUST use TODO.</t>
-        <t>The implementation details of the authorization scheme chosen
-          by a ROLIE-compliant provider are out of scope for this
-          specification. Implementers are free to choose any suitable
-          authorization mechanism that is capable of fulfilling the
-          policy enforcement requirements relevant to their consortium
-          and/or organization.</t>
+          continue processing the remaining resource representation as
+          if the offending link element did not appear.</t>
       </section>
       <section title="Date Mapping">
         <t>The Atom feed &lt;updated&gt; element MUST be populated with
@@ -438,7 +592,8 @@
           generated.</t>
       </section>
       <section title="Search">
-        <t>Implementers MUST support <xref target="opensearch">OpenSearch 1.1</xref> as the mechanism for describing how
+        <t>Implementers MUST support <xref target="opensearch"
+            >OpenSearch 1.1</xref> as the mechanism for describing how
           clients may form search requests.</t>
         <t>Implementers MUST provide a link with a relationship type of
           "search". This link SHALL return an Open Search Description
@@ -465,20 +620,23 @@
           draft-reschke-http-status-308-07.txt). TODO</t>
       </section>
     </section>
-    <section title="Content Model" anchor="content-model">
+    <section title="Content and Category Model" anchor="content-model">
       <t>This specification does not require a particular content
         format, rather, it provides an IANA table of supported formats.
         Each supported category of information has a number of supported
         formats. Each format has a document describing requirements for
         implementing the representation in ROLIE, as well as use cases
-        and examples for that format. TODO: Expand</t>
+        and examples for that format.</t>
+      <t>For example consider the category of "Incidents", this category
+        is the 
+      </t>
       <t>Feed implementers MAY provide Atom categories that do not
         correspond to categories described in that IANA table, but run
         the risk of losing interoperability when doing so. Note that
         additional documents may specify mandatory-to-implement
         categories for domain-specific reasons. This draft is not
         concerned with such MTI categories.</t>
-      <t> TODO: IANA Table callouts</t>
+      <t>TODO: IANA Table callouts</t>
     </section>
     <section title="IANA Considerations TODO" anchor="sec-iana">
       <t>This document defines a resource-oriented approach to security
@@ -487,7 +645,7 @@
         identifiers (e.g. tags), incident reports, configuration
         assessment guidance, vulnerability assessment guidance, and so
         on.</t>
-      <t> This document creates the following registry for IANA to
+      <t>This document creates the following registry for IANA to
         manage: <list hangIndent="0">
           <t>Name of Registry: "Security Resource Category"</t>
           <t>Location of Registry:
@@ -565,7 +723,10 @@
         sharing consortium will depend upon the members maintaining
         adequate user authentication mechanisms.</t>
       <t>Collaborating consortiums may benefit from the adoption of a
-        federated identity solution, such as those based upon <xref target="SAML-core">SAML-core</xref> and <xref target="SAML-bind">SAML-bind</xref> and <xref target="SAML-prof">SAML-prof</xref> for Web-based
+        federated identity solution, such as those based upon <xref
+          target="SAML-core">SAML-core</xref> and <xref
+          target="SAML-bind">SAML-bind</xref> and <xref
+          target="SAML-prof">SAML-prof</xref> for Web-based
         authentication and cross-organizational single sign-on.
         Dependency on a trusted third party identity provider implies
         that appropriate care must be exercised to sufficiently secure
@@ -575,35 +736,52 @@
         identity provider that is under the control of the information
         sharing consortium, with suitably stringent technical and
         management controls.</t>
+      <t>All security measures MUST be enforced at the source, that is,
+        a provider SHALL NOT return any feed content or member entry
+        content for which the client identity has not been specifically
+        authenticated, authorized, and audited.</t>
+      <t>Sharing communities that have a requirement for forward message
+        security (such that client systems are required to participate
+        in providing message level security and/or distributed
+        authorization policy enforcement), MUST use TODO.</t>
+      <t>The implementation details of the authorization scheme chosen
+        by a ROLIE-compliant provider are out of scope for this
+        specification. Implementers are free to choose any suitable
+        authorization mechanism that is capable of fulfilling the policy
+        enforcement requirements relevant to their consortium and/or
+        organization.</t>
       <t>Authorization of resource representations is the responsibility
         of the source system, i.e. based on the authenticated user
         identity associated with an HTTP(S) request. The required
         authorization policies that are to be enforced must therefore be
         managed by the security administrators of the source system.
         Various authorization architectures would be suitable for this
-        purpose, such as <eref target="http://csrc.nist.gov/groups/SNS/rbac/">RBAC</eref>
-        and/or ABAC, as embodied in <xref target="XACML">XACML</xref>. In
-        particular, implementers adopting XACML may benefit from the
+        purpose, such as <eref
+          target="http://csrc.nist.gov/groups/SNS/rbac/">RBAC</eref>
+        and/or ABAC, as embodied in <xref target="XACML">XACML</xref>.
+        In particular, implementers adopting XACML may benefit from the
         capability to represent their authorization policies in a
         standardized, interoperable format.</t>
       <t>Additional security requirements such as enforcing
-        message-level security at the destination system could supplement
-        the security enforcements performed at the source system, however
-        these destination-provided policy enforcements are out of scope
-        for this specification. Implementers requiring this capability
-        should consider leveraging, e.g. the &lt;RIDPolicy&gt; element in
-        the RID schema. Refer to RFC6545 section 9 for more information.</t>
+        message-level security at the destination system could
+        supplement the security enforcements performed at the source
+        system, however these destination-provided policy enforcements
+        are out of scope for this specification. Implementers requiring
+        this capability should consider leveraging, e.g. the
+        &lt;RIDPolicy&gt; element in the RID schema. Refer to RFC6545
+        section 9 for more information.</t>
       <t>When security policies relevant to the source system are to be
-        enforced at both the source and destination systems, implementers
-        must take care to avoid unintended interactions of the separately
-        enforced policies. Potential risks will include unintended denial
-        of service and/or unintended information leakage. These problems
-        may be mitigated by avoiding any dependence upon enforcements
-        performed at the destination system. When distributed enforcement
-        is unavoidable, the usage of a standard language (e.g. XACML) for
-        the expression of authorization policies will enable the source
-        and destination systems to better coordinate and align their
-        respective policy expressions.</t>
+        enforced at both the source and destination systems,
+        implementers must take care to avoid unintended interactions of
+        the separately enforced policies. Potential risks will include
+        unintended denial of service and/or unintended information
+        leakage. These problems may be mitigated by avoiding any
+        dependence upon enforcements performed at the destination
+        system. When distributed enforcement is unavoidable, the usage
+        of a standard language (e.g. XACML) for the expression of
+        authorization policies will enable the source and destination
+        systems to better coordinate and align their respective policy
+        expressions.</t>
       <t>Adoption of the information sharing approach described in this
         document will enable users to more easily perform correlations
         across separate, and potentially unrelated, cyber security
@@ -642,22 +820,24 @@
   </middle>
   <back>
     <references title="Normative References"> &RFC4287; &RFC2119;
-      &RFC5070; &RFC5023; &RFC5005; &RFC7235; &RFC6546;
-      <reference
+      &RFC5070; &RFC5023; &RFC5005; &RFC7235; &RFC6546; <reference
         anchor="opensearch"
         target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
         <front>
           <title>OpenSearch 1.1 draft 5 specification</title>
-          <author initials="D." surname="Clinton" fullname="Dewitt Clinton">
-            <organization abbrev="OpenSearch">OpenSearch Community</organization>
+          <author initials="D." surname="Clinton"
+            fullname="Dewitt Clinton">
+            <organization abbrev="OpenSearch">OpenSearch
+              Community</organization>
           </author>
           <date year="2011"/>
         </front>
       </reference>
-      <reference anchor="SAML-core" target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
+      <reference anchor="SAML-core"
+        target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
         <front>
-          <title>Assertions and Protocol for the OASIS Security Assertion Markup Language
-            (SAML) V2.0</title>
+          <title>Assertions and Protocol for the OASIS Security
+            Assertion Markup Language (SAML) V2.0</title>
           <author fullname="Scott Cantor" initials="S." surname="Cantor">
             <organization>Internet2</organization>
             <address>
@@ -670,7 +850,8 @@
               <email>John.Kemp@nokia.com</email>
             </address>
           </author>
-          <author fullname="Rob Philpott" initials="R." surname="Philpott">
+          <author fullname="Rob Philpott" initials="R."
+            surname="Philpott">
             <organization>RSA Security</organization>
             <address>
               <email>rphilpott@rsasecurity.com</email>
@@ -685,16 +866,19 @@
           <date year="2005" month="March"/>
         </front>
         <seriesInfo name="OASIS Standard" value="saml-core-2.0-os"/>
-        <format type="PDF" target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf"/>
+        <format type="PDF"
+          target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf"
+        />
       </reference>
-      <reference anchor="SAML-prof" target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf">
+      <reference anchor="SAML-prof"
+        target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf">
         <front>
-          <title>Profiles for the OASIS Security Assertion Markup Language
-            (SAML) V2.0</title>
+          <title>Profiles for the OASIS Security Assertion Markup
+            Language (SAML) V2.0</title>
           <author fullname="John Hughes" initials="J." surname="Hughes">
             <organization>Altos Origin</organization>
             <address>
-              <email></email>
+              <email/>
             </address>
           </author>
           <author fullname="Scott Cantor" initials="S." surname="Cantor">
@@ -709,19 +893,22 @@
               <email>Jeff.Hodges@neustar.biz</email>
             </address>
           </author>
-          <author fullname="Frederick Hirsch" initials="F." surname="Hirsch">
+          <author fullname="Frederick Hirsch" initials="F."
+            surname="Hirsch">
             <organization>Nokia</organization>
             <address>
               <email>Frederick.Hirsch@nokia.com</email>
             </address>
           </author>
-          <author fullname="Prateek Mishra" initials="P." surname="Mishra">
+          <author fullname="Prateek Mishra" initials="P."
+            surname="Mishra">
             <organization>Principal Identity</organization>
             <address>
               <email>pmishra@principalidentity.com</email>
             </address>
           </author>
-          <author fullname="Rob Philpott" initials="R." surname="Philpott">
+          <author fullname="Rob Philpott" initials="R."
+            surname="Philpott">
             <organization>RSA Security</organization>
             <address>
               <email>rphilpott@rsasecurity.com</email>
@@ -735,20 +922,25 @@
           </author>
           <date year="2005" month="March"/>
         </front>
-        <seriesInfo name="OASIS Standard" value="OASIS.saml-profiles-2.0-os"/>
-        <format type="PDF" target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf"/>
+        <seriesInfo name="OASIS Standard"
+          value="OASIS.saml-profiles-2.0-os"/>
+        <format type="PDF"
+          target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf"
+        />
       </reference>
-      <reference anchor="SAML-bind" target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf">
+      <reference anchor="SAML-bind"
+        target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf">
         <front>
-          <title>Bindings for the OASIS Security Assertion Markup Language
-            (SAML) V2.0</title>
+          <title>Bindings for the OASIS Security Assertion Markup
+            Language (SAML) V2.0</title>
           <author fullname="Scott Cantor" initials="S." surname="Cantor">
             <organization>Internet2</organization>
             <address>
               <email>cantor.2@osu.edu</email>
             </address>
           </author>
-          <author fullname="Frederick Hirsch" initials="F." surname="Hirsch">
+          <author fullname="Frederick Hirsch" initials="F."
+            surname="Hirsch">
             <organization>Nokia</organization>
             <address>
               <email>Frederick.Hirsch@nokia.com</email>
@@ -760,7 +952,8 @@
               <email>John.Kemp@nokia.com</email>
             </address>
           </author>
-          <author fullname="Rob Philpott" initials="R." surname="Philpott">
+          <author fullname="Rob Philpott" initials="R."
+            surname="Philpott">
             <organization>RSA Security</organization>
             <address>
               <email>rphilpott@rsasecurity.com</email>
@@ -775,21 +968,26 @@
           <date year="2005" month="March"/>
         </front>
         <seriesInfo name="OASIS Standard" value="saml-bindings-2.0-os"/>
-        <format type="PDF" target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf"/>
+        <format type="PDF"
+          target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf"
+        />
       </reference>
     </references>
     <references title="Informative References">
-      <reference anchor="XACML" target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
+      <reference anchor="XACML"
+        target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
         <front>
           <title>eXtensible Access Control Markup Language (XACML)
             Version 3.0</title>
-          <author initials="E." surname="Rissanen" fullname="Erik Rissanen">
+          <author initials="E." surname="Rissanen"
+            fullname="Erik Rissanen">
             <organization/>
           </author>
           <date day="10" month="August" year="2010"/>
         </front>
       </reference>
-      <reference anchor="REST" target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
+      <reference anchor="REST"
+        target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
         <front>
           <title>Architectural Styles and the Design of Network-based
             Software Architectures</title>
@@ -801,7 +999,9 @@
           </author>
           <date year="2000"/>
         </front>
-        <format type="text/html" target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm" octets="7287"/>
+        <format type="text/html"
+          target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"
+          octets="7287"/>
       </reference>
     </references>
     <section title="Use Case Examples">
@@ -809,7 +1009,7 @@
         <t>This section provides a non-normative example of a client
           doing service discovery. TODO: Standardize location of
           doc?</t>
-        <t> An Atom service document enables a client to dynamically
+        <t>An Atom service document enables a client to dynamically
           discover what feeds a particular publisher makes available.
           Thus, a provider uses an Atom service document to enable
           clients or other authorized parties to determine what specific
@@ -910,7 +1110,7 @@
             <atom:title>Public Incidents</atom:title>
             <categories fixed="yes">
               <atom:category term="incident" />
-            </categoies>
+            </categories>
             <accept>application/atom+xml; type=entry</accept>
         </collection>            
         </workspace>
@@ -948,9 +1148,9 @@
       </section>
 
       <section title="Feed Retrieval" anchor="feed-doc">
-        <t> This section provides a non-normative example of a client
+        <t>This section provides a non-normative example of a client
           retrieving an incident feed. TODO</t>
-        <t> Having discovered the available security information sharing
+        <t>Having discovered the available security information sharing
           feeds, an authenticated and authorized client who is a member
           of the private sharing consortium may be interested in
           receiving the feed of known incidents. The client may retrieve
@@ -1053,10 +1253,10 @@
 
       <section title="Entry Retrieval" anchor="entry-doc">
 
-        <t> This section provides a non-normative example of a client
+        <t>This section provides a non-normative example of a client
           retrieving an incident as an Atom entry. TODO</t>
 
-        <t> Having retrieved the feed of interest, the client may then
+        <t>Having retrieved the feed of interest, the client may then
           decide based on the description and/or category information
           that one of the entries in the feed is of further interest.
           The client may retrieve this incident Entry by performing an
@@ -1132,12 +1332,12 @@
           document is contained within the Atom &lt;content&gt; element.
           The client may now process the XML document as needed.</t>
 
-        <t> Note also that, as described previously, the content of the
+        <t>Note also that, as described previously, the content of the
           Atom &lt;category&gt; element is application-defined. The Atom
           categories have been assigned based on the IANA table content
           model.</t>
 
-        <t> Finally, it should be noted that in order to optimize the
+        <t>Finally, it should be noted that in order to optimize the
           client experience, and avoid an additional round trip, a feed
           provider may choose to include the entry content inline, as
           part of the feed document. That is, an Atom &lt;entry&gt;
