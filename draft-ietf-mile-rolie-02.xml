@@ -381,6 +381,7 @@
       }   ]]></artwork>
         </figure>
         <section title="atomCategory Element">
+          <t>There MUST be exactly one atomCategory element in the
             collection. This element contains a category from the IANA
             table as discussed in Category Mapping and the Content Model
             Section. </t>
@@ -419,6 +420,7 @@
         </figure>
 
         <section title="rolie:format Element">
+          <t>There MUST be exactly one rolie:format element in the
             Entry. This format SHOULD be one of the formats listed under
             the category of this entry as discussed in the Category
             Mapping and Content Model sections. </t>
@@ -432,6 +434,7 @@
             inherits its category from its containing Collection. </t>
         </section>
         <section title="atomContent Element">
+          <t>There MUST be exactly one atomContent element in the
             entry. The content element MUST adhere to this definition: </t>
           <figure height="" suppress-title="false" width="" alt=""
             title="" align="left">
