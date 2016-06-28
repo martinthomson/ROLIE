@@ -338,8 +338,7 @@
           document MAY be a link to the actual service document.</t>
         <t>When deploying a service document for use by a closed
           consortium, the service document MAY also be digitally signed
-          and/or encrypted, using XML DigSig and/or XML Encryption,
-          respectively.</t>
+          and/or encrypted.</t>
       </section>
       <section title="Workspaces">
         <t>The service document MAY include multiple workspaces. Any
@@ -422,15 +421,15 @@
         <section title="rolie:format Element">
           <t>There MUST be exactly one rolie:format element in the
             Entry. This format SHOULD be one of the formats listed under
-            the category of this entry as discussed in the Category
-            Mapping and Content Model sections. </t>
+            the category of this entry as discussed in the and Content
+            Model section. The format is contained in the content of
+            this tag.</t>
         </section>
         <section title="atomCategory Element">
           <t>There may be zero or more atomCategory elements. The
             content of this attribute SHOULD be one of the categories
-            discussed in the Category Mapping and Content Model
-            sections</t>
-          <t> Should no atomCategory element be present, the entry
+            discussed in the Content Model section.</t>
+          <t>Should no atomCategory element be present, the entry
             inherits its category from its containing Collection. </t>
         </section>
         <section title="atomContent Element">
@@ -448,9 +447,18 @@
   }   ]]></artwork>
           </figure>
           <t> The type attribute MUST be the serialization type of the
-            content, for example, XML or JSON. </t>
+            content, for example, XML or JSON. The src attribute is a
+            link to the payload.</t>
         </section>
-
+        <section title="atomLink Element">
+          <t>There MAY be zero or more atomLink elements in the
+            entry. The content element MUST adhere to this definition: </t>
+          <t>The link element follows the definition laid out in the
+            Atom Syndication Document.</t>
+          <t>If there entries with the same format and category but a
+            different type, it MUST be linked to using an alternate link
+          relation.</t>
+        </section>
       </section>
 
 
@@ -497,34 +505,9 @@
           element(s).</t>
       </section>
       <section title="HTTP methods" anchor="inc-http-methods">
-        <t>The following table defines the <xref target="RFC7235"
-          >HTTP</xref> uniform interface methods supported by this
-          specification:</t>
-        <texttable anchor="http-methods-table"
-          title="Uniform Interface for Resource-Oriented Lightweight Indicator Exchange">
-          <ttcol align="left">HTTP method</ttcol>
-          <ttcol align="left">Description</ttcol>
-          <c>GET</c>
-          <c>Returns a representation of an individual member entry
-            resource, or a feed collection. </c>
-          <c>PUT</c>
-          <c>Replaces the current representation of the specified member
-            entry resource with the representation provided in the HTTP
-            request body.</c>
-          <c>POST</c>
-          <c>Creates a new instance of a member entry resource. The
-            representation of the new resource is provided in the HTTP
-            request body.</c>
-          <c>DELETE</c>
-          <c>Removes the indicated member entry resource, or feed
-            collection.</c>
-          <c>HEAD</c>
-          <c>Returns metadata about the member entry resource, or feed
-            collection, contained in HTTP response headers.</c>
-        </texttable>
-        <t>Clients MUST be capable of recognizing and prepared to
-          process any standard HTTP status code, as defined in <xref
-          target="RFC7235"/></t>
+        <t>Clients MUST be capable of recognizing and processing any
+          standard HTTP status code, as defined in <xref
+          target="RFC5023"/> Section 5</t>
       </section>
       <section title="Category Mapping" anchor="category-mapping">
         <t>TODO An Atom collection MAY hold entries from one or more
@@ -533,7 +516,7 @@
           have additional category metadata that are unique to the
           collection, and not applicable to any individual member
           entry.</t>
-        <t>For category requirements see Section 6, Content Model.</t>
+        <t>For category requirements see Section 5, Content Model.</t>
       </section>
       <section title="Link Relations">
         <t>In addition to the standard Link Relations defined by the
@@ -619,9 +602,12 @@
       <t>The general category of information as given by the "Category"
         Column in the IANA table is declared in the atomCategory element
         of the collection. The supported formats of representation of
-        the category are provided by the "Formats" column. Finally,
-        links to the specifications for the format are provided in the
-        "schema" column.</t>
+        the category are provided by the "Formats" column, and declared
+        in the rolie:format element in the entry. Finally, links to the
+        specifications for the format are provided in the "schema"
+        column. The particular serialization of a format is stored
+        within the type attribute of the content element in the
+        entry.</t>
       <t>Feed implementers MAY provide Atom categories that do not
         correspond to categories described in that IANA table, but run
         the risk of losing interoperability when doing so. Note that
