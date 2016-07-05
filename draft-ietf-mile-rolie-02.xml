@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-  <!ENTITY RFC4287 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4287.xml">
+  <!ENTITY xml-names SYSTEM "http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-xml-names-20091208.xml">
   <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+  <!ENTITY RFC2141 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2141.xml">
+  <!ENTITY RFC3444 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3444.xml">
+  <!ENTITY RFC3688 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3688.xml">
+  <!ENTITY RFC4287 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4287.xml">
   <!ENTITY RFC5070 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5070.xml">
   <!ENTITY RFC5023 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5023.xml">
   <!ENTITY RFC5005 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5005.xml">
   <!ENTITY RFC7235 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7235.xml">
+  <!ENTITY RFC6545 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6545.xml">
   <!ENTITY RFC6546 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6546.xml">
+  <!ENTITY RFC5070bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rfc5070-bis-25.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200902" category="info"
@@ -49,13 +55,28 @@
         <email>sab3@nist.gov</email>
       </address>
     </author>
-    <date month="June" day="6" year="2016"/>
+    <author fullname="David Waltermire" initials="D.W." surname="Waltermire">
+      <organization abbrev="NIST">National Institute of Standards and Technology</organization>
+      
+      <address>
+        <postal>
+          <street>100 Bureau Drive</street>
+          <city>Gaithersburg</city>
+          <region>Maryland</region>
+          <code>20877</code>
+          <country>USA</country>
+        </postal>
+        <phone/>
+        <email>david.waltermire@nist.gov</email>
+      </address>
+    </author>
+    <date year="2016"/>
     <area>Security</area>
     <workgroup>MILE Working Group</workgroup>
     <abstract>
       <t>This document defines a resource-oriented approach for security
-        automation information discovery and sharing. Using this
-        approach, producers may publish, share and exchange
+        automation information publication, discovery, and sharing.
+        Using this approach, producers may publish, share and exchange
         representations of security incidents, attack indicators,
         software vulnerabilities, configuration checklists, and other
         security automation information as Web-addressable resources.
@@ -81,31 +102,32 @@
     <section title="Introduction" anchor="starting-intro">
       <t>This document defines a resource-oriented approach to security
         automation information sharing that follows the <xref
-        target="REST" format="title" pageno="false">REST</xref>
+          target="REST" format="title" pageno="false">REST</xref>
         architectural style. In this approach, computer security
         resources are maintained in web-accessible repositories
         structured as <xref target="RFC4287">Atom Syndication
-        Format</xref> feeds. Representations of content are categorized
-        and organized into indexed collections, which are requested by
-        the consumer. As the set of resource collections are forward
-        facing, the consumer may search all available content for which
-        they are authorized to view and request that which is desired.
-        Through use of granular authentication and access controls, only
-        authorized consumers may be permitted the ability to view, read,
-        or write to a given feed. This approach is in contrast to, and
-        meant to improve on, the traditional point-to-point messaging
-        system, in which consumers must request individual pieces of
-        information from a server following a triggering event. The
-        point-to-point approach creates a closed system of information
-        sharing that encourages duplication of effort and hinders
-        automated security systems.</t>
+          Format</xref> feeds. Representations of specific types of
+        security automation information are categorized and organized
+        into indexed collections, which may be requested by the
+        consumer. As the set of resource collections are forward facing,
+        the consumer may search all available content for which they are
+        authorized to view, and request the information resources which
+        are desired. Through use of granular authentication and access
+        controls, only authorized consumers may be permitted the ability
+        to read or write to a given feed. This approach is in contrast
+        to, and meant to improve on, the traditional point-to-point
+        messaging system, in which consumers must request individual
+        pieces of information from a server following a triggering
+        event. The point-to-point approach creates a closed system of
+        information sharing that encourages duplication of effort and
+        hinders automated security systems.</t>
       <t>The goal of this document is to define a RESTful approach to
         security information communication with two primary intents: 1)
         increasing communication and sharing of incident reports,
         vulnerability assessments, configuration checklists, and other
-        security automation information between producers, operators,
-        and consumers; and 2) establishing a standardized communication
-        system to support automated computer security systems.</t>
+        security automation information between providers and consumers;
+        and 2) establishing a standardized communication system to
+        support automated computer security systems.</t>
       <t>In order to deal with the great variety in security automation
         information types and associated resource representations, this
         specification defines extension points that can be used to add
@@ -116,7 +138,7 @@
         all implementations. Those seeking to provide support for
         specific security automation information types should refer to
         the specification for that format described by the IANA registry
-        found in section TODO.</t>
+        found in section <xref target="iana-information-type" format="counter"/>.</t>
     </section>
     <section title="Terminology" anchor="ext-terminology">
       <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL
@@ -126,23 +148,38 @@
         computer security-related terminology used in this document can
         be found in Section 2 of <xref target="RFC5070"/>.</t>
     </section>
+    <section title="XML-related Conventions">
+      <section title="XML Namespaces">
+        <t>This specification uses XML Namespaces <xref target="W3C.REC-xml-names-20091208"/> to uniquely identify XML element names.  It uses the following namespace prefix mappings for the indicated namespace URI:<list>
+          <t>"app" is used for the "http://www.w3.org/2007/app" namespace defined in <xref target="RFC5023"/>.</t>
+          <t>"atom" is used for the "http://www.w3.org/2005/Atom" namespace defined in <xref target="RFC4287"/>.</t>
+        <!-- TODO: Add IANA entry for http://www.iana.org/assignments/xml-registry/xml-registry.xhtml#ns -->
+        <t>"rolie" is used for the "urn:ietf:params:xml:ns:rolie:1.0" namespace defined in section <xref target="iana-urn" format="counter"/> of this specification.</t>
+        </list></t>
+      </section>
+      <section title="RELAX NG Schema">
+        <t>Some sections of this specification are illustrated with fragments of a non-normative RELAX NG Compact schema <xref target="relax-NG"/>.  However, the text of this specification provides the definition of conformance.  Complete schemas appear for the "urn:ietf:params:xml:ns:rolie-1.0" namespace in appendix <xref target="appendix-schema" format="counter"/>. Schema for the "http://www.w3.org/2007/app" and "http://www.w3.org/2005/Atom" namespaces appear in <xref target="RFC5023">RFC5023 appendix B</xref> and <xref target="RFC4287">RFC4287 appendix B</xref> respectively.</t>
+      </section>
+    </section>
     <section title="Background and Motivation" anchor="back-motive">
-      <t>It is well known that the field of threats to computer security
-        is evolving ever more rapidly as time goes on. As software
-        increases in complexity, the number of vulnerabilities in
-        systems and networks can increase exponentially. Threat actors
-        looking to exploit these vulnerabilities are making more
-        frequent and more widely distributed attacks across a large
-        variety of systems. The adoption of liberal information sharing
-        amongst attackers creates a window of as little as a few hours
-        between the discovery of a vulnerability and attacks on a
-        vulnerable system. As the skills and knowledge required to
-        identify and combat these attacks become more and more
-        specialized, even a well established and secure system may find
-        itself unable to quickly respond to an incident. Effective
-        identification of and response to a sophisticated attack
-        requires open cooperation and collaboration between defending
-        operators, software vendors, and end-users.</t>
+      <t>It is well known thatthreats to computer security are evolving
+        ever more rapidly as time goes on. As software increases in
+        complexity, the number of vulnerabilities in systems and
+        networks can increase exponentially. Threat actors looking to
+        exploit these vulnerabilities are making more frequent and more
+        widely distributed attacks across a large variety of systems.
+        The adoption of liberal information sharing amongst attackers
+        creates a window of as little as a few hours between the
+        discovery of a vulnerability and attacks on a vulnerable system.
+        As the skills and knowledge required to identify and combat
+        these attacks become more and more specialized, even a well
+        established and secure system may find itself unable to quickly
+        respond to an incident. Effective identification of and response
+        to a sophisticated attack requires open cooperation and
+        collaboration between defending operators, software vendors, and
+        end-users. To improve the timeliness of responses, automation
+        must be used to acquire, contextualize, and put to use shared
+        computer security information.</t>
       <t>Existing approaches to computer security information sharing
         often use message exchange patterns that are point-to-point, and
         event-driven. Sometimes, information that may be useful to share
@@ -194,7 +231,7 @@
           following paragraphs explore some of the architectural
           constraints associated with message-oriented interactions and
           consider the relative merits of an alternative model based on
-          a Resource-oriented architecture for use in some use case
+          a resource-oriented architecture for use in some use case
           scenarios.</t>
         <t>ROLIE specifies a resource-oriented architecture that
           attempts to address the issues present in a message-oriented
@@ -202,7 +239,7 @@
         <section title="Message-oriented Architecture" anchor="message">
           <t>In general, message-based integration architectures may be
             based upon either an RPC-style or a document-style binding.
-            The message types defined by RID represent an example of an
+            The message types defined by <xref target="RFC6545">Real-time Inter-network Defense (RID)</xref> represents an example of an
             RPC-style request. This approach imposes implied
             requirements for conversational state management on both of
             the communicating RID endpoint(s). Experience has shown that
@@ -291,69 +328,188 @@
           </section>
         </section>
       </section>
+      <section title="Use of the Atom Publishing Protocol">
+        <t>This specification defines a profile of the <xref target="RFC5023">Atom Publishing Protocol (AtomPub)</xref> and <xref target="RFC4287">Atom Syndication Format</xref> providing implementation requirements for a security information sharing solution as a RESTful Web service.</t>
+        <t>This document assumes that the reader has an understanding of
+          both the AtomPub and Atom Syndication Format
+          specifications.</t>
+        <t>The following two sections of this document provide requirements for using
+          the Atom Syndication Format and AtomPub as a RESTful binding for
+          security automation information sharing.</t>
+      </section>
     </section>
-    <section
-      title="Normative Requirements for Use of the Atom Publishing Protocol and Atom Syndication Format TODO"
-      anchor="atom">
-      <t>This section specifies the use of the Atom Syndication Format
-        and Atom Publishing Protocol (AtomPub) as the mechanism for
-        implementing a RESTful architecture</t>
-      <t>As described in <xref target="RFC5023">AtomPub</xref> section
-        8, a Service Document is an XML-based document format that
-        allows a client to dynamically discover the collections provided
-        by a publisher.</t>
-      <t>As described in <xref target="RFC4287">Atom Syndication
-        Format</xref>, an Atom feed is an XML-based document format that
-        describes a list of related information items, also known as a
-        collection. Each feed document contains a collection of zero or
-        more related information items individually called a "member
-        entry" or "entry".</t>
-      <t>When applied to the problem domain of security automation
-        information sharing, an Atom feed may be used to represent any
-        meaningful collection of information resources including a set
-        of configuration checklists or software vulnerabilities. Each
-        entry in a feed represents an individual resource, such as a
-        specific checklist or software vulnerability record. Additional
-        feeds could be used to represent collections of other meaningful
-        and useful security automation resources. A feed may be
-        categorized and may contain information from zero or more
-        categories. The naming scheme and the semantic meaning of the
-        terms used to identify an Atom category are
-        application-defined.</t>
-      <t>This document assumes that the reader has an understanding of
-        both the AtomPub and Atom Syndication Format
-        specifications..</t>
-      <t>The remainder of this section provides requirements for using
-        the Atom Syndication Format and AtomPub as a RESTful binding for
-        security automation information sharing.</t>
+
+    <section title="ROLIE Requirements for the Atom Publishing Protocol" anchor="atompub">
+      <t>This section describes a number of restrictions of and extensions to the <xref target="RFC5023">Atom Publishing Protocol (AtomPub)</xref> that define the use of that protocol in the context of a ROLIE-based solution.</t>
+      <section title="AtomPub Service Documents" anchor="atompub-service">
+        <t>As described in <xref target="RFC5023">RFC5023 section
+          8</xref>, a Service Document is an XML-based document format that
+          allows a client to dynamically discover the collections
+          provided by a publisher. A Service Document consists of one or
+          more app:workspace elements that may each contain a number of
+          app:collection elements.</t>
+        <t>The general structure of a service document is as follows (from <xref target="RFC5023">RFC5023 section 4.2</xref>):</t>
+        <figure>
+          <artwork><![CDATA[
+     Service
+        o- Workspace
+        |    |
+        |    o- Collection
+        |         |
+        |         o- IRI, categories, media types
+        |
+        o- Workspace
+             |
+             o- Collection
+                  |
+                  o- IRI, categories, media types
+            ]]></artwork>
+        </figure>
+        
+        <section title="Use of the &quot;app:workspace&quot; Element" anchor="atompub-service-workspace">
+          <t>In AtomPub, a Workspace, represented by the "app:workspace"
+            element, describes a group of one or more Collections.
+            Building on the AtomPub concept of a Workspace, in ROLIE a
+            Workspace represents an aggregation of Collections
+            pertaining to security automation information resources.
+            This specification does not impose any restrictions on the
+            number of Workspaces that may be in a Service Document or
+            the specific Collections to be provided within a given
+            Workspace.</t>
+          <t>The following restrictions are imposed on the use of the app:workspace element in ROLIE:<list style="symbols">
+            <t>A ROLE repository can host Collections containing both
+              public and private information entries. It is RECOMMENDED
+              that public and private collections be segregated into
+              different Workspaces. By doing this, Workspaces that contain
+              private information can be ignored by clients.</t>
+            <t>Appropriate descriptions and naming conventions SHOULD be
+              used to indicate the intended audience of each workspace.
+              This helps to facilitate the selection of appropriate
+              Workspaces by clients.</t>
+            <t>An implementation can provide any number of Collections
+              within a given Workspace. It is RECOMMENDED that each
+              collection appear in only a single Workspace. This helps to
+              reduce the number of duplicate collections that need to be
+              examined to discover information that is relevant to a given
+              client.</t>
+          </list></t>
+        </section>
+        <section title="Use of the &quot;app:collection&quot; Element" anchor="atompub-service-collection">
+          <t>In AtomPub, a Collection in a Service Document, represented
+            by the "app:collection" element, provides metadata that can
+            be used to point to a specific Atom Feed that contains
+            information Entries that may be of interest to a client. The
+            association between a Collection and a Feed is provided by
+            the "href" attribute of the app:collection element. Building
+            on the AtomPub concept of a Collection, in ROLIE a
+            Collection represents a pointer to a group of security
+            automation information resources pertaining to a given type
+            of security automation information. Collections are
+            represented as Atom feeds as per RFC 5023. Feed specific
+            requirements are defined in section <xref
+              target="atom-synd-feed" format="counter"/>.</t>
+          
+          <t>The following restrictions are imposed on the use of the app:collection element for ROLIE:<list style="symbols">
+            <t>The atom:category elements contained in the app:categories element MUST be the same set of atom:categories used in the Atom Feed indicated by the app:collection "href" attribute value. This ensures that the category metadata associated with the Feed is discoverable in the corresponding Collection in the Service Document.</t>
+            <t>An app:collection pertaining to a security automation information resource Feed MUST contain an app:categories element that minimally contains a single atom:category element with the "scheme" attribute value of "urn:ietf:params:rolie:information-type". This category MUST have an appropriate "term" attribute value as defined in section <xref target="category-information-type" format="counter"/>. This ensures that a given Collection corresponds to a specific type of security automation information.</t>
+            <t>Any app:collection element that does not contain a descendant atom:category element with the "scheme" attribute value of "urn:ietf:params:rolie:information-type" MUST be considered a non-ROLIE Collection. This allows Collections pertaining to security automation information to co-exist alongside Collections of other non-ROLIE information within the same AtomPub instance.</t>
+            <t>The app:categories element in an app:collection may include additional atom:category elements using a scheme other than "urn:ietf:params:rolie:information-type". This allows other category metadata to be included.</t>
+          </list></t>
+        </section>
+      </section>
       <section title="Service Discovery">
         <t>This specification requires that an implementation MUST
           publish an Atom Service Document that describes the set of
-          security information sharing feeds that are provided.</t>
+          security information sharing collections that are provided by the repository.</t>
+        <!-- Discoverable how? This level of specificity does not really do anything for discovery-->
         <t>The service document SHOULD be discoverable via the
           organization's Web home page or another well-known public
-          resource.</t>
+          resource. An example of this can be found in appendix <xref target="svc-doc" format="counter"/>.</t>
         <t>The service document SHOULD (TODO: MUST?) be located at the
-          standardized location "SERVERROOT/ROLIE/servicedocument". This
-          document MAY be a link to the actual service document.</t>
+          standardized location
+          "https://{host:port}/rolie/servicedocument", where {host:port}
+          is the authority portion of the URI. Dereferencing this URI
+          MAY result in a redirect based on a HTTP 3xx status code to
+          direct the client to the actual service document. This allows
+          clients to have a well-known location to find a ROLIE service
+          document, while giving implmentations flexibility over how the
+          service is deployed.</t>
         <t>When deploying a service document for use by a closed
           consortium, the service document MAY also be digitally signed
-          and/or encrypted.</t>
+          and/or encrypted.<!-- reference the specs for this --></t>
       </section>
-      <section title="Workspaces">
-        <t>The service document MAY include multiple workspaces. Any
-          producer providing both public feeds and private feeds MUST
-          place these different classes of feeds into different
-          workspaces, and provide appropriate descriptions and naming
-          conventions to indicate the intended audience of each
-          workspace.</t>
+      
+      <section title="Transport Layer Security"
+        anchor="normative-transport-sec">
+        <!-- This section needs to be more descriptive-->
+        <t>Implementations MUST support server-authenticated TLS.</t>
+        <t>Implementations MAY support mutually authenticated TLS.</t>
+        <t>Implementations MAY support client authenticated TLS.</t>
       </section>
-      <section title="Collections">
-        <t>An implementation MAY provide any number of collections
-          within a given Workspace. It is RECOMMENDED that each
-          collection appear in only a single Workspace.</t>
-        <t>Note that collections are represented as Atom feeds as per
-          RFC 5023.</t>
+
+      <section title="User Authentication" anchor="normative-user-auth">
+        <t>Implementations MUST support user authentication. User
+          authentication MAY be enabled for specific feeds.</t>
+        <t>Implementations MAY support more than one client
+          authentication method.</t>
+        <t>Servers participating in an information sharing consortium
+          and supporting interactive user logins by members of the
+          consortium SHOULD support client authentication via a
+          federated identity scheme as per SAML 2.0.</t>
+      </section>
+      <section title="User Authorization" anchor="normative-user-authz">
+        <t>This document does not mandate the use of any specific user
+          authorization mechanisms. However, service implementers SHOULD
+          provide appropriate authorization checking for all resource
+          accesses, including individual Atom Entries, Atom Feeds, and
+          Atom Service Documents.</t>
+        <t>Authorization for a resource MAY be adjudicated based on the
+          value(s) of the associated Atom &lt;category&gt;
+          element(s).</t>
+      </section>
+      <section title="/ (forward slash) Resource URL" anchor="rid-ref">
+        <!-- Should this be moved to the CSIRT document? -->
+        <t>The "/" resource MAY be provided for compatibility with
+          existing deployments that are using <xref target="RFC6546">
+            Transport of Real-time Inter-network Defense (RID) Messages
+            over HTTP/TLS</xref>. Consistent with RFC6546 errata, a client
+          requesting a GET on "/" MUST receive an HTTP status code 405
+          Method Not Allowed. An implementation MAY provide full support
+          for RFC6546 such that a POST to "/" containing a recognized
+          RID message type just works. Alternatively, a client
+          requesting a POST to "/" MAY receive an HTTP status code 307
+          Temporary Redirect. In this case, the location header in the
+          HTTP response will provide the URL of the appropriate RID
+          endpoint, and the client may repeat the POST method at the
+          indicated location. This resource could also leverage the new
+          draft by reschke that proposes HTTP status code 308 (cf:
+          draft-reschke-http-status-308-07.txt). TODO</t>
+      </section>
+      
+      <section title="HTTP methods" anchor="inc-http-methods">
+        <t>Clients MUST be capable of recognizing and processing any
+          standard HTTP status code, as defined in <xref
+            target="RFC5023"/> Section 5</t>
+      </section>
+      
+    </section>
+
+    <section title="ROLIE Requirements for the Atom Syndication Format" anchor="atom-synd">
+      <t>This section describes a number of restrictions of and extensions to the <xref target="RFC4287">Atom Syndication Format</xref> that define the use of that format in the context of a ROLIE-based solution.</t>
+      <section title="Use of the &quot;atom:feed&quot; element" anchor="atom-synd-feed">
+        <t>As described in <xref target="RFC4287">RFC4287 section 4.1.1</xref>, an Atom Feed is an XML-based document format that
+          describes a list of related information items, also known as a
+          collection. Each Feed document, represented using the atom:feed element, contains a collection of zero or
+          more related information items individually called a "member
+          entry" or "entry".</t>
+        <t>When applied to the problem domain of security automation
+          information sharing, an Atom Feed may be used to represent any
+          meaningful collection of security automation information resources including a set
+          of configuration checklists or software vulnerabilities. Each
+          entry in an atom:feed represents an individual resource, such as a
+          specific checklist or software vulnerability record. Additional
+          Feeds can be used to represent collections of other meaningful
+          and useful security automation resources.</t>
         <t>This Atom feed definition represents a stricter definition of
           the Atom entry element. Any element not specified here
           inherits its definition and requirements from RFC 4287.</t>
@@ -364,7 +520,7 @@
       element atom:feed {
          atomCommonAttributes,
          (atomAuthor*
-          & atomCategory
+          & atomCategory+
           & atomContributor*
           & atomGenerator?
           & atomIcon?
@@ -377,23 +533,61 @@
           & atomUpdated
           & extensionElement*),
          atomEntry*
-      }   ]]></artwork>
+      }]]></artwork>
         </figure>
-        <section title="atomCategory Element">
-          <t>There MUST be exactly one atomCategory element in the
-            collection. This element contains a category from the IANA
-            table as discussed in Category Mapping and the Content Model
-            Section. </t>
+        <section title="Use of the &quot;atom:category&quot; Element" anchor="atom-synd-feed-category">
+          <t>An atom:feed may be categorized and may contain information from zero or more categories. In Atom the naming scheme and the semantic meaning of the terms used to identify an Atom category are application-defined.</t>
+          <t>The following restrictions are imposed on the use of the atom:category element when used in a ROLIE atom:feed:<list style="symbols">
+            <t>An atom:feed element MUST minimally contain a single atom:category element with the "scheme" attribute value of "urn:ietf:params:rolie:information-type". This category MUST have an appropriate "term" attribute value as defined in section <xref target="category-information-type" format="counter"/>. This ensures that a given Collection corresponds to a specific type of security automation information. All member entries in the collection MUST represent security automation information records of this information type.</t>
+            <t>Any atom:feed element that does not contain a child atom:category element with the "scheme" attribute value of "urn:ietf:params:rolie:information-type" MUST NOT be considered a ROLIE Collection. This allows Feeds pertaining to security automation information to co-exist alongside Feeds of other non-ROLIE information within the same AtomPub instance.</t>
+            <t>An atom:feed may include additional atom:category elements using a scheme other than "urn:ietf:params:rolie:information-type". This allows other category metadata to be included.</t>
+          </list></t>
         </section>
-
+        <section title="Use of the &quot;atom:link&quot; Element" anchor="atom-synd-feed-link">
+          <t>Link relations defined by the atom:link element are used to represent state transitions using a stateless approach. In Atom a type of link relationship can be defined using the "rel" attribute. The following are link relations that provide state transitions related to a ROLIE Atom feed.<list style="symbols">
+              <t>"service" - Indicates that the href value of the link identifies a resource IRI that can be used to retrieve an Atom Service Document associated with the feed. A feed MUST include one or more links with rel="service" to point to the service document(s) that are associated with the feed. The "service" link relationship type is defined in the <eref target="https://www.iana.org/assignments/link-relations/link-relations.xhtml">IANA Link Relations Registry</eref>.</t>
+              <t>"search" - Indicates that the href value of the link identifies a resource IRI that can be used to search through the containing feed and related resources. A feed MAY include one or more links with rel="search" to point TBD.<!-- Figure out search --> The "search" link relationship type is defined in the <eref target="https://www.iana.org/assignments/link-relations/link-relations.xhtml">IANA Link Relations Registry</eref>.</t>
+            </list>
+          </t>
+          <t>An atom:feed MAY include additional link relationships not specified in this document. If a client encounters an unknown link relationship type, the client MUST ignore the unrecognized link and continue processing the remaining resource representation as if the unrecognized link element did not appear.</t>
+          <t>The <xref target="RFC5005">Feed Paging and
+            Archiving</xref> Atom extension provides capabilities for paging and
+          archiving of feeds.</t> 
+          <t>A atom:feed can contain an arbitrary number of entries. In some cases, a complete feed may consist of a large number of entries. Additionally, as new and updated entries are ordered at the beginning of a feed, a client may only be interested in retriving the first X entries in a feed to process only the entries that have changed since the last access to a ROLIE repository feed. As a practical matter, the full result set will likely need to be divided into more manageable portions. Based on <xref target="RFC5005">RFC5005 section 3</xref>, the links SHOULD be included in all feeds to support paging using the following link relation types:<list style="symbols">
+            <t>"first" - Indicates that the href value of the link identifies a resource IRI for the furthest preceding page of the feed.</t>
+            <t>"last" - Indicates that the href value of the link identifies a resource IRI for the furthest following page of the feed.</t>
+            <t>"previous" - Indicates that the href value of the link identifies a resource IRI for the immediately preceeding page of the feed.</t>
+            <t>"next" - Indicates that the href value of the link identifies a resource IRI for the immediately following page of the feed.</t>
+            </list>
+          </t>
+          
+          <t>For example:</t>
+          <figure height="" suppress-title="false" width="" alt=""
+            title="Example Paged Feed" align="left">
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+  <?xml version="1.0" encoding="UTF-8"?>
+  <feed xmlns="http://www.w3.org/2005/Atom">
+      <title>Paged Feed</title>
+      <link rel="self" href="http://example.org/feedA?page=5"/>
+      <link rel="first" href="http://example.org/feedA?page=1"/>
+      <link rel="prev" href="http://example.org/feedA?page=4"/>
+      <link rel="next" href="http://example.org/feedA?page=6"/>
+      <link rel="last" href="http://example.org/feedA?page=10"/>
+      <updated>2012-05-04T18:13:51.0Z</updated> 
+      
+      <!-- remainder of feed elements -->
+  </feed>   ]]></artwork>
+          </figure>
+          
+          <t>An historical feed may need to be stable, and/or divided into some defined epochs. Implementations SHOULD support the mechanisms described in <xref target="RFC5005">RFC5005 section 4</xref> to provide capabilities for maintaining archiving of feeds.</t>
+        </section>
+        <section title="Use of the &quot;atom:updated&quot; Element" anchor="atom-synd-feed-updated">
+          <t>The atom:updated element MUST be populated with the current time at the instant the feed representation was last updated by adding, updating, or deleting an entry; or changing any metadata for the feed.</t>
+        </section>
       </section>
-      <section title="Entries">
-        <t>Each entry in a collection represents a single content,
-          format, and type combination. That is, every representation is
-          contained in its own Entry. This Atom entry definition
-          represents a stricter definition of the Atom entry element.
-          Any element not specified here inherits its definition and
-          requirements from RFC 4287. </t>
+      <section title="Use of the  &quot;atom:entry&quot; Element" anchor="atom-synd-entry">
+        <t>Each entry in an Atom feed, represented by the atom:entry element, describes a single information record, format, and type combination. The following atom:entry schema definition
+          represents a stricter representation of the atom:entry element defined in RFC 4287 for use in a ROLE-based Atom Feed.</t>
 
         <figure height="" suppress-title="false" width="" alt=""
           title="" align="left">
@@ -404,7 +598,6 @@
       (atomAuthor*
       & atomCategory*
       & atomContent
-      & rolie:format
       & atomContributor*
       & atomId
       & atomLink*
@@ -414,25 +607,12 @@
       & atomSummary?
       & atomTitle
       & atomUpdated
+      & rolieFormat
       & extensionElement*)
   }   ]]></artwork>
         </figure>
 
-        <section title="rolie:format Element">
-          <t>There MUST be exactly one rolie:format element in the
-            Entry. This format SHOULD be one of the formats listed under
-            the category of this entry as discussed in the and Content
-            Model section. The format is contained in the content of
-            this tag.</t>
-        </section>
-        <section title="atomCategory Element">
-          <t>There may be zero or more atomCategory elements. The
-            content of this attribute SHOULD be one of the categories
-            discussed in the Content Model section.</t>
-          <t>Should no atomCategory element be present, the entry
-            inherits its category from its containing Collection. </t>
-        </section>
-        <section title="atomContent Element">
+        <section title="Use of the &quot;atom:content&quot; Element" anchor="atom-synd-entry-content">
           <t>There MUST be exactly one atomContent element in the
             entry. The content element MUST adhere to this definition: </t>
           <figure height="" suppress-title="false" width="" alt=""
@@ -446,77 +626,36 @@
       empty
   }   ]]></artwork>
           </figure>
-          <t> The type attribute MUST be the serialization type of the
+          <t>The type attribute MUST be the serialization type of the
             content, for example, XML or JSON. The src attribute is a
             link to the payload.</t>
+          <!-- Discuss complex types -->
         </section>
-        <section title="atomLink Element">
-          <t>There MAY be zero or more atomLink elements in the
-            entry. The content element MUST adhere to this definition: </t>
+        <section title="Use of the &quot;atom:link&quot; Element" anchor="atom-synd-entry-link">
+          <t>There MAY be zero or more atom:link elements in the
+            entry. The content element MUST adhere to this definition:</t>
           <t>The link element follows the definition laid out in the
             Atom Syndication Document.</t>
           <t>If there entries with the same format and category but a
-            different type, it MUST be linked to using an alternate link
+            different type, it MUST be linked to using the "alternate" link
           relation.</t>
+          <!--
+          <c>history (use version-history and/or next-archive, prev-archive, and current: keep?)</c>
+          <c>Provides a link to a collection of zero or more historical
+            entries that are associated with the resource.</c>
+          <c>information (not sure what this does: keep?)</c>
+          <c>Provides a link to a collection of zero or more instances
+            of information that are associated with the resource.</c>
+            </texttable>
+            -->
         </section>
-      </section>
-
-
-      <section title="Transport Layer Security"
-        anchor="normative-transport-sec">
-        <t>Implementations MUST support server-authenticated TLS.</t>
-        <t>Implementations MAY support mutually authenticated TLS.</t>
-      </section>
-      <section title="Archiving and Paging"
-        anchor="normative-archive-page">
-        <t>A feed can contain an arbitrary number of entries. In some
-          cases, the complete response to a given query may consist of a
-          logical result set that contains a large number of entries. As
-          a practical matter, the full result set will likely need to be
-          divided into more manageable portions. For example, a query
-          may produce a full result set that may need to be grouped into
-          logical pages, for purposes of rendering on a user
-          interface.</t>
-        <t>An historical feed may need to be stable, and/or divided into
-          some defined epochs. Implementations SHOULD support the
-          mechanisms described in <xref target="RFC5005">Feed Paging and
-          Archiving</xref> to provide capabilities for paging and
-          archiving of feeds.</t>
-      </section>
-      <section title="User Authentication" anchor="normative-user-auth">
-        <t>Implementations MUST support user authentication. User
-          authentication MAY be enabled for specific feeds.</t>
-        <t>Implementations MAY support more than one client
-          authentication method.</t>
-        <t>Servers participating in an information sharing consortium
-          and supporting interactive user logins by members of the
-          consortium SHOULD support client authentication via a
-          federated identity scheme as per SAML 2.0.</t>
-        <t>Implementations MAY support client authenticated TLS.</t>
-      </section>
-      <section title="User Authorization" anchor="normative-user-authz">
-        <t>This document does not mandate the use of any specific user
-          authorization mechanisms. However, service implementers SHOULD
-          provide appropriate authorization checking for all resource
-          accesses, including individual Atom Entries, Atom Feeds, and
-          Atom Service Documents.</t>
-        <t>Authorization for a resource MAY be adjudicated based on the
-          value(s) of the associated Atom &lt;category&gt;
-          element(s).</t>
-      </section>
-      <section title="HTTP methods" anchor="inc-http-methods">
-        <t>Clients MUST be capable of recognizing and processing any
-          standard HTTP status code, as defined in <xref
-          target="RFC5023"/> Section 5</t>
-      </section>
-      <section title="Category Mapping" anchor="category-mapping">
-        <t>TODO An Atom collection MAY hold entries from one or more
-          categories. The collection category set MUST contain at least
-          the union of all the member entry categories. A collection MAY
-          have additional category metadata that are unique to the
-          collection, and not applicable to any individual member
-          entry.</t>
-        <t>For category requirements see Section 5, Content Model.</t>
+        <section title="Use of the &quot;rolie:format&quot; Element" anchor="atom-synd-entry-rolie-format">
+          <t>There MUST be exactly one rolie:format element in the
+            Entry. This format SHOULD be one of the formats listed under
+            the category of this entry as discussed in the and Content
+            Model section. The format is contained in the content of
+            this tag.</t>
+        </section>
       </section>
       <section title="Link Relations">
         <t>In addition to the standard Link Relations defined by the
@@ -524,6 +663,7 @@
           additional Link Relation terms, which are introduced
           specifically in support of the Resource-Oriented Lightweight
           Information Exchange protocol.</t>
+        <!--
         <texttable anchor="link-relations-table"
           title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
           <ttcol align="left">Name</ttcol>
@@ -552,70 +692,89 @@
           amongst the members of an information sharing consortium. For
           example, the rel="indicators" relationship would become
           rel="http://www.example.org/rolie/incidents/relationships/indicators."</t>
+          
         <t>An Atom Entry MAY include additional link relationships not
           specified here. If a client encounters a link relationship of
           an unknown type the client MUST ignore the offending link and
           continue processing the remaining resource representation as
           if the offending link element did not appear.</t>
-      </section>
-      <section title="Date Mapping">
-        <t>The Atom feed &lt;updated&gt; element MUST be populated with
-          the current time at the instant the feed representation was
-          generated.</t>
-      </section>
-      <section title="Search">
-        <t>Implementers MUST support <xref target="opensearch"
-          >OpenSearch 1.1</xref> as the mechanism for describing how
-          clients may form search requests.</t>
-        <t>Implementers MUST provide a link with a relationship type of
-          "search". This link SHALL return an Open Search Description
-          Document as defined in OpenSearch 1.1.</t>
-        <t>Implementers MUST fully qualify all OpenSearch URL template
-          parameter names using the defined XML namespaces, as
-          appropriate.</t>
-      </section>
-      <section title="/ (forward slash) Resource URL" anchor="rid-ref">
-        <t>The "/" resource MAY be provided for compatibility with
-          existing deployments that are using <xref target="RFC6546">
-          Transport of Real-time Inter-network Defense (RID) Messages
-          over HTTP/TLS</xref>. Consistent with RFC6546 errata, a client
-          requesting a GET on "/" MUST receive an HTTP status code 405
-          Method Not Allowed. An implementation MAY provide full support
-          for RFC6546 such that a POST to "/" containing a recognized
-          RID message type just works. Alternatively, a client
-          requesting a POST to "/" MAY receive an HTTP status code 307
-          Temporary Redirect. In this case, the location header in the
-          HTTP response will provide the URL of the appropriate RID
-          endpoint, and the client may repeat the POST method at the
-          indicated location. This resource could also leverage the new
-          draft by reschke that proposes HTTP status code 308 (cf:
-          draft-reschke-http-status-308-07.txt). TODO</t>
+          -->
+        <t>TODO: This section needs to be expanded.</t>
       </section>
     </section>
-    <section title="Content and Category Model" anchor="content-model">
-      <t>This specification does not require a particular content
-        format, rather, it provides an IANA table of supported formats.
-        Each supported category of information has a number of supported
-        formats. Each format has a document describing requirements for
-        implementing the representation in ROLIE, as well as use cases
-        and examples for that format.</t>
-      <t>The general category of information as given by the "Category"
-        Column in the IANA table is declared in the atomCategory element
-        of the collection. The supported formats of representation of
-        the category are provided by the "Formats" column, and declared
-        in the rolie:format element in the entry. Finally, links to the
-        specifications for the format are provided in the "schema"
-        column. The particular serialization of a format is stored
-        within the type attribute of the content element in the
-        entry.</t>
-      <t>Feed implementers MAY provide Atom categories that do not
-        correspond to categories described in that IANA table, but run
-        the risk of losing interoperability when doing so. Note that
-        additional documents may specify mandatory-to-implement
-        categories for domain-specific reasons. This draft is not
-        concerned with such MTI categories.</t>
-      <t>TODO: IANA Table callouts</t>
+    
+    <section title="Use of OpenSearch">
+      <t>Implementers MUST support <xref target="opensearch"
+        >OpenSearch 1.1</xref> as the mechanism for describing how
+        clients may form search requests.</t>
+      <t>Implementers MUST provide a link with a relationship type of
+        "search". This link SHALL return an Open Search Description
+        Document as defined in OpenSearch 1.1.</t>
+      <t>Implementers MUST fully qualify all OpenSearch URL template
+        parameter names using the defined XML namespaces, as
+        appropriate.</t>
     </section>
+
+    <section title="Characterizing ROLIE Collections and Resources" anchor="content-model">
+      <t>This specification does not require a particular security automation information type or content
+        format; rather, it provides extension points using IANA tables to allow for future extensions of supported information types and formats.</t>
+      <t>A given security automation information type is respresented using the "atom:category" element. In this way, an "atom:category" element can be used to:<list style="numbers">
+        <t>identify that an "app:collection" element in a Service Document points to an Atom feed that contains entries pertaining to a specific type of security automation information (see section <xref target="atompub-service-collection" format="counter"/>), or</t>
+        <t>identify that an "atom:feed" element in an Atom feed contains entries pertaining to a specific type of security automation information (see section <xref target="atom-synd-feed-category" format="counter"/>).</t>
+      </list></t>
+
+      <t>As mentioned earlier, a key goal of this specification is to allow a consumer to identify security automation information resources of interest, and then choose a suitable format of the information to retrieve. For a given type of security automation information, it is expected that a number of different formats may be used to represent this information. To support this use case, both the serialization format and the specific data model expressed in that format must be known by the consumer.</t>
+      
+      <t>The following sections describe how information types are defined and used, and how specific content formats are declared in ROLIE.</t>
+
+      <section title="Identification of Security Automation Information Types">
+        <t>A security automation information type represents a class of information that represents the same or similar information model <xref target="RFC3444"/>. Notional examples of information types include:<list style="hanging" hangIndent="4">
+          <t hangText="indicator:">Computing device- or network-related "observable features and phenomenon that aid in the forensic or proactive detection of malicious activity; and associated meta-data" (from <xref target="I-D.ietf-mile-rfc5070-bis"/>).</t>
+          <t hangText="incident:">Information pertaining to and "derived analysis from security incidents" (from <xref target="I-D.ietf-mile-rfc5070-bis"/>).</t>
+          <t hangText="vulnerability reports:">Information identifying and describing a vulnerability in hardware or software.</t>
+          <t hangText="configuration checklists:">Content that can be used to assess the configuration settings related to installed software.</t>
+          <t hangText="software tags:">Metadata used to identify and characterize installable software.</t>
+        </list></t>
+        <t>This is a short list to inspire thought on possible information types, which will also include other information used to automate security processes.</t>
+        <t>This document does not specific any information types. Instead, information types in ROLIE are expected to be defined in extension documents that describe one or more new information types. This allows the information types used by ROLIE implementations to grow over time to support new security automation use cases. These extension documents may also enhance ROLIE resource representations by defining link relations, categories, and other AtomPub and Atom Syndication Format data model extensions to address the representational needs of specific information types. New information types are added to ROLIE through registrations to the IANA Security Resource Information Type registry defined in section <xref target="iana-information-type" format="counter"/>.</t>
+      </section>
+
+      <section title="General Use of the &quot;atom:category&quot; Element" anchor="category-information-type">
+        <t>The core extension point within this specification is the ability to define different security automation information types, which can be used to characterize the type of information contained in a ROLIE resource collection. The information type of a resource collection is characterized using an "atom:category" element with a "scheme" attribute value of "urn:ietf:params:rolie:information-type", and a "term" attribute value identifying the specific information type declared.</t>
+        <t>For example, the security automation information type "incident" would be identified as follows:<list style="none">
+          <t>&lt;atom:category scheme="urn:ietf:params:rolie:information-type" term="incident"/&gt;</t>
+        </list></t>
+        <t>The Uniform Resource Name (URN) <xref target="RFC2141"/> "urn:ietf:params:rolie:information-type" is registered  with IANA as described in section <xref target="iana-parameters" format="counter"/>.</t>
+        <t>Registered security automation information type values are defined in the IANA table described in section <xref target="iana-information-type" format="counter"/>.</t>
+      </section>
+      
+      <section title="Identification of Security Automation Information Formats">
+        <t>A given information type may have a number of supported formats. Each format is expected to have a specification that defines the data model for the format. As described in section <xref target="atom-synd-entry-rolie-format" format="counter"/>, the "rolie:format" element is used to describe the specific data model used to represent the resource referenced by a given "atom:entry". By declaring the data model used in this way, a consumer can choose to download or ignore the resource, or look for alternate formats. This saves the consumer from downloading and parsing resources that the consumer is not interested in or resources expressed in formats that are not understandable by the consumer.</t>
+        <!--
+        <t>The general category of information as given by the "Category"
+          Column in the IANA table is declared in the atomCategory element
+          of the collection. The supported formats of representation of
+          the category are provided by the "Formats" column, and declared
+          in the rolie:format element in the entry. Finally, links to the
+          specifications for the format are provided in the "schema"
+          column. The particular serialization of a format is stored
+          within the type attribute of the content element in the
+          entry.</t>
+        <t>Feed implementers MAY provide Atom categories that do not
+          correspond to categories described in that IANA table, but run
+          the risk of losing interoperability when doing so. Note that
+          additional documents may specify mandatory-to-implement
+          categories for domain-specific reasons. This draft is not
+          concerned with such MTI categories.</t>
+          -->
+        <t>TODO: Need to describe the structure and use of the rolie:format element.</t>
+      </section>
+    </section>
+
+    <section title="Formal Syntax for the ROLIE Schema" anchor="formal-syntax">
+      <t>TODO: define a schema for the "rolie:format" element.</t>
+    </section>
+      
     <section title="IANA Considerations TODO" anchor="sec-iana">
       <t>This document defines a resource-oriented approach to security
         information sharing, where such information may include a
@@ -623,57 +782,86 @@
         identifiers (e.g. tags), incident reports, configuration
         assessment guidance, vulnerability assessment guidance, and so
         on.</t>
-      <t>This document creates the following registry for IANA to
-        manage: <list hangIndent="0">
-        <t>Name of Registry: "Security Resource Category"</t>
-        <t>Location of Registry:
-          https://www.iana.org/assignments/security-resource-category</t>
-        <t>Fields to record in the registry:</t>
-        <t><list hangIndent="0">
-          <t>Full Name: The full name of the security resource category
-            as a string from the printable ASCII character set RFC0020
-            with individual embedded spaces allowed. The ABNF RFC5234
-            syntax for this field is: <list>
-            <t>1*VCHAR *(SP 1*VCHAR)</t>
-            </list></t>
-          <t>Security Resource Index: This is an IANA-assigned positive
-            integer that identifies the registration. The first entry
-            added to this registry uses the value 1, and this value is
-            incremented for each subsequent entry added to the
-            registry.</t>
-          <t>Description: A complete description of the security
-            resource category as a string from the printable ASCII
-            character set RFC0020 with individual embedded spaces
-            allowed. The ABNF RFC5324 syntax for this field is: <list
-            hangIndent="0">
-            <t>1*VCHAR *(SP 1*VCHAR)</t>
-            </list> </t>
-          <t>Specification URI/Reference: A list of one or more URIs
-            [RFC3986] from which the registered specification can be
-            obtained. The registered specification MUST be readily and
-            publicly available from that URI. The URI SHOULD be a stable
-            reference.</t>
-          </list></t>
-
-        <t>Initial registry contents: None.</t>
-
-        <t>Allocation Policy: Specification required RFC5226 (which
-          implies expert review RFC5226).</t>
-        </list></t>
-
-      <t>The Designated Expert is expected to consult with the MILE
-        (Managed Incident Lightweight Exchange) working group or is
-        successor if any such WG exists (e.g., via email to the working
-        group's mailing list). The Designated Expert is expected to
-        review the request and validate the appropriateness of the name,
-        description, and associated specifications for the security
-        resource category.</t>
-
-      <t>This document uses URNs to describe XML namespaces and XML
-        schemas conforming to a registry mechanism described in
-        RFC3688.</t>
-
       <t>TODO: Complete registration request specifics.</t>
+
+      <section title="XML Namespaces and Schema URNs" anchor="iana-urn">
+        <t>This document uses URNs to describe XML namespaces and XML
+          schemas conforming to a registry mechanism described in <xref target="RFC3688"/>.
+          <list style="hanging" hangIndent="4">
+            <t hangText="ROLIE XML Namespace">The ROLIE namespace (rolie-1.0) has been registered in
+              the "ns" registry.
+              <vspace blankLines="1"/>
+              URI: urn:ietf:params:xml:ns:rolie-1.0
+              <vspace blankLines="1"/>
+              Registrant Contact: IESG
+              <vspace blankLines="1"/>
+              XML: None.  Namespace URIs do not represent an XML specification.</t>
+            <t hangText="ROLIE XML Schema">The ROLIE schema (rolie-1.0) has been registered in
+              the "schema" registry.
+              <vspace blankLines="1"/>
+              URI: urn:ietf:params:xml:schema:rolie-1.0
+              <vspace blankLines="1"/>
+              Registrant Contact: IESG
+              <vspace blankLines="1"/>
+              XML: See section <xref target="formal-syntax" format="counter"/> of this document.</t>
+          </list>
+        </t>
+      </section>
+      <section title="ROLIE Parameters" anchor="iana-parameters">
+        <t>ROLIE uses URNs to represent category schemes. This section creates and registers an IETF URN sub-namespace for use in ROLIE specifications and future extensions.</t>
+        <!-- Add IANA entry for this scheme -->
+        <t>TODO: Add entry for: "urn:ietf:params:rolie:category:information-type"</t>
+        <!-- Use as an example: https://tools.ietf.org/html/rfc7643#section-10.2 -->
+      </section>
+      
+      <section title="Security Resource Information Type Registry" anchor="iana-information-type">
+        <t>This document creates the following registry for IANA to
+          manage: <list hangIndent="0">
+          <t>Name of Registry: "Security Resource Information Type"</t>
+          <t>Location of Registry:
+            https://www.iana.org/assignments/security-resource-information-type</t>
+          <t>Fields to record in the registry:</t>
+          <t><list hangIndent="0">
+            <t>Full Name: The full name of the security resource information type
+              as a string from the printable ASCII character set RFC0020
+              with individual embedded spaces allowed. The ABNF RFC5234
+              syntax for this field is: <list>
+              <t>1*VCHAR *(SP 1*VCHAR)</t>
+              </list></t>
+            <t>Security Resource Index: This is an IANA-assigned positive
+              integer that identifies the registration. The first entry
+              added to this registry uses the value 1, and this value is
+              incremented for each subsequent entry added to the
+              registry.</t>
+            <t>Description: A complete description of the security
+              resource information type as a string from the printable ASCII
+              character set RFC0020 with individual embedded spaces
+              allowed. The ABNF RFC5324 syntax for this field is: <list
+              hangIndent="0">
+              <t>1*VCHAR *(SP 1*VCHAR)</t>
+              </list> </t>
+            <t>Specification URI/Reference: A list of one or more URIs
+              [RFC3986] from which the registered specification can be
+              obtained. The registered specification MUST be readily and
+              publicly available from that URI. The URI SHOULD be a stable
+              reference.</t>
+            </list></t>
+  
+          <t>Initial registry contents: None.</t>
+  
+          <t>Allocation Policy: Specification required RFC5226 (which
+            implies expert review RFC5226).</t>
+          </list></t>
+  
+        <t>The Designated Expert is expected to consult with the MILE
+          (Managed Incident Lightweight Exchange) working group or is
+          successor if any such WG exists (e.g., via email to the working
+          group's mailing list). The Designated Expert is expected to
+          review the request and validate the appropriateness of the name,
+          description, and associated specifications for the security
+          resource category.</t>
+      </section>
+
     </section>
     <section title="Security Considerations TODO" anchor="sec-security">
       <t>This document defines a resource-oriented approach to
@@ -795,8 +983,22 @@
     </section>
   </middle>
   <back>
-    <references title="Normative References"> &RFC4287; &RFC2119;
-      &RFC5070; &RFC5023; &RFC5005; &RFC7235; &RFC6546; <reference
+    <references title="Normative References">
+      &RFC2119; &RFC3688; &RFC4287; 
+      &RFC5005; &RFC5023; &RFC5070; &RFC6546; &RFC7235; 
+      &xml-names;
+      <reference anchor="relax-NG" target="https://www.oasis-open.org/committees/relax-ng/compact-20021121.html">
+        <front>
+          <title>RELAX NG Compact Syntax</title>
+          <author initials="J." surname="Clark" fullname="James Clark" role="editor">
+            <address>
+              <email>jjc@jclark.com</email>
+            </address>
+          </author>
+          <date year="2002" month="11" day="21"/>
+        </front>
+      </reference>
+      <reference
         anchor="opensearch"
         target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
         <front>
@@ -808,6 +1010,10 @@
           </author>
           <date year="2011"/>
         </front>
+        <seriesInfo name="OASIS Committee Specification" value="saml-core-2.0-os"/>
+        <format type="text/html"
+          target="https://www.oasis-open.org/committees/relax-ng/compact-20021121.html"
+        />
       </reference>
       <reference anchor="SAML-core"
         target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
@@ -950,6 +1156,8 @@
       </reference>
     </references>
     <references title="Informative References">
+      &RFC2141; &RFC3444; &RFC6545;
+      &RFC5070bis;
       <reference anchor="XACML"
         target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
         <front>
@@ -1035,24 +1243,30 @@
 
   <?xml version="1.0" encoding="UTF-8"?>
   <service xmlns="http://www.w3.org/2007/app"
-           xmlns:atom="http://www.w3.org/2005/Atom">
-      <workspace xml:lang="en-US" 
-        xmlns:xml="http://www.w3.org/XML/1998/namespace">
-        <atom:title type="text">Incidents</atom:title>
-        <collection  href="http://example.org/provider/incidents">
-           <atom:title type="text">Incidents Feed</atom:title>
-           <accept>application/atom+xml; type=entry</accept>
-        </collection>            
-      </workspace>
+      xmlns:atom="http://www.w3.org/2005/Atom"
+      xmlns:xml="http://www.w3.org/XML/1998/namespace"
+      xml:lang="en-US">
+    <workspace>
+      <atom:title type="text">Incidents</atom:title>
+      <collection href="http://example.org/provider/incidents">
+        <atom:title type="text">Incidents Feed</atom:title>
+        <categories fixed="yes">
+          <atom:category
+              scheme="urn:ietf:params:rolie:information-type"
+              term="vulnerability"/>
+        </categories>
+        <accept>application/atom+xml; type=entry</accept>
+      </collection>            
+    </workspace>
   </service>    ]]></artwork>
         </figure>
 
         <t>This simple Service Document example shows that this server
-          provides one workspace, named "Incidents." Within that
+          provides one workspace, named "Incidents". Within that
           workspace, the producer makes one feed collection available.
           When attempting to GET or POST entries to that feed
           collection, the client must indicate a content type of
-          application/atom+xml. </t>
+          application/atom+xml.</t>
 
         <t>A server may also offer a number of different feeds, each
           containing different types of security automation information.
@@ -1068,40 +1282,46 @@
   Content-Length: 1912
   Content-Type: application/atomsvc+xml;charset="utf-8"
 
-   <?xml version="1.0" encoding='utf-8'?>
-      <service xmlns="http://www.w3.org/2007/app"
-        xmlns:atom="http://www.w3.org/2005/Atom">
-        <workspace>
-          <atom:title>Public Security Information Sharing</atom:title>
-          <collection 
-            href="http://example.org/provider/public/vulnerabilties" >
-            <atom:title>Public Vulnerabilties</atom:title>
-            <categories fixed="yes">
-              <atom:category term="vulnerabilities" />
-            </categoies>
-            <accept>application/atom+xml; type=entry</accept>
-          </collection>
-          <collection 
-            href="http://example.org/provider/public/incidents" >
-            <atom:title>Public Incidents</atom:title>
-            <categories fixed="yes">
-              <atom:category term="incident" />
-            </categories>
-            <accept>application/atom+xml; type=entry</accept>
-        </collection>            
-        </workspace>
-        <workspace>
-          <atom:title>Private Consortium Sharing</atom:title>
-          <collection 
-            href="http://example.org/provider/private/incidents" >
-            <atom:title>Incidents</atom:title>
-            <accept>application/atom+xml;type=entry</accept>
-            <categories fixed="yes">
-              <atom:category term="incident" />
-            </categories>
-          </collection>
-        </workspace>
-      </service>    ]]></artwork>
+  <?xml version="1.0" encoding='utf-8'?>
+  <service xmlns="http://www.w3.org/2007/app"
+      xmlns:atom="http://www.w3.org/2005/Atom">
+    <workspace>
+      <atom:title>Public Security Information Sharing</atom:title>
+      <collection 
+          href="http://example.org/provider/public/vulnerabilties">
+        <atom:title>Public Vulnerabilities</atom:title>
+        <accept>application/atom+xml; type=entry</accept>
+        <categories fixed="yes">
+          <atom:category
+              scheme="urn:ietf:params:rolie:information-type"
+              term="vulnerability"/>
+        </categories>
+      </collection>
+      <collection 
+          href="http://example.org/provider/public/incidents">
+        <atom:title>Public Incidents</atom:title>
+        <accept>application/atom+xml; type=entry</accept>
+        <categories fixed="yes">
+          <atom:category
+              scheme="urn:ietf:params:rolie:information-type"
+              term="incident"/>
+        </categories>
+      </collection>            
+    </workspace>
+    <workspace>
+      <atom:title>Private Consortium Sharing</atom:title>
+      <collection 
+          href="http://example.org/provider/private/incidents" >
+        <atom:title>Incidents</atom:title>
+        <accept>application/atom+xml;type=entry</accept>
+        <categories fixed="yes">
+          <atom:category
+              scheme="urn:ietf:params:rolie:information-type"
+              term="incident"/>
+        </categories>
+      </collection>
+    </workspace>
+  </service>    ]]></artwork>
         </figure>
 
         <t>In this example, the CSIRT is providing a total of three feed
@@ -1158,59 +1378,55 @@
 
   <?xml version="1.0" encoding="UTF-8"?>
   <feed xmlns="http://www.w3.org/2005/Atom"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.w3.org/2005/Atom 
-        file:/C:/schemas/atom.xsd"
       xml:lang="en-US">
   
-      <generator version="1.0" xml:lang="en-US">
+    <generator version="1.0">
         Example Provider ROLIE Feed Generator
-      </generator>
-      <id xml:lang="en-US">
-        http://www.example.org/provider/private/incidents
-      </id>
-      <title type="text" xml:lang="en-US">
+    </generator>
+    <id>http://www.example.org/provider/private/incidents</id>
+    <title type="text">
         Atom formatted representation of 
         a feed of XML incident documents
-      </title>
-      <updated xml:lang="en-US">2012-05-04T18:13:51.0Z</updated> 
-      <author>
-          <email>provider@example.org</email>
-          <name>Example Provider</name>
-      </author>
+    </title>
+
+    <!-- The category is taken from the related IANA table -->
+    <atom:category
+        scheme="urn:ietf:params:rolie:information-type"
+        term="incident"/>
+    <updated>2012-05-04T18:13:51.0Z</updated> 
+    <author>
+      <email>provider@example.org</email>
+      <name>Example Provider</name>
+    </author>
   
-      <!-- By convention there is usually a self link for the feed -->
-      <link href="http://www.example.org/provider/private/incidents" 
-        rel="self"/>
+    <!-- By convention there is usually a self link for the feed -->
+    <link href="http://www.example.org/provider/private/incidents" 
+        rel="self" type="application/atom+xml"/>
                
-      <entry>
-          <id>
-            http://www.example.org/provider/private/incidents/123456
-          </id>
-          <title>Sample Incident</title>
-          
-          <!-- by convention -->
-          <link 
-          href="http://www.example.org/provider/
-            private/incidents/123456" 
-          rel="self" type="xml"/>       
-          
-          <!-- required by Atom spec -->
-          <link 
-          href="http://www.example.org/provider/
-            private/incidents/123456" 
-          rel="alternate" type="xml"/>
-          
-          <published>2014-08-04T18:13:51.0Z</published>
-          <updated>2014-08-05T18:13:51.0Z</updated>
-          <!-- The category is taken from the content IANA table -->
-          <category term="incident"/>
-          <summary>A short description of this resource</summary>
-      </entry>
+    <entry>
+      <id>
+          http://www.example.org/provider/private/incidents/123456
+      </id>
+      <title>Sample Incident</title>
       
-      <entry>
-          <!-- ...another entry... -->
-      </entry>
+      <!-- by convention -->
+      <link 
+          href="http://www.example.org/provider/private/incidents/12345" 
+          rel="self" type="application/atom+xml"/>       
+      
+      <!-- required by Atom spec -->
+      <link 
+          href="http://www.example.org/provider/private/incidents/12345" 
+          rel="alternate" type="xml"/>
+      
+      <published>2014-08-04T18:13:51.0Z</published>
+      <updated>2014-08-05T18:13:51.0Z</updated>
+      <summary>A short description of this resource</summary>
+    </entry>
+    
+    <entry>
+        <!-- ...another entry... -->
+    </entry>
                 
   </feed>   ]]></artwork>
         </figure>
@@ -1273,8 +1489,10 @@
       rel="alternate" type="IODEF"/>  
     <published>2012-08-04T18:13:51.0Z</published>
     <updated>2012-08-05T18:13:51.0Z</updated>
-    <!-- The category is based upon IANA table content model -->
-    <category term="incident" />
+    <!-- The category is taken from the related IANA table -->
+    <atom:category
+        scheme="urn:ietf:params:rolie:information-type"
+        term="incident"/>
     <summary>A short description of this incident resource</summary>
 
     <!-- Typical operations that can be 
@@ -1294,7 +1512,7 @@
     <link href="http://www.example.org/csirt/private/incidents" 
       rel="up"/>
    
-    <content src=  type="application/xml">
+    <content type="application/xml">
       <xml>
         <tag>
           <data> Example </data>
@@ -1329,7 +1547,10 @@
 
       </section>
     </section>
-    <section title="Change Tracking" anchor="delta">
+    <section title="Relax NG Schema for ROLIE Extensions" anchor="appendix-schema">
+      <t>TODO</t>
+    </section>
+    <section title="Change Tracking" anchor="appendix-delta">
       <t>Changes since draft-field-mile-rolie-01 version, December, 2015
         to May 27, 2016: <list style="symbols">
         <t>All CSIRT and IODEF/RID material moved to companion CSIRT
@@ -1354,7 +1575,7 @@
         draft-field-mile-rolie-02 version, August 15, 2013 to December
         2, 2015: <list style="symbols">
         <t>Added section specifying the use of RFC5005 for Archive and
-          Paging of feeds. See: <xref target="normative-archive-page"/> </t>
+          Paging of feeds.</t>
         <t>Added section describing use of atom categories that
           correspond to IODEF expectation class and impact classes. See:
           normative-expectation-impact </t>
