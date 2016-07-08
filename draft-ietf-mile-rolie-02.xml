@@ -5,11 +5,12 @@
   <!ENTITY RFC2141 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2141.xml">
   <!ENTITY RFC3444 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3444.xml">
   <!ENTITY RFC3688 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3688.xml">
+  <!ENTITY RFC3986 SYSTEM
+  "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml">
   <!ENTITY RFC4287 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4287.xml">
   <!ENTITY RFC5070 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5070.xml">
   <!ENTITY RFC5023 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5023.xml">
   <!ENTITY RFC5005 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5005.xml">
-  <!ENTITY RFC7235 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7235.xml">
   <!ENTITY RFC6545 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6545.xml">
   <!ENTITY RFC6546 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6546.xml">
   <!ENTITY RFC5070bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rfc5070-bis-25.xml">
@@ -147,9 +148,10 @@
       <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL
         NOT," "SHOULD," "SHOULD NOT," "RECOMMENDED," "MAY," and
         "OPTIONAL" in this document are to be interpreted as described in
-        <xref target="RFC2119"/>. Definitions for some of the common
-        computer security-related terminology used in this document can
-        be found in Section 2 of <xref target="RFC5070"/>.</t>
+        <xref target="RFC2119"/>.</t>
+      <t>Definitions for some of the common computer security-related
+        terminology used in this document can be found in Section 2 of
+        <xref target="RFC5070"/>.</t>
     </section>
     <section title="XML-related Conventions">
       <section title="XML Namespaces">
@@ -1069,7 +1071,7 @@
               <t>1*VCHAR *(SP 1*VCHAR)</t>
               </list> </t>
             <t>Specification URI/Reference: A list of one or more URIs
-              [RFC3986] from which the registered specification can be
+              <xref target="RFC3986"/> from which the registered specification can be
               obtained. The registered specification MUST be readily and
               publicly available from that URI. The URI SHOULD be a
               stable reference.</t>
@@ -1210,7 +1212,8 @@
   </middle>
   <back>
     <references title="Normative References"> &RFC2119; &RFC3688;
-      &RFC4287; &RFC5005; &RFC5023; &RFC5070; &RFC6546; &RFC7235;
+      &RFC3986;
+      &RFC4287; &RFC5005; &RFC5023; &RFC5070; &RFC6546;
       &xml-names; <reference anchor="relax-NG"
         target="https://www.oasis-open.org/committees/relax-ng/compact-20021121.html">
         <front>
@@ -1700,15 +1703,15 @@
   Content-Length: 4965
   Content-Type: application/atom+xml;type=entry;charset="utf-8"
 
-  <?xml version="1.0" encoding="UTF-8"?>        
+  <?xml version="1.0" encoding="UTF-8"?>
   <entry>
     <id>http://www.example.org/provider/private/incidents/123456</id>
     <title>Sample Incident</title>
     <!-- by convention -->
-    <link href="http://www.example.org/csirt/private/incidents/123456" 
+    <link href="http://www.example.org/csirt/private/incidents/123456"
       rel="self" type="application/atom+xml"/>       
     <!-- required by Atom spec -->
-    <link href="http://www.example.org/csirt/private/incidents/123456" 
+    <link href="http://www.example.org/csirt/private/incidents/123456"
       rel="alternate" type="IODEF"/>  
     <published>2012-08-04T18:13:51.0Z</published>
     <updated>2012-08-05T18:13:51.0Z</updated>
@@ -1720,19 +1723,19 @@
 
     <!-- Typical operations that can be 
       performed on this entry include edit -->
-    <link href="http://www.example.org/csirt/private/incidents/123456" 
+    <link href="http://www.example.org/csirt/private/incidents/123456"
       rel="edit"/>
               
     <!-- the next and previous are just sequential access,
       may not map to anything related to this resource -->
-    <link href="http://www.example.org/csirt/private/incidents/123457" 
+    <link href="http://www.example.org/csirt/private/incidents/123457"
       rel="next"/>
-    <link href="http://www.example.org/csirt/private/incidents/123455" 
+    <link href="http://www.example.org/csirt/private/incidents/123455"
       rel="previous"/>
   
     <!-- navigate up to the full collection.  
       Might also be rel="collection" as per IANA registry -->
-    <link href="http://www.example.org/csirt/private/incidents" 
+    <link href="http://www.example.org/csirt/private/incidents"
       rel="up"/>
    
     <content type="application/xml">
@@ -1838,9 +1841,9 @@
     <Contact>admin@example.org</Contact>
     <!-- optionally, other elements, as per OpenSearch specification -->
     <Url type="application/opensearchdescription+xml" rel="self" 
-      template="http://www.example.com/csirt/opensearchdescription.xml"/>
+     template="http://www.example.com/csirt/opensearchdescription.xml"/>
     <Url type="application/atom+xml" rel="results" 
-      template="http://www.example.org/csirt?q={searchTerms}&amp;
+     template="http://www.example.org/csirt?q={searchTerms}&amp;
                         format=Atom+xml"/>
     <LongName>www.example.org CSIRT search</LongName>
     <Query role="example" searchTerms="incident" />
