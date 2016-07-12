@@ -16,8 +16,8 @@
   <!ENTITY RFC5070bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rfc5070-bis-25.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
-<rfc ipr="trust200902" category="info" docName="draft-ietf-mile-rolie-02">
-  <!-- Working draft of draft02 -->
+<rfc ipr="trust200902" category="info" docName="draft-ietf-mile-rolie-03">
+  <!-- Working draft of draft03 -->
   <?rfc compact="yes"?>
   <?rfc subcompact="no"?>
   <?rfc toc="yes"?>
@@ -163,7 +163,6 @@
             defined in <xref target="RFC5023"/>.</t>
           <t>"atom" is used for the "http://www.w3.org/2005/Atom"
             namespace defined in <xref target="RFC4287"/>.</t>
-          <!-- TODO: Add IANA entry for http://www.iana.org/assignments/xml-registry/xml-registry.xhtml#ns -->
           <t>"rolie" is used for the "urn:ietf:params:xml:ns:rolie:1.0"
             namespace defined in section <xref target="iana-urn"
             format="counter"/> of this specification.</t>
@@ -183,7 +182,7 @@
       </section>
     </section>
     <section title="Background and Motivation" anchor="back-motive">
-      <t>It is well known thatthreats to computer security are evolving
+      <t>It is well known that threats to computer security are evolving
         ever more rapidly as time goes on. As software increases in
         complexity, the number of vulnerabilities in systems and networks
         can increase exponentially. Threat actors looking to exploit

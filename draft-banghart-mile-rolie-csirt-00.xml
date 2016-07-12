@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd"[
+  <!ENTITY xml-names SYSTEM "http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-xml-names-20091208.xml">
+  <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+  <!ENTITY RFC2141 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2141.xml">
+  <!ENTITY RFC2616 SYSTEM
+  "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml">
+  <!ENTITY RFC3444 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3444.xml">
+  <!ENTITY RFC3688 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3688.xml">
+  <!ENTITY RFC3986 SYSTEM
+  "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml">
+  <!ENTITY RFC4287 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4287.xml">
+  <!ENTITY RFC5070 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5070.xml">
+  <!ENTITY RFC5023 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5023.xml">
+  <!ENTITY RFC5005 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5005.xml">
+  <!ENTITY RFC6545 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6545.xml">
+  <!ENTITY RFC6546 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6546.xml">
+  <!ENTITY RFC5070bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rfc5070-bis-25.xml">
+<!--  <!ENTITY rolie SYSTEM
+  "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rolie-03.xml">
+-->]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
-<rfc ipr="trust200811" category="info"
-  docName="draft-banghart-mile-rolie-csirt-00">
+<rfc ipr="trust200811" category="info" docName="draft-banghart-mile-rolie-csirt-00">
   <!-- Working draft of supporting document for ROLIE -->
   <?rfc compact="yes"?>
   <?rfc subcompact="no"?>
@@ -26,8 +44,7 @@
       <email>jfield@pivotal.io</email>
     </address>
     </author>
-    <author initials="S.A." surname="Banghart"
-      fullname="Stephen A. Banghart">
+    <author initials="S.A." surname="Banghart" fullname="Stephen A. Banghart">
       <organization abbrev="NIST">National Institute of Standards and
         Technology</organization>
       <address>
@@ -45,17 +62,17 @@
     <area>Security</area>
     <workgroup>MILE Working Group</workgroup>
     <abstract>
-      <t>This document is part of a set of supplementary and optional
-        modules for the ROLIE core that provide requirements and guidance
-        for varying use cases. ROLIE-CSIRT provides information on the
-        motivation for CSIRT ROLIE implementations as well as guidance
-        and examples of use.</t>
+      <t>This document extends the ROLIE core to support a number of
+        information types needed to support Computer Security Incident
+        Response Team (CSIRT) use cases. To address these use cases, this
+        standards track specification provides additional requirements
+        over what is defined in the ROLIE core, and provides examples of
+        using ROLIE to facilitate CSIRT information exchanges.</t>
     </abstract>
     <note title="Contributing to this document">
       <!--RFC EDITOR - Please remove this note before publishing -->
       <t>The source for this draft is being maintained in GitHub.
-        Suggested changes should be submitted as pull requests at <eref
-        target="https://github.com/CISecurity/ROLIE"/>. Instructions are
+        Suggested changes should be submitted as pull requests at <eref target="https://github.com/CISecurity/ROLIE"/>. Instructions are
         on that page as well. Editorial changes can be managed in GitHub,
         but any substantial issues need to be discussed on the MILE
         mailing list.</t>
@@ -63,46 +80,50 @@
   </front>
   <middle>
     <section title="Introduction" anchor="starting-intro">
-      <t>The ROLIE supplementary requirements and guidance documents are
-        optional modules for the ROLIE core. Implementers may follow the
-        guidance of any number of additional module documents. Each
-        document of the set discusses a different use case, in order to
-        insure the greatest interoperability, it is recommended that
-        implementers follow each use case guidance that is applicable to
-        their ROLIE implementation.</t>
-      <t>This module covers CSIRT use cases and CSIRT designed
-        implementations. This document is divided into three sections:
-        motivation and background, guidance and examples, and normative
-        requirements.</t>
+      <t>This specification is an extension to the ROLIE core <xref target="rolie"/> designed to address CSIRT use cases. This
+        document provides both examples and requirements for
+        implementations support CSIRT use cases. This document is divided
+        into three sections: motivation and background, guidance and
+        examples, and normative requirements.</t>
     </section>
     <section title="Terminology" anchor="ext-terminology">
       <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL
         NOT," "SHOULD," "SHOULD NOT," "RECOMMENDED," "MAY," and
         "OPTIONAL" in this document are to be interpreted as described in
-        <xref target="RFC2119"/>. Definitions for some of the common
-        computer security-related terminology used in this document can
-        be found in Section 2 of <xref target="RFC5070"/>.</t>
+        <xref target="RFC2119"/>. </t>
+      <t>Definitions for some of the common computer security-related
+        terminology used in this document can be found in Section 2 of
+        <xref target="RFC5070"/>.</t>
     </section>
     <section title="Motivation for CISRT ROLIE Implementations">
       <t>Threat actors have established vast networks of information
         sharing amongst themselves. Exploits and vulnerabilities are
         distributed rapidly after discovery, and an attack on one system
-        often indicates similar attacks are pending on other systems.
+        often indicates similar attacks are impending on other systems.
         Incident reports collected on one system may provide useful
         insight on these impending attacks, but reliance on
-        point-to-point messaging systems prevents any automatic public
+        point-to-point messaging systems hinders automatic public
         distribution of potentially valuable information. In this way,
         operators are isolated in ways that threat actors are not.</t>
       <t>ROLIE provides a lightweight information exchange that seeks to
         facilitate rapid and automated communication of computer security
         information. By adopting a RESTful solution, ROLIE allows the
-        creation of information repositories that can make available
-        feeds of data. Consumers and operators may make inferences based
-        on this information, and then make this new insight available on
+        creation of information repositories that can make feeds of data
+        available. Consumers and operators may make inferences based on
+        this information, and then make this new insight available on
         their own ROLIE repositories.</t>
       <t>This system of sharing made possible by ROLIE creates an open
-        forum of security collaboration, reducing duplication of
-        efforts.</t>
+        forum of security collaboration, reducing duplication of efforts.
+        TODO: Add additional text regarding specific CSIRT use cases</t>
+    </section>
+    <section title="CSIRT Information Types">
+      <t>This section discusses the information-type </t>
+      <section title="Incident Information Type">
+        <t></t>
+      </section>
+      <section title="Indicator Information Type">
+        <t></t>
+      </section>
     </section>
     <section title="Content Formats">
       <section title="The IODEF Format">
@@ -135,9 +156,7 @@
             this extension in order to support existing CSIRTs and other
             operators that utilize the IODEF format.</t>
         </section>
-        <section title="IANA Table Designation">
-          <t>TBA:Name space and IANA table designations</t>
-        </section>
+
       </section>
       <section title="The STIX Format">
         <section title="Background">
@@ -154,41 +173,38 @@
             and other security stakeholders that utilize the standard.
             TODO</t>
         </section>
-        <section title="IANA Table Designation">
-          <t>TBA</t>
-        </section>
       </section>
     </section>
     <section title="Non-Normative Examples" anchor="non-norm-ex">
       <section title="Use of Link Relations" anchor="link-relations">
-        <t> A key benefit of using the RESTful
-          architectural style is the ability to enable the client to
-          navigate to related resources through the use of hypermedia
-          links. In the Atom Syndication Format, the type of the related
-          resource identified in a &lt;link&gt; element is indicated via
-          the "rel" attribute, where the value of this attribute
-          identifies the kind of related resource available at the
-          corresponding "href" attribute. Thus, in lieu of a well-known
-          URI template the URI itself is effectively opaque to the
-          client, and therefore the client must understand the semantic
-          meaning of the "rel" attribute in order to successfully
-          navigate. Broad interoperability may be based upon a sharing
-          consortium defining a well-known set of Atom Link Relation
-          types. These Link Relation types may either be registered with
-          IANA, or held in a private registry. <vspace blankLines="1"/>
-          Individual CSIRTs may always define their own link relation
-          types in order to support specific use cases, however support
-          for a core set of well-known link relation types is encouraged
-          as this will maximize interoperability. <vspace blankLines="1"
-          /> In addition, it may be beneficial to define use case
-          profiles that correspond to specific groupings of supported
-          link relationship types. In this way, a CSIRT may unambiguously
-          specify the classes of use cases for which a client can expect
-          to find support. <vspace blankLines="1"/> The following
-          sections provide NON-NORMATIVE examples of link relation usage.
-          Four distinct cyber security information sharing use case
-          scenarios are described. In each use case, the unique benefits
-          of adopting a resource-oriented approach to information sharing
+        <t> A key benefit of using the RESTful architectural style is the
+          ability to enable the client to navigate to related resources
+          through the use of hypermedia links. In the Atom Syndication
+          Format, the type of the related resource identified in a
+          &lt;link&gt; element is indicated via the "rel" attribute,
+          where the value of this attribute identifies the kind of
+          related resource available at the corresponding "href"
+          attribute. Thus, in lieu of a well-known URI template the URI
+          itself is effectively opaque to the client, and therefore the
+          client must understand the semantic meaning of the "rel"
+          attribute in order to successfully navigate. Broad
+          interoperability may be based upon a sharing consortium
+          defining a well-known set of Atom Link Relation types. These
+          Link Relation types may either be registered with IANA, or held
+          in a private registry. <vspace blankLines="1"/> Individual
+          CSIRTs may always define their own link relation types in order
+          to support specific use cases, however support for a core set
+          of well-known link relation types is encouraged as this will
+          maximize interoperability. <vspace blankLines="1"/> In
+          addition, it may be beneficial to define use case profiles that
+          correspond to specific groupings of supported link relationship
+          types. In this way, a CSIRT may unambiguously specify the
+          classes of use cases for which a client can expect to find
+          support. <vspace blankLines="1"/> The following sections
+          provide non-normative examples of link relation usage. Three
+          distinct cyber security information sharing use case scenarios
+          are described. In each use case, the unique benefits of
+          adopting a resource-oriented approach to information sharing
           are illustrated. It is important to note that these use cases
           are intended to be a small representative set and is by no
           means meant to be an exhaustive list. The intent is to
@@ -209,8 +225,7 @@
             "indicators" and the incident "history", and so on. The
             client CSIRT recognizes that some of the indicator and
             history may be relevant within her local environment, and can
-            respond proactively. <figure height="" suppress-title="false"
-            width="" alt="" title="" align="left">
+            respond proactively. <figure height="" suppress-title="false" width="" alt="" title="" align="left">
             <preamble>Example HTTP GET response for an incident
               entry:</preamble>
             <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
@@ -251,11 +266,9 @@
               associated with this incident. </postamble>
             </figure> </t>
         </section>
-        <section title="Use Case: Collaborative Investigation"
-          anchor="collab-analysis">
+        <section title="Use Case: Collaborative Investigation" anchor="collab-analysis">
           <t>This section provides a non-normative example of a
-            collaborative investigation use case. <vspace blankLines="1"
-            /> In this use case, two member CSIRTs that belong to a
+            collaborative investigation use case. <vspace blankLines="1"/> In this use case, two member CSIRTs that belong to a
             closed sharing consortium are collaborating on an incident
             investigation. The initiating CSIRT performs an HTTP GET to
             retrieve the service document of the peer CSIRT, and
@@ -263,8 +276,7 @@
             investigation request. The initiating CSIRT then POSTs a new
             incident entry to the appropriate collection URL. The target
             CSIRT acknowledges the request by responding with an HTTP
-            status code 201 Created. <figure height=""
-            suppress-title="false" width="" alt="" title="" align="left">
+            status code 201 Created. <figure height="" suppress-title="false" width="" alt="" title="" align="left">
             <preamble>Example HTTP GET response for the service
               document:</preamble>
             <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
@@ -296,8 +308,7 @@
               &lt;collection&gt; elements enable the client to determine
               the appropriate collection URL to request an investigation
               or a trace. </postamble>
-            </figure> <figure height="" suppress-title="false" width=""
-            alt="" title="" align="left">
+            </figure> <figure height="" suppress-title="false" width="" alt="" title="" align="left">
             <preamble>The client CSIRT then POSTs a new entry to the
               appropriate feed collection. Note that the &lt;content&gt;
               element of the new entry may contain a RID message of type
@@ -332,8 +343,7 @@ Content-Length: 852
           ]]></artwork>
             <postamble>The receiving CSIRT acknowledges the request with
               HTTP return code 201 Created. </postamble>
-            </figure> <figure height="" suppress-title="false" width=""
-            alt="" title="" align="left">
+            </figure> <figure height="" suppress-title="false" width="" alt="" title="" align="left">
             <preamble/>
             <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
 
@@ -372,8 +382,7 @@ ETag: "8a9h9he4qphqh"
             </figure> </t>
         </section>
         <!-- adding new section for repository example -->
-        <section title="Use Case:  Cyber Data Repository"
-          anchor="cyber-repo">
+        <section title="Use Case:  Cyber Data Repository" anchor="cyber-repo">
           <t>This section provides a non-normative example of a cyber
             security data repository use case. <vspace blankLines="1"/>
             In this use case a client accesses a persistent repository of
@@ -389,9 +398,7 @@ ETag: "8a9h9he4qphqh"
             the client may optionally contain URL references to other
             cyber security resources that are known to be related. These
             related resources may also be persisted locally, or they may
-            exist at another (remote) cyber data respository. <figure
-            height="" suppress-title="false" width="" alt="" title=""
-            align="left">
+            exist at another (remote) cyber data respository. <figure height="" suppress-title="false" width="" alt="" title="" align="left">
             <preamble>Example HTTP GET request to a persistent repository
               for any resources representing Distributed Denial of
               Service (DDOS) attacks:</preamble>
@@ -404,8 +411,7 @@ Accept: application/atom+xml
            ]]></artwork>
             <postamble>The corresponding HTTP response would be an XML
               document containing the DDOS feed. </postamble>
-            </figure> <figure height="" suppress-title="false" width=""
-            alt="" title="" align="left">
+            </figure> <figure height="" suppress-title="false" width="" alt="" title="" align="left">
             <preamble>Example HTTP GET response for a DDOS
               feed:</preamble>
             <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
@@ -486,14 +492,13 @@ Accept: application/atom+xml
       </section>
     </section>
     <section title="Normative Requirements">
-      <section title="Additional Atom Syndication Requirements"
-        anchor="category-mapping">
+      <section title="Additional Atom Syndication Requirements" anchor="category-mapping">
         <t>This section defines normative requirements for mapping IODEF
           metadata to corresponding Atom syndication elements. </t>
         <t>AUTHOR's NOTE: The decision is currently being made if any
-          IODEF data will be exposed outside of the payload. The majority
-          of these requirements hinge on this and are subject to change
-          as this document moves forward.</t>
+          payload data will be exposed outside of the payload. The
+          majority of these requirements hinge on this and are subject to
+          change as this document moves forward.</t>
         <section title="Collection Elements">
           <t> A collection containing IODEF incident content MUST contain
             a &lt;ROLIE-CSIRT:purpose&gt; element. The content of this
@@ -537,8 +542,7 @@ Accept: application/atom+xml
             be exactly one of ( public, need-to-know, private, default).
             When the category scheme="purpose", the value of the "term"
             attribute must be exactly one of (traceback, mitigation,
-            reporting, other). When the purpose is "other".... <vspace
-            blankLines="1"/> Any member entry MAY have any number of
+            reporting, other). When the purpose is "other".... <vspace blankLines="1"/> Any member entry MAY have any number of
             additional categories. </t>
         </section>
       </section>
@@ -554,8 +558,7 @@ Accept: application/atom+xml
           with the same time value as the &lt;reportTime&gt; element from
           the IODEF document. </t>
       </section>
-      <section title="Expectation and Impact Classes"
-        anchor="normative-expectation-impact">
+      <section title="Expectation and Impact Classes" anchor="normative-expectation-impact">
         <t>It is frequently the case that an organization will need to
           triage their investigation and response activities based upon,
           e.g., the state of the current threat environment, or simply as
@@ -573,10 +576,8 @@ Accept: application/atom+xml
           operational processes and workflows that are based on these
           IODEF classes. </t>
       </section>
-      <section title="Additional Link Relation Requirements"
-        anchor="link-rel-notes">
-        <texttable anchor="link-relations-table"
-          title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
+      <section title="Additional Link Relation Requirements" anchor="link-rel-notes">
+        <texttable anchor="link-relations-table" title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
           <ttcol align="left">Name</ttcol>
           <ttcol align="left">Description</ttcol>
           <ttcol align="left">Conformance</ttcol>
@@ -638,8 +639,7 @@ Accept: application/atom+xml
       </section>
       <section title="Search">
         <t> Implementers SHOULD support search based upon the IODEF
-          AlternativeID class as a search parameter. <vspace
-          blankLines="1"/> Implementers SHOULD support search based upon
+          AlternativeID class as a search parameter. <vspace blankLines="1"/> Implementers SHOULD support search based upon
           the four timestamp elements of the IODEF Incident class:
           &lt;startTime&gt;, &lt;EndTime&gt;, &lt;DetectTime&gt;, and
           &lt;ReportTime&gt;. <vspace blankLines="1"/> Implementers MAY
@@ -660,28 +660,30 @@ Accept: application/atom+xml
     </section>
   </middle>
   <back>
+    <section title="IANA Considerations">
+      <t>TBA: Add registries for rolie:format and for information-type
+        category.</t>
+    </section>
     <references title="Normative References">
-      <?rfc include="reference.RFC.2119" ?>
-      <?rfc include="reference.RFC.2616" ?>
-      <?rfc include="reference.RFC.4287" ?>
-      <?rfc include="reference.RFC.5005" ?>
-      <?rfc include="reference.RFC.5023" ?>
-      <?rfc include="reference.RFC.5070" ?>
-      <?rfc include="reference.RFC.6545" ?>
-      <reference anchor="opensearch"
-        target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
+      &RFC2119;
+      &RFC2616;
+      &RFC4287;
+      &RFC5005;
+      &RFC5023;
+      &RFC5070;
+      &RFC6545;
+      &rolie;
+      <reference anchor="opensearch" target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
         <front>
           <title>OpenSearch 1.1 draft 5 specification</title>
-          <author initials="D." surname="Clinton"
-            fullname="Dewitt Clinton">
+          <author initials="D." surname="Clinton" fullname="Dewitt Clinton">
             <organization abbrev="OpenSearch"> OpenSearch Community
             </organization>
           </author>
           <date year="2011"/>
         </front>
       </reference>
-      <reference anchor="SAML-core"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
+      <reference anchor="SAML-core" target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
         <front>
           <title>Assertions and Protocols for the OASIS Security
             Assertion Markup Language (SAML) V2.0 </title>
@@ -691,8 +693,7 @@ Accept: application/atom+xml
           <author initials="J." surname="Kemp" fullname="John Kemp">
             <organization/>
           </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
+          <author initials="R." surname="Philpott" fullname="Rob Philpott">
             <organization/>
           </author>
           <author initials="E." surname="Mahler" fullname="Eve Mahler">
@@ -702,8 +703,7 @@ Accept: application/atom+xml
         </front>
         <seriesInfo name="OASIS Standard" value=""/>
       </reference>
-      <reference anchor="SAML-prof"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf">
+      <reference anchor="SAML-prof" target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf">
         <front>
           <title>Profiles for the OASIS Security Assertion Markup
             Language (SAML) V2.0</title>
@@ -716,16 +716,13 @@ Accept: application/atom+xml
           <author initials="J." surname="Hodges" fullname="Jeff Hodges">
             <organization/>
           </author>
-          <author initials="F." surname="Hirsch"
-            fullname="Frederick Hirsch">
+          <author initials="F." surname="Hirsch" fullname="Frederick Hirsch">
             <organization/>
           </author>
-          <author initials="P." surname="Mishra"
-            fullname="Prateek Mishra">
+          <author initials="P." surname="Mishra" fullname="Prateek Mishra">
             <organization/>
           </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
+          <author initials="R." surname="Philpott" fullname="Rob Philpott">
             <organization/>
           </author>
           <author initials="E." surname="Mahler" fullname="Eve Mahler">
@@ -735,23 +732,20 @@ Accept: application/atom+xml
         </front>
         <seriesInfo name="OASIS Standard" value=""/>
       </reference>
-      <reference anchor="SAML-bind"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf">
+      <reference anchor="SAML-bind" target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf">
         <front>
           <title>Bindings for the OASIS Security Assertion Markup
             Language (SAML) V2.0 </title>
           <author initials="S." surname="Cantor" fullname="Scott Cantor">
             <organization/>
           </author>
-          <author initials="F." surname="Hirsch"
-            fullname="Frederick Hirsch">
+          <author initials="F." surname="Hirsch" fullname="Frederick Hirsch">
             <organization/>
           </author>
           <author initials="J." surname="Kemp" fullname="John Kemp">
             <organization/>
           </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
+          <author initials="R." surname="Philpott" fullname="Rob Philpott">
             <organization/>
           </author>
           <author initials="E." surname="Mahler" fullname="Eve Mahler">
@@ -763,8 +757,7 @@ Accept: application/atom+xml
       </reference>
     </references>
     <references title="Informative References">
-      <reference anchor="XMLencrypt"
-        target="http://www.w3.org/TR/xmlenc-core/">
+      <reference anchor="XMLencrypt" target="http://www.w3.org/TR/xmlenc-core/">
         <front>
           <title>XML Encryption Syntax and Processing</title>
           <author initials="T." surname="Imaura" fullname="">
@@ -780,8 +773,7 @@ Accept: application/atom+xml
         </front>
         <seriesInfo name="W3C Recommendation" value=""/>
       </reference>
-      <reference anchor="XMLsig"
-        target="http://www.w3.org/TR/xmldsig-core/">
+      <reference anchor="XMLsig" target="http://www.w3.org/TR/xmldsig-core/">
         <front>
           <title>XML-Signature Syntax and Processing</title>
           <author initials="M." surname="Bartel">
@@ -803,34 +795,28 @@ Accept: application/atom+xml
         </front>
         <seriesInfo name="W3C Recommendation" value="Second Edition"/>
       </reference>
-      <reference anchor="XACML"
-        target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
+      <reference anchor="XACML" target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
         <front>
           <title>eXtensible Access Control Markup Language (XACML)
             Version 3.0</title>
-          <author initials="E." surname="Rissanen"
-            fullname="Erik Rissanen">
+          <author initials="E." surname="Rissanen" fullname="Erik Rissanen">
             <organization/>
           </author>
           <date day="10" month="August" year="2010"/>
         </front>
       </reference>
-      <reference anchor="REST"
-        target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
+      <reference anchor="REST" target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
         <front>
           <title>Architectural Styles and the Design of Network-based
             Software Architectures</title>
-          <author initials="R." surname="Fielding"
-            fullname="Roy Thomas Fielding">
+          <author initials="R." surname="Fielding" fullname="Roy Thomas Fielding">
             <organization abbrev="UCI"> University of California, Irvine;
               Department of Information and Computer Science
             </organization>
           </author>
           <date year="2000"/>
         </front>
-        <format type="text/html"
-          target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"
-          octets="7287"/>
+        <format type="text/html" target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm" octets="7287"/>
       </reference>
       <?rfc include="reference.RFC.2396" ?>
       <?rfc include="reference.RFC.2822" ?>
