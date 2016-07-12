@@ -1417,35 +1417,23 @@
     <section title="Use Case Examples">
       <section title="Service Discovery" anchor="svc-doc">
         <t>This section provides a non-normative example of a client
-          doing service discovery. TODO: Standardize location of doc?</t>
+          doing service discovery.</t>
         <t>An Atom service document enables a client to dynamically
           discover what feeds a particular publisher makes available.
           Thus, a provider uses an Atom service document to enable
           clients or other authorized parties to determine what specific
-          information the provider makes available to the community. The
-          service document could be made available at any well known
-          location, such as via a link from the CSIRT's home page. One
-          common technique is to include a link in the &lt;HEAD&gt;
-          section of the organization's home page, as shown below: </t>
+          information the provider makes available to the community.
+          While the service document is at a required location, the
+          service document could also be made available at any well known
+          location, such as via a link from the producer's home page. </t>
 
-        <t>Example of bootstrapping Service Document discovery:</t>
-
-        <figure height="" suppress-title="false" width="" alt="" title=""
-          align="left">
-          <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
-  <link rel="introspection"  
-    type="application/atomsvc+xml" 
-    title="Atom Publishing Protocol Service Document" 
-    href="/csirt/svcdoc.xml" />   ]]></artwork>
-        </figure>
-
-        <t>A client may then format an HTTP GET request to retrieve the
-          service document:</t>
+        <t>A client may format an HTTP GET request to retrieve the
+          service document from the specified location:</t>
 
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
           <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
-  GET /provider/svcdoc.xml
+  GET /rolie/servicedocument
   Host: www.example.org
   Accept: application/atomsvc+xml   ]]></artwork>
         </figure>
@@ -1472,9 +1460,9 @@
       xmlns:xml="http://www.w3.org/XML/1998/namespace"
       xml:lang="en-US">
     <workspace>
-      <atom:title type="text">Incidents</atom:title>
-      <collection href="http://example.org/provider/incidents">
-        <atom:title type="text">Incidents Feed</atom:title>
+      <atom:title type="text">Vulnerabilities</atom:title>
+      <collection href="http://example.org/provider/vulns">
+        <atom:title type="text">Vulnerabilities Feed</atom:title>
         <categories fixed="yes">
           <atom:category
               scheme="urn:ietf:params:rolie:information-type"
@@ -1487,7 +1475,7 @@
         </figure>
 
         <t>This simple Service Document example shows that this server
-          provides one workspace, named "Incidents". Within that
+          provides one workspace, named "Vunerabilities". Within that
           workspace, the producer makes one feed collection available.
           When attempting to GET or POST entries to that feed collection,
           the client must indicate a content type of
@@ -1513,7 +1501,7 @@
     <workspace>
       <atom:title>Public Security Information Sharing</atom:title>
       <collection 
-          href="http://example.org/provider/public/vulnerabilties">
+          href="http://example.org/provider/public/vulns">
         <atom:title>Public Vulnerabilities</atom:title>
         <accept>application/atom+xml; type=entry</accept>
         <categories fixed="yes">
@@ -1521,44 +1509,32 @@
               scheme="urn:ietf:params:rolie:information-type"
               term="vulnerability"/>
         </categories>
-      </collection>
-      <collection 
-          href="http://example.org/provider/public/incidents">
-        <atom:title>Public Incidents</atom:title>
-        <accept>application/atom+xml; type=entry</accept>
-        <categories fixed="yes">
-          <atom:category
-              scheme="urn:ietf:params:rolie:information-type"
-              term="incident"/>
-        </categories>
-      </collection>            
+      </collection>          
     </workspace>
     <workspace>
       <atom:title>Private Consortium Sharing</atom:title>
       <collection 
-          href="http://example.org/provider/private/incidents" >
+          href="http://example.org/provider/private/vulns" >
         <atom:title>Incidents</atom:title>
         <accept>application/atom+xml;type=entry</accept>
         <categories fixed="yes">
           <atom:category
               scheme="urn:ietf:params:rolie:information-type"
-              term="incident"/>
+              term="incidents"/>
         </categories>
       </collection>
     </workspace>
   </service>    ]]></artwork>
         </figure>
 
-        <t>In this example, the CSIRT is providing a total of three feed
-          collections, organized into two different workspaces. The first
-          workspace contains two feeds, consisting of publicly available
-          software vulnerabilities and publicly available incidents,
-          respectively. The second workspace provides one additional
-          feed, for use by a sharing consortium. The feed contains
-          incident information containing entries related to three
-          purposes: traceback, mitigation, and reporting. The entries in
-          this feed are categorized with a restriction of either
-          "Need-to-Know" or "private". An appropriately authenticated and
+        <t>In this example, the provider is making available a total of
+          two feed collections, organized into two different workspaces.
+          The first workspace contains a feed consisting of publicly
+          available software vulnerabilities. The second workspace
+          provides one additional feed, for use by a sharing consortium.
+          The feed contains incident information containing entries, and
+          as a designated private feed would hie specific authorization
+          and authentication in place. An appropriately authenticated and
           authorized client may then proceed to make GET requests for one
           or more of these feeds. The publicly provided incident
           information may be accessible with or without authentication.
@@ -1570,20 +1546,19 @@
 
       <section title="Feed Retrieval" anchor="feed-doc">
         <t>This section provides a non-normative example of a client
-          retrieving an incident feed. TODO</t>
+          retrieving an incident feed.</t>
         <t>Having discovered the available security information sharing
-          feeds, an authenticated and authorized client who is a member
-          of the private sharing consortium may be interested in
-          receiving the feed of known incidents. The client may retrieve
-          this feed by performing an HTTP GET operation on the indicated
-          URL. </t>
+          feeds, a client who is a member of the general public may be
+          interested in receiving the feed of public vulnerabilities. The
+          client may retrieve this feed by performing an HTTP GET
+          operation on the indicated URL. </t>
 
         <t>Example HTTP GET request for a Feed:</t>
 
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
           <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
-  GET /provider/private/incidents
+  GET /provider/vulns
   Host: www.example.org
   Accept: application/atom+xml    ]]></artwork>
         </figure>
@@ -1604,49 +1579,30 @@
   <?xml version="1.0" encoding="UTF-8"?>
   <feed xmlns="http://www.w3.org/2005/Atom"
       xml:lang="en-US">
-  
-    <generator version="1.0">
-        Example Provider ROLIE Feed Generator
-    </generator>
-    <id>http://www.example.org/provider/private/incidents</id>
+    <id>http://www.example.org/provider/vulns</id>
     <title type="text">
         Atom formatted representation of 
         a feed of XML incident documents
     </title>
-
-    <!-- The category is taken from the related IANA table -->
     <atom:category
         scheme="urn:ietf:params:rolie:information-type"
-        term="incident"/>
-    <updated>2012-05-04T18:13:51.0Z</updated> 
-    <author>
-      <email>provider@example.org</email>
-      <name>Example Provider</name>
-    </author>
-  
-    <!-- By convention there is usually a self link for the feed -->
-    <link href="http://www.example.org/provider/private/incidents" 
-        rel="self" type="application/atom+xml"/>
-               
+        term="vulnerability"/>
+    <updated>2012-05-04T18:13:51.0Z</updated>
+    <link rel="self" href="http://example.org/provider/vulns" />  
+    <link rel="service" 
+        href="http://example.org/rolie/servicedocument"/>
+    <link rel="search" href="http://example.org/provider/vulns/search/>
     <entry>
+      <rolie:format ns="urn:ietf:params:xml:ns:exampleformat"/>
       <id>
-          http://www.example.org/provider/private/incidents/123456
+          http://www.example.org/provider/vulns/123456
       </id>
       <title>Sample Incident</title>
-      
-      <!-- by convention -->
-      <link 
-          href="http://www.example.org/provider/private/incidents/12345" 
-          rel="self" type="application/atom+xml"/>       
-      
-      <!-- required by Atom spec -->
-      <link 
-          href="http://www.example.org/provider/private/incidents/12345" 
-          rel="alternate" type="xml"/>
-      
       <published>2014-08-04T18:13:51.0Z</published>
       <updated>2014-08-05T18:13:51.0Z</updated>
       <summary>A short description of this resource</summary>
+      <content type="application/xml" 
+          src="http://www.example.org/provider/vulns/123456/data"
     </entry>
     
     <entry>
@@ -1684,7 +1640,7 @@
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
           <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
-  GET /provider/private/incidents/123456
+  GET /provider/vulns/123456
   Host: www.example.org
   Accept: application/atom+xml   ]]></artwork>
         </figure>
@@ -1704,52 +1660,24 @@
 
   <?xml version="1.0" encoding="UTF-8"?>
   <entry>
-    <id>http://www.example.org/provider/private/incidents/123456</id>
+    <id>http://www.example.org/provider/vulns/123456</id>
     <title>Sample Incident</title>
-    <!-- by convention -->
-    <link href="http://www.example.org/csirt/private/incidents/123456"
-      rel="self" type="application/atom+xml"/>       
-    <!-- required by Atom spec -->
-    <link href="http://www.example.org/csirt/private/incidents/123456"
-      rel="alternate" type="IODEF"/>  
     <published>2012-08-04T18:13:51.0Z</published>
     <updated>2012-08-05T18:13:51.0Z</updated>
-    <!-- The category is taken from the related IANA table -->
     <atom:category
         scheme="urn:ietf:params:rolie:information-type"
         term="incident"/>
     <summary>A short description of this incident resource</summary>
-
-    <!-- Typical operations that can be 
-      performed on this entry include edit -->
-    <link href="http://www.example.org/csirt/private/incidents/123456"
-      rel="edit"/>
-              
-    <!-- the next and previous are just sequential access,
-      may not map to anything related to this resource -->
-    <link href="http://www.example.org/csirt/private/incidents/123457"
-      rel="next"/>
-    <link href="http://www.example.org/csirt/private/incidents/123455"
-      rel="previous"/>
-  
-    <!-- navigate up to the full collection.  
-      Might also be rel="collection" as per IANA registry -->
-    <link href="http://www.example.org/csirt/private/incidents"
-      rel="up"/>
-   
-    <content type="application/xml">
-      <xml>
-        <tag>
-          <data> Example </data>
-        </tag>
-      </xml>
+    <content type="application/xml" 
+        src="http://www.example.org/provider/vulns/123456/data">
     </content>
   </entry>    ]]></artwork>
         </figure>
 
         <t>As can be seen in the example response, above, an XML document
-          is contained within the Atom &lt;content&gt; element. The
-          client may now process the XML document as needed.</t>
+          is linked to in the attributes of the Atom &lt;content&gt;
+          element. The client may now process the XML document as
+          needed.</t>
 
         <t>Note also that, as described previously, the content of the
           Atom &lt;category&gt; element is application-defined. The Atom
@@ -1758,20 +1686,21 @@
 
         <t>Finally, it should be noted that in order to optimize the
           client experience, and avoid an additional round trip, a feed
-          provider may choose to include the entry content inline, as
-          part of the feed document. That is, an Atom &lt;entry&gt;
-          element within a Feed document may contain an Atom
-          &lt;content&gt; element as a child. In this case, the client
-          will receive the full content of the entries within the feed.
-          The decision of whether to include the entry content inline or
-          to include it as a link is a design choice left to the feed
-          provider (e.g. based upon local environmental factors such as
-          the number of entries contained in a feed, the available
-          network bandwidth, the available server compute cycles, the
-          expected client usage patterns, etc.). </t>
+          provider may choose to include certain entry elements inline,
+          as part of the feed document. That is, an Atom &lt;entry&gt;
+          element within a Feed document may contain arbitrary
+          non-required Atom elements as children. In this case, the
+          client will receive the more explciit information on entries
+          from within the feed. The decision of whether to include extra
+          entry elements inline or to include it as a link is a design
+          choice left to the feed provider (e.g. based upon local
+          environmental factors such as the number of entries contained
+          in a feed, the available network bandwidth, the available
+          server compute cycles, the expected client usage patterns,
+          etc.). </t>
 
       </section>
-      <section title="Use Case:  Search" anchor="search-query">
+      <section title="Use Case:  Search TODO" anchor="search-query">
         <t>This section provides a non-normative example of a search use
           case. </t>
 
