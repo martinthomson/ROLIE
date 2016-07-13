@@ -78,7 +78,7 @@
     <abstract>
       <t>This document defines a resource-oriented approach for security
         automation information publication, discovery, and sharing. Using
-        this approach, producers may publish, share and exchange
+        this approach producers may publish, share, and exchange
         representations of security incidents, attack indicators,
         software vulnerabilities, configuration checklists, and other
         security automation information as Web-addressable resources.
@@ -110,7 +110,7 @@
         structured as <xref target="RFC4287">Atom Syndication
         Format</xref> feeds. Representations of specific types of
         security automation information are categorized and organized
-        into indexed collections, which may be requested by the consumer.
+        into indexed collections which may be requested by the consumer.
         As the set of resource collections are forward facing, the
         consumer may search all available content for which they are
         authorized to view, and request the information resources which
@@ -1627,7 +1627,7 @@
       <section title="Entry Retrieval" anchor="entry-doc">
 
         <t>This section provides a non-normative example of a client
-          retrieving an incident as an Atom entry. TODO</t>
+          retrieving an incident as an Atom entry.</t>
 
         <t>Having retrieved the feed of interest, the client may then
           decide based on the description and/or category information
@@ -1700,11 +1700,11 @@
           etc.). </t>
 
       </section>
-      <section title="Use Case:  Search TODO" anchor="search-query">
+      <section title="Use Case:  Search" anchor="search-query">
         <t>This section provides a non-normative example of a search use
           case. </t>
 
-        <t> The following example provides a RESTful solution to handling
+        <t>The following example provides a RESTful solution to handling
           search results. Note that in the RESTful approach described
           herein there is no requirement to define a query language.
           Instead, implementations may provide support for search
@@ -1728,21 +1728,12 @@
   Content-Type: application/atom+xml;type=feed;charset="utf-8"
 
   <?xml version="1.0" encoding="UTF-8"?>
-  <feed xmlns="http://www.w3.org/2005/Atom"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.w3.org/2005/Atom file:/
-                                                    C:/schemas/atom.xsd
-      urn:ietf:params:xml:ns:iodef-1.0 
-      file:/C:/schemas/iodef-1.0.xsd"
-      xml:lang="en-US">
-        
+  <feed xmlns="http://www.w3.org/2005/Atom">
       <link href="http://www.example.org/opensearchdescription.xml" 
               rel="search" 
-              type="application/opensearchdescription+xml" 
-              title="CSIRT search facility" />
-
+              type="application/opensearchdescription+xml"/>
       <!-- ...other links... -->
-
+      <!-- ...other required elements -->
       <entry>
           <!-- ...zero or more entries... -->
       </entry>
@@ -1762,18 +1753,18 @@
           <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
   <?xml version="1.0" encoding="UTF-8"?>
   <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-    <ShortName>CSIRT search example</ShortName>
-    <Description>Cyber security information 
+    <ShortName>Provider search example</ShortName>
+    <Description>Computer security information 
                       sharing consortium search interface</Description>
-    <Tags>example csirt indicator search</Tags>
+    <Tags>example provider indicator search</Tags>
     <Contact>admin@example.org</Contact>
     <!-- optionally, other elements, as per OpenSearch specification -->
     <Url type="application/opensearchdescription+xml" rel="self" 
-     template="http://www.example.com/csirt/opensearchdescription.xml"/>
+     template="http://www.example.com/provider/opensearchdescription.xml"/>
     <Url type="application/atom+xml" rel="results" 
-     template="http://www.example.org/csirt?q={searchTerms}&amp;
+     template="http://www.example.org/provider?q={searchTerms}&amp;
                         format=Atom+xml"/>
-    <LongName>www.example.org CSIRT search</LongName>
+    <LongName>www.example.org Provider search</LongName>
     <Query role="example" searchTerms="incident" />
     <Language>en-us</Language>
     <OutputEncoding>UTF-8</OutputEncoding>
@@ -1857,6 +1848,18 @@
       <t>TODO</t>
     </section>
     <section title="Change Tracking" anchor="appendix-delta">
+      <t>Changes in draft-field-mile-rolie-03 version, July 8, 2015
+        <list style="symbols">
+          <t>Atom Syndication and Atom Pub requirements split and greatly
+          expanded for increased justification and technical
+          specification.</t>
+          <t>Reintroduction and reformatting of some use case examples in
+          order to provide some guidance on use.</t>
+          <t>Established rough version of IANA table extension system
+            along with explanations of said system.</t>
+          <t>Re-organized document to put non-vital information in
+            appendices.</t>
+        </list> </t>
       <t>Changes since draft-field-mile-rolie-01 version, December, 2015
         to May 27, 2016: <list style="symbols">
         <t>All CSIRT and IODEF/RID material moved to companion CSIRT
