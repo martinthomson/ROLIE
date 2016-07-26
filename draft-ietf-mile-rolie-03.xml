@@ -409,7 +409,7 @@
             Workspace.</t>
           <t>The following restrictions are imposed on the use of the
             app:workspace element in ROLIE:<list style="symbols">
-            <t>A ROLE repository can host Collections containing both
+            <t>A ROLIE repository can host Collections containing both
               public and private information entries. It is RECOMMENDED
               that public and private collections be segregated into
               different Workspaces. By doing this, Workspaces that
@@ -669,7 +669,7 @@
           <t>The <xref target="RFC5005">Feed Paging and Archiving</xref>
             Atom extension provides capabilities for paging and archiving
             of feeds.</t>
-          <t>A atom:feed can contain an arbitrary number of entries. In
+          <t>An atom:feed can contain an arbitrary number of entries. In
             some cases, a complete feed may consist of a large number of
             entries. Additionally, as new and updated entries are ordered
             at the beginning of a feed, a client may only be interested
@@ -784,9 +784,9 @@
             The content element MUST adhere to this definition:</t>
           <t>The link element follows the definition laid out in the Atom
             Syndication Document.</t>
-          <t>If there entries with the same format and category but a
-            different type, it MUST be linked to using the "alternate"
-            link relation.</t>
+          <t>If there exists entries with the same format and category
+            but a different type, it MUST be linked to using the
+            "alternate" link relation.</t>
           <!--
           <c>history (use version-history and/or next-archive, prev-archive, and current: keep?)</c>
           <c>Provides a link to a collection of zero or more historical
@@ -801,7 +801,7 @@
           anchor="atom-synd-entry-rolie-format">
           <t>There MUST be exactly one rolie:format element in the Entry.
             This format SHOULD be one of the formats listed under the
-            category of this entry as discussed in the and Content Model
+            category of this entry as discussed in the Content Model
             section. The format is contained in the content of this
             tag.</t>
         </section>
