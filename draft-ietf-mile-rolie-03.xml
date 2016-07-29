@@ -1442,7 +1442,7 @@
           the MIME type for Atom service discovery. The response to this
           GET request will be an XML document that contains information
           on the specific feed collections that are provided by the
-          CSIRT. </t>
+          provider. </t>
 
         <t>Example HTTP GET response:</t>
 
@@ -1456,9 +1456,7 @@
 
   <?xml version="1.0" encoding="UTF-8"?>
   <service xmlns="http://www.w3.org/2007/app"
-      xmlns:atom="http://www.w3.org/2005/Atom"
-      xmlns:xml="http://www.w3.org/XML/1998/namespace"
-      xml:lang="en-US">
+      xmlns:atom="http://www.w3.org/2005/Atom">
     <workspace>
       <atom:title type="text">Vulnerabilities</atom:title>
       <collection href="http://example.org/provider/vulns">
@@ -1468,7 +1466,6 @@
               scheme="urn:ietf:params:rolie:information-type"
               term="vulnerability"/>
         </categories>
-        <accept>application/atom+xml; type=entry</accept>
       </collection>            
     </workspace>
   </service>    ]]></artwork>
@@ -1476,10 +1473,8 @@
 
         <t>This simple Service Document example shows that this server
           provides one workspace, named "Vunerabilities". Within that
-          workspace, the producer makes one feed collection available.
-          When attempting to GET or POST entries to that feed collection,
-          the client must indicate a content type of
-          application/atom+xml.</t>
+          workspace, the producer makes one feed collection
+          available.</t>
 
         <t>A server may also offer a number of different feeds, each
           containing different types of security automation information.
@@ -1503,7 +1498,6 @@
       <collection 
           href="http://example.org/provider/public/vulns">
         <atom:title>Public Vulnerabilities</atom:title>
-        <accept>application/atom+xml; type=entry</accept>
         <categories fixed="yes">
           <atom:category
               scheme="urn:ietf:params:rolie:information-type"
@@ -1516,7 +1510,6 @@
       <collection 
           href="http://example.org/provider/private/vulns" >
         <atom:title>Incidents</atom:title>
-        <accept>application/atom+xml;type=entry</accept>
         <categories fixed="yes">
           <atom:category
               scheme="urn:ietf:params:rolie:information-type"
@@ -1531,10 +1524,8 @@
           two feed collections, organized into two different workspaces.
           The first workspace contains a feed consisting of publicly
           available software vulnerabilities. The second workspace
-          provides one additional feed, for use by a sharing consortium.
-          The feed contains incident information containing entries, and
-          as a designated private feed would hie specific authorization
-          and authentication in place. An appropriately authenticated and
+          provides one additional vulnerability feed, for use by a
+          private sharing consortium. An appropriately authenticated and
           authorized client may then proceed to make GET requests for one
           or more of these feeds. The publicly provided incident
           information may be accessible with or without authentication.
@@ -1690,7 +1681,7 @@
           as part of the feed document. That is, an Atom &lt;entry&gt;
           element within a Feed document may contain arbitrary
           non-required Atom elements as children. In this case, the
-          client will receive the more explciit information on entries
+          client will receive the more explicit information on entries
           from within the feed. The decision of whether to include extra
           entry elements inline or to include it as a link is a design
           choice left to the feed provider (e.g. based upon local
