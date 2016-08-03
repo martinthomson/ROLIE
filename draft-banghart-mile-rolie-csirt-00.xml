@@ -17,7 +17,10 @@
   <!ENTITY RFC6545 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6545.xml">
   <!ENTITY RFC6546 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6546.xml">
   <!ENTITY RFC5070bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rfc5070-bis-25.xml">
-  <!ENTITY rolie SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rolie-03.xml">
+  <!--
+  <!ENTITY ROLIE SYSTEM
+  "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rolie-03.xml">
+  -->
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200811" category="info"
@@ -59,7 +62,7 @@
       <email>sab3@nist.gov</email>
     </address>
     </author>
-    <date month="June" day="28" year="2016"/>
+    <date month="August" day="3" year="2016"/>
     <area>Security</area>
     <workgroup>MILE Working Group</workgroup>
     <abstract>
@@ -82,8 +85,8 @@
   </front>
   <middle>
     <section title="Introduction" anchor="starting-intro">
-      <t>This specification is an extension to the ROLIE core <xref
-        target="rolie"/> designed to address CSIRT use cases. The primary
+      <t>This specification is an extension to the ROLIE core<!-- <xref
+        target="ROLIE"/>--> designed to address CSIRT use cases. The primary
         purpose of this extension in to define two new information types:
         incident, and indicator, along with data-models that can express
         these information types. Implementation requirements and use
@@ -529,7 +532,8 @@ Content-Type: application/atom+xml;type=feed;charset="utf-8"
         <link href="http://www.example.org/csirt/repository/ddos/123456" 
           rel="alternate"/>     <!-- required by Atom spec -->
         <link href="http://www.example.org/csirt/repository/ddos/987654" 
-          rel="related"/>       <!-- link to a related DDOS resource in this repository -->
+          rel="related"/>       <!-- link to a related DDOS resource
+          in this repository -->
         <link href="http://www.cyber-agency.gov/repository/
           indicators/1a2b3c" rel="related"/>  
           <!-- link to a related DDOS resource in another repository -->              
@@ -754,10 +758,14 @@ Content-Type: application/atom+xml;type=feed;charset="utf-8"
       <t>TBA: Add registries for rolie:format and for information-type
         category.</t>
     </section>
+    <section title="Security Considerations">
+      <t>TODO</t>
+    </section>
   </middle>
   <back>
-    <references title="Normative References"> &RFC2119; &RFC2616;
-      &RFC4287; &RFC5005; &RFC5023; &RFC5070; &RFC6545; &rolie;
+
+    <references title="Normative References"> &RFC2119;
+      &RFC5070; <!--&ROLIE;-->
         <reference anchor="opensearch"
         target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
         <front>
