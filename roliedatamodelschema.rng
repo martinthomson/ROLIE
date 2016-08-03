@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar 
+    xmlns="http://relaxng.org/ns/structure/1.0"
+    xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0"
+    xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+    <start>
+        <element name="datamodel" ns="urn:ietf:params:xml:ns:rolie-1.0">
+            <attribute name="ns">
+                <text />
+            </attribute>
+            <attribute name="version">
+                <text />
+            </attribute>
+            <attribute name="schema">
+                <text />
+            </attribute>
+            <attribute name="schema-type">
+                <text />
+            </attribute>
+        </element>
+    </start>
+</grammar>
