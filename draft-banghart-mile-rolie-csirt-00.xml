@@ -17,10 +17,8 @@
   <!ENTITY RFC6545 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6545.xml">
   <!ENTITY RFC6546 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6546.xml">
   <!ENTITY RFC5070bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rfc5070-bis-25.xml">
-  <!--
-  <!ENTITY ROLIE SYSTEM
+  <!ENTITY I-D.ietf-mile-rolie SYSTEM
   "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rolie-03.xml">
-  -->
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200811" category="info"
@@ -85,8 +83,8 @@
   </front>
   <middle>
     <section title="Introduction" anchor="starting-intro">
-      <t>This specification is an extension to the ROLIE core<!-- <xref
-        target="ROLIE"/>--> designed to address CSIRT use cases. The primary
+      <t>This specification is an extension to the ROLIE core<xref
+        target="I-D.ietf-mile-rolie"/> designed to address CSIRT use cases. The primary
         purpose of this extension in to define two new information types:
         incident, and indicator, along with data-models that can express
         these information types. Implementation requirements and use
@@ -98,7 +96,7 @@
         NOT," "SHOULD," "SHOULD NOT," "RECOMMENDED," "MAY," and
         "OPTIONAL" in this document are to be interpreted as described in
         <xref target="RFC2119"/>. </t>
-      <t>Definitions for some of the common computer security-related
+      <t>Definitions for some of the common computer security-related 
         terminology used in this document can be found in Section 2 of
         <xref target="RFC5070"/>.</t>
     </section>
@@ -765,7 +763,7 @@ Content-Type: application/atom+xml;type=feed;charset="utf-8"
   <back>
 
     <references title="Normative References"> &RFC2119;
-      &RFC5070; <!--&ROLIE;-->
+      &RFC5070; &I-D.ietf-mile-rolie;
         <reference anchor="opensearch"
         target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
         <front>
