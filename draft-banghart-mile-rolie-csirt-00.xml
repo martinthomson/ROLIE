@@ -119,7 +119,28 @@
     <section title="CSIRT Information Types">
       <t>This section discusses the information-type </t>
       <section title="Incident Information Type">
-        <t></t>
+        <t>
+          The incident information-type represents any information
+          describing or otherwise related to a computer security
+          incident. There is no widely agreed upon definition of an
+          incident, and any given definition will vary across user
+          cases. As such, this information-type deals with a flexible and
+          abstract definition of incident that encompasses the whole
+          range of uses. Provided below is a non-exhaustive list of
+          information that may be considered to be an incident
+          information type.
+          <list style="symbols">
+            <t>Timing information: start and end times for the
+              incident and/or the response.</t>
+            <t>Descriptive information: plain text or machine readable
+              data that provides some degree of description of the
+              incident itself.</t>
+            <t>Response information: the methods and results of a response
+            to the incident</t>
+            <t>Meta and contact info,</t>
+            <t>Time and place of incident</t>
+          </list>
+        </t>
       </section>
       <section title="Indicator Information Type">
         <t></t>
