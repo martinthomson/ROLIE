@@ -108,15 +108,15 @@
         architectural style. In this approach, computer security
         resources are maintained in web-accessible repositories
         structured as <xref target="RFC4287">Atom Syndication
-        Format</xref> feeds. Representations of specific types of
+        Format</xref> Feeds. Representations of specific types of
         security automation information are categorized and organized
-        into indexed collections which may be requested by the consumer.
-        As the set of resource collections are forward facing, the
+        into indexed Collections which may be requested by the consumer.
+        As the set of resource Collections are forward facing, the
         consumer may search all available content for which they are
         authorized to view, and request the information resources which
         are desired. Through use of granular authentication and access
         controls, only authorized consumers may be permitted the ability
-        to read or write to a given feed. This approach is in contrast
+        to read or write to a given Feed. This approach is in contrast
         to, and meant to improve on, the traditional point-to-point
         messaging system, in which consumers must request individual
         pieces of information from a server following a triggering event.
@@ -201,12 +201,12 @@
         acquire, contextualize, and put to use shared computer security
         information.</t>
       <t>Existing approaches to computer security information sharing
-        often use message exchange patterns that are point-to-point, and
-        event-driven. Sometimes, information that may be useful to share
-        with multiple peers is only made available to peers after they
-        have specifically requested it. Unfortunately, a sharing peer may
-        not know, a priori, what information to request from another
-        peer. Some exsisting systems provide a mechanism for unsolicited
+        often use message exchange patterns that are point-to-point.
+        Sometimes, information that may be useful to share with multiple
+        peers is only made available to peers after they have
+        specifically requested it. Unfortunately, a sharing peer may not
+        know, a priori, what information to request from another peer.
+        Some existing systems provide a mechanism for unsolicited
         information requests, however these reports are again sent
         point-to-point, and must be reviewed for relevance and then
         prioritized for action by the recipient, introducing additional
@@ -217,7 +217,7 @@
         sharing greatly aids knowledge dissemination, and improves
         response times and usability.</t>
       <t>For example, a security analyst can benefit by having the
-        ability to search a comprehensive collection of attack indicators
+        ability to search a comprehensive Collection of attack indicators
         that have been published by a government agency, or by another
         member of a sharing consortium. The representation of each
         indicator may include links to the related resources, enabling an
@@ -239,128 +239,46 @@
         a sharing network is an automated security solution that can
         dynamically find and collect information from a globally
         distributed web of information repositories.</t>
-      <t>The following section discusses additional specific technical
-        issues that motivated the development of this alternative
-        approach.</t>
       <section
-        title="Message-oriented versus Resource-oriented Architecture"
-        anchor="msg-vs-roa">
-        <t>The existing approaches to computer security information
-          sharing are based upon message-oriented interactions. The
-          following paragraphs explore some of the architectural
-          constraints associated with message-oriented interactions and
-          consider the relative merits of an alternative model based on a
-          resource-oriented architecture for use in some use case
-          scenarios.</t>
-        <t>ROLIE specifies a resource-oriented architecture that attempts
-          to address the issues present in a message-oriented
-          architecture.</t>
-        <section title="Message-oriented Architecture" anchor="message">
-          <t>In general, message-based integration architectures may be
-            based upon either an RPC-style or a document-style binding.
-            The message types defined by <xref target="RFC6545">Real-time
-            Inter-network Defense (RID)</xref> represents an example of
-            an RPC-style request. This approach imposes implied
-            requirements for conversational state management on both of
-            the communicating RID endpoint(s). Experience has shown that
-            this state management frequently becomes the limiting factor
-            with respect to the runtime scalability of an RPC-style
-            architecture.</t>
-          <t>In addition, the practical scalability of a peer-to-peer
-            message-based approach will be limited by the administrative
-            procedures required to manage O(N^2) trust relationships and
-            at least O(N) policy groups.</t>
-          <t>As long as the number of participating entities in an
-            information sharing consortium is limited to a relatively
-            small number of nodes (i.e., O(2^N), where N &lt; 5), these
-            scalability constraints may not represent a critical concern.
-            However, when there is a requirement to support a
-            significantly larger number of participating peers, a
-            different architectural approach will be required. Towards
-            the goal to create a large-scale network of entities sharing
-            information, this traditional architecture only creates small
-            and isolated groupings of sharing, encouraging effort
-            duplication between these sharing islands. One alternative to
-            the message-based approach that has demonstrated scalability
-            and a high degree of connectedness is the <xref target="REST"
-            >REST</xref> architectural style.</t>
-        </section>
-        <section title="Resource-Oriented Architecture"
-          anchor="roa-benefits">
-          <t>Applying the REST architectural style to the problem domain
-            of security information sharing involves exposing information
-            in any relevant type as simple Web-addressable resources.
-            Each provider maintains their own repository of data, with
-            public and private sections as needed. Any producer or
-            consumer can then discover these repositories, search for
-            relevant feeds, and pull information from them. By using this
-            approach, an organization can more quickly and easily share
-            relevant data representations with a much larger and
-            potentially more diverse constituency. A consumer may
-            leverage virtually any available HTTP user agent in order to
-            make requests of the service provider. This improved ease of
-            use enables more rapid adoption and broader participation,
-            thereby improving security for everyone.</t>
-          <t>A key aspect of any RESTful Web service is the ability
-            provide multiple resource representations. For example,
-            clients may request that a given resource representation be
-            returned as XML, JSON, or in some other format. In order to
-            enable backwards-compatibility and interoperability with
-            existing implementations, the RESTful approach allows the
-            provider to make differing formats available proactively,
-            allowing the consumer to simply select the version that best
-            suits them.</t>
-          <t>Finally, an important principle of the REST architectural
-            style is the focus on hypermedia as the engine of application
-            state (HATEOAS). Rather than the server maintaining
-            conversational state for each client, the server will instead
-            include a suitable set of hyperlinks in the resource
-            representation that is returned to the client. The included
-            hyperlinks provide the client with a specific set of
-            permitted state transitions. Using these links the client may
-            perform an operation, such as updating or deleting the
-            resource representation. The client may also be provided with
-            hypertext links that can be used to navigate to any related
-            resource. For example, the resource representation for an
-            incident object may contain links to the related indicator
-            resource(s). In this way, the server remains stateless with
-            respect to a series of client requests.</t>
-          <section
-            title="A Resource-Oriented Use Case: &quot;Mashup&quot;"
-            anchor="mashup">
-            <t>In this section we consider an example scenario for
-              creating a computer security "mashup".</t>
-            <t>A producer creates and maintains a feed of information on
-              threat actors, whilst another creates and maintains a feed
-              of attack indicators. Each has authorized a large
-              consortium of security analysts to access these feeds as
-              they see fit. Any one of these analysts can then make
-              HTTP(s) requests to the servers to collect sets of
-              information from each provider. The resulting correlations
-              may yield new insights that enable a more timely and
-              effective defensive response. Of course, this report may,
-              in turn, be made available to others as a new
-              Web-addressable resource, reachable via another URL. By
-              exposing information using the RESTful approach in this
-              way, the effectiveness of the collaboration amongst a
-              consortium of cyber security stakeholders can be greatly
-              improved.</t>
-          </section>
-        </section>
-      </section>
-      <section title="Use of the Atom Publishing Protocol">
-        <t>This specification defines a profile of the <xref
-          target="RFC5023">Atom Publishing Protocol (AtomPub)</xref> and
-          <xref target="RFC4287">Atom Syndication Format</xref> providing
-          implementation requirements for a security information sharing
-          solution as a RESTful Web service.</t>
-        <t>This document assumes that the reader has an understanding of
-          both the AtomPub and Atom Syndication Format
-          specifications.</t>
-        <t>The following two sections of this document provide
-          requirements for using the Atom Syndication Format and AtomPub
-          as a RESTful binding for security automation information
-          sharing.</t>
+        title="Resource-oriented Architecture"
+        anchor="roa">
+        <t>Applying the REST architectural style to the problem domain of
+          security information sharing involves exposing information in
+          any relevant type as simple Web-addressable resources. Each
+          provider maintains their own repository of data, with public
+          and private sections as needed. Any producer or consumer can
+          then discover these repositories, search for relevant Feeds,
+          and pull information from them. By using this approach, an
+          organization can more quickly and easily share relevant data
+          representations with a much larger and potentially more diverse
+          constituency. A consumer may leverage virtually any available
+          HTTP user agent in order to make requests of the service
+          provider. This improved ease of use enables more rapid adoption
+          and broader participation, thereby improving security for
+          everyone.</t>
+        <t>A key aspect of any RESTful Web service is the ability to
+          provide multiple resource representations. For example, clients
+          may request that a given resource representation be returned as
+          XML, JSON, or in some other format. In order to enable
+          backwards-compatibility and interoperability with existing
+          implementations, the RESTful approach allows the provider to
+          make differing formats available proactively, allowing the
+          consumer to simply select the version that best suits them.</t>
+        <t>Finally, an important principle of the REST architectural
+          style is the focus on hypermedia as the engine of application
+          state (HATEOAS). Rather than the server maintaining
+          conversational state for each client, the server will instead
+          include a suitable set of hyperlinks in the resource
+          representation that is returned to the client. The included
+          hyperlinks provide the client with a specific set of permitted
+          state transitions. Using these links the client may perform an
+          operation, such as updating or deleting the resource
+          representation. The client may also be provided with hypertext
+          links that can be used to navigate to any related resource. For
+          example, the resource representation for an object may contain
+          links to the related resource(s). In this way, the server
+          remains stateless with respect to a series of client
+          requests.</t>
       </section>
     </section>
 
@@ -370,10 +288,12 @@
         extensions to the <xref target="RFC5023">Atom Publishing Protocol
         (AtomPub)</xref> that define the use of that protocol in the
         context of a ROLIE-based solution.</t>
+      <t>This document assumes that the reader has an understanding of
+        the Atom Publishing Protocol specification.</t>
       <section title="AtomPub Service Documents" anchor="atompub-service">
         <t>As described in <xref target="RFC5023">RFC5023 section
           8</xref>, a Service Document is an XML-based document format
-          that allows a client to dynamically discover the collections
+          that allows a client to dynamically discover the Collections
           provided by a publisher. A Service Document consists of one or
           more app:workspace elements that may each contain a number of
           app:collection elements.</t>
@@ -411,7 +331,7 @@
             app:workspace element in ROLIE:<list style="symbols">
             <t>A ROLIE repository can host Collections containing both
               public and private information entries. It is RECOMMENDED
-              that public and private collections be segregated into
+              that public and private Collections be segregated into
               different Workspaces. By doing this, Workspaces that
               contain private information can be ignored by clients.</t>
             <t>Appropriate descriptions and naming conventions SHOULD be
@@ -420,8 +340,8 @@
               Workspaces by clients.</t>
             <t>An implementation can provide any number of Collections
               within a given Workspace. It is RECOMMENDED that each
-              collection appear in only a single Workspace. This helps to
-              reduce the number of duplicate collections that need to be
+              Collection appear in only a single Workspace. This helps to
+              reduce the number of duplicate Collections that need to be
               examined to discover information that is relevant to a
               given client.</t>
             </list></t>
@@ -438,7 +358,7 @@
             represents a pointer to a group of security automation
             information resources pertaining to a given type of security
             automation information. Collections are represented as Atom
-            feeds as per RFC 5023. Feed specific requirements are defined
+            Feeds as per RFC 5023. Feed specific requirements are defined
             in section <xref target="atom-synd-feed" format="counter"
             />.</t>
 
@@ -477,7 +397,7 @@
       <section title="Service Discovery">
         <t>This specification requires that an implementation MUST
           publish an Atom Service Document that describes the set of
-          security information sharing collections that are provided by
+          security information sharing Collections that are provided by
           the repository.</t>
         <!-- Discoverable how? This level of specificity does not really do anything for discovery-->
         <t>The service document SHOULD be discoverable via the
@@ -508,7 +428,7 @@
 
       <section title="User Authentication" anchor="normative-user-auth">
         <t>Implementations MUST support user authentication. User
-          authentication MAY be enabled for specific feeds.</t>
+          authentication MAY be enabled for specific Feeds.</t>
         <t>Implementations MAY support more than one client
           authentication method.</t>
         <t>Servers participating in an information sharing consortium and
@@ -559,26 +479,28 @@
         extensions to the <xref target="RFC4287">Atom Syndication
         Format</xref> that define the use of that format in the context
         of a ROLIE-based solution.</t>
+      <t>This document assumes that the reader has an understanding of
+        the Atom Syndication Format specification.</t>
       <section title="Use of the &quot;atom:feed&quot; element"
         anchor="atom-synd-feed">
         <t>As described in <xref target="RFC4287">RFC4287 section
           4.1.1</xref>, an Atom Feed is an XML-based document format that
           describes a list of related information items, also known as a
-          collection. Each Feed document, represented using the atom:feed
-          element, contains a collection of zero or more related
-          information items individually called a "member entry" or
-          "entry".</t>
+          Collection. Each Feed document, represented using the atom:feed
+          element, contains a Collection of zero or more related
+          information items individually called a "member Entry" or
+          "Entry".</t>
         <t>When applied to the problem domain of security automation
           information sharing, an Atom Feed may be used to represent any
-          meaningful collection of security automation information
+          meaningful Collection of security automation information
           resources including a set of configuration checklists or
-          software vulnerabilities. Each entry in an atom:feed represents
+          software vulnerabilities. Each Entry in an atom:feed represents
           an individual resource, such as a specific checklist or
           software vulnerability record. Additional Feeds can be used to
-          represent collections of other meaningful and useful security
+          represent Collections of other meaningful and useful security
           automation resources.</t>
-        <t>This Atom feed definition represents a stricter definition of
-          the Atom entry element. Any element not specified here inherits
+        <t>This Atom Feed definition represents a stricter definition of
+          the Atom Entry element. Any element not specified here inherits
           its definition and requirements from RFC 4287.</t>
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
@@ -618,7 +540,7 @@
               in section <xref target="category-information-type"
               format="counter"/>. This ensures that a given Collection
               corresponds to a specific type of security automation
-              information. All member entries in the collection MUST
+              information. All member entries in the Collection MUST
               represent security automation information records of this
               information type.</t>
             <t>Any atom:feed element that does not contain a child
@@ -640,20 +562,20 @@
             represent state transitions using a stateless approach. In
             Atom a type of link relationship can be defined using the
             "rel" attribute. The following are link relations that
-            provide state transitions related to a ROLIE Atom feed.<list
+            provide state transitions related to a ROLIE Atom Feed.<list
             style="symbols">
             <t>"service" - Indicates that the href value of the link
               identifies a resource IRI that can be used to retrieve an
-              Atom Service Document associated with the feed. A feed MUST
+              Atom Service Document associated with the Feed. A Feed MUST
               include one or more links with rel="service" to point to
-              the service document(s) that are associated with the feed.
+              the service document(s) that are associated with the Feed.
               The "service" link relationship type is defined in the
               <eref
               target="https://www.iana.org/assignments/link-relations/link-relations.xhtml"
               >IANA Link Relations Registry</eref>.</t>
             <t>"search" - Indicates that the href value of the link
               identifies a resource IRI that can be used to search
-              through the containing feed and related resources. A feed
+              through the containing Feed and related resources. A Feed
               MAY include one or more links with rel="search" to point
               TBD.<!-- Figure out search --> The "search" link
               relationship type is defined in the <eref
@@ -668,31 +590,31 @@
             did not appear.</t>
           <t>The <xref target="RFC5005">Feed Paging and Archiving</xref>
             Atom extension provides capabilities for paging and archiving
-            of feeds.</t>
+            of Feeds.</t>
           <t>An atom:feed can contain an arbitrary number of entries. In
-            some cases, a complete feed may consist of a large number of
+            some cases, a complete Feed may consist of a large number of
             entries. Additionally, as new and updated entries are ordered
-            at the beginning of a feed, a client may only be interested
-            in retriving the first X entries in a feed to process only
+            at the beginning of a Feed, a client may only be interested
+            in retriving the first X entries in a Feed to process only
             the entries that have changed since the last access to a
-            ROLIE repository feed. As a practical matter, the full result
+            ROLIE repository Feed. As a practical matter, the full result
             set will likely need to be divided into more manageable
             portions. Based on <xref target="RFC5005">RFC5005 section
-            3</xref>, the links SHOULD be included in all feeds to
+            3</xref>, the links SHOULD be included in all Feeds to
             support paging using the following link relation types:<list
             style="symbols">
             <t>"first" - Indicates that the href value of the link
               identifies a resource IRI for the furthest preceding page
-              of the feed.</t>
+              of the Feed.</t>
             <t>"last" - Indicates that the href value of the link
               identifies a resource IRI for the furthest following page
-              of the feed.</t>
+              of the Feed.</t>
             <t>"previous" - Indicates that the href value of the link
               identifies a resource IRI for the immediately preceeding
-              page of the feed.</t>
+              page of the Feed.</t>
             <t>"next" - Indicates that the href value of the link
               identifies a resource IRI for the immediately following
-              page of the feed.</t>
+              page of the Feed.</t>
             </list> </t>
 
           <t>For example:</t>
@@ -713,23 +635,23 @@
   </feed>   ]]></artwork>
           </figure>
 
-          <t>An historical feed may need to be stable, and/or divided
+          <t>An historical Feed may need to be stable, and/or divided
             into some defined epochs. Implementations SHOULD support the
             mechanisms described in <xref target="RFC5005">RFC5005
             section 4</xref> to provide capabilities for maintaining
-            archiving of feeds.</t>
+            archiving of Feeds.</t>
         </section>
         <section title="Use of the &quot;atom:updated&quot; Element"
           anchor="atom-synd-feed-updated">
           <t>The atom:updated element MUST be populated with the current
-            time at the instant the feed representation was last updated
-            by adding, updating, or deleting an entry; or changing any
-            metadata for the feed.</t>
+            time at the instant the Feed representation was last updated
+            by adding, updating, or deleting an Entry; or changing any
+            metadata for the Feed.</t>
         </section>
       </section>
       <section title="Use of the  &quot;atom:entry&quot; Element"
         anchor="atom-synd-entry">
-        <t>Each entry in an Atom feed, represented by the atom:entry
+        <t>Each Entry in an Atom Feed, represented by the atom:entry
           element, describes a single information record, format, and
           type combination. The following atom:entry schema definition
           represents a stricter representation of the atom:entry element
@@ -760,7 +682,7 @@
 
         <section title="Use of the &quot;atom:content&quot; Element"
           anchor="atom-synd-entry-content">
-          <t>There MUST be exactly one atomContent element in the entry.
+          <t>There MUST be exactly one atomContent element in the Entry.
             The content element MUST adhere to this definition: </t>
           <figure height="" suppress-title="false" width="" alt=""
             title="" align="left">
@@ -780,7 +702,7 @@
         </section>
         <section title="Use of the &quot;atom:link&quot; Element"
           anchor="atom-synd-entry-link">
-          <t>There MAY be zero or more atom:link elements in the entry.
+          <t>There MAY be zero or more atom:link elements in the Entry.
             The content element MUST adhere to this definition:</t>
           <t>The link element follows the definition laid out in the Atom
             Syndication Document.</t>
@@ -789,10 +711,10 @@
             "alternate" link relation.</t>
           <!--
           <c>history (use version-history and/or next-archive, prev-archive, and current: keep?)</c>
-          <c>Provides a link to a collection of zero or more historical
+          <c>Provides a link to a Collection of zero or more historical
             entries that are associated with the resource.</c>
           <c>information (not sure what this does: keep?)</c>
-          <c>Provides a link to a collection of zero or more instances
+          <c>Provides a link to a Collection of zero or more instances
             of information that are associated with the resource.</c>
             </texttable>
             -->
@@ -801,7 +723,7 @@
           anchor="atom-synd-entry-rolie-format">
           <t>There MUST be exactly one rolie:format element in the Entry.
             This format SHOULD be one of the formats listed under the
-            category of this entry as discussed in the Content Model
+            category of this Entry as discussed in the Content Model
             section. The format is contained in the content of this
             tag.</t>
         </section>
@@ -820,18 +742,18 @@
           <ttcol align="left">Conformance</ttcol>
           <c>service</c>
           <c>Provides a link to an atom service document associated with
-            the collection feed.</c>
+            the Collection Feed.</c>
           <c>MUST</c>
           <c>search</c>
           <c>Provides a link to an associated Open Search document that
             describes a URL template for search queries.</c>
           <c>MUST</c>
           <c>history</c>
-          <c>Provides a link to a collection of zero or more historical
+          <c>Provides a link to a Collection of zero or more historical
             entries that are associated with the resource.</c>
           <c>MUST</c>
           <c>information</c>
-          <c>Provides a link to a collection of zero or more instances
+          <c>Provides a link to a Collection of zero or more instances
             of information that are associated with the resource.</c>
           <c>MUST</c>
         </texttable>
@@ -874,11 +796,11 @@
         using the "atom:category" element. In this way, an
         "atom:category" element can be used to:<list style="numbers">
         <t>identify that an "app:collection" element in a Service
-          Document points to an Atom feed that contains entries
+          Document points to an Atom Feed that contains entries
           pertaining to a specific type of security automation
           information (see section <xref
           target="atompub-service-collection" format="counter"/>), or</t>
-        <t>identify that an "atom:feed" element in an Atom feed contains
+        <t>identify that an "atom:feed" element in an Atom Feed contains
           entries pertaining to a specific type of security automation
           information (see section <xref target="atom-synd-feed-category"
           format="counter"/>).</t>
@@ -943,8 +865,8 @@
         <t>The core extension point within this specification is the
           ability to define different security automation information
           types, which can be used to characterize the type of
-          information contained in a ROLIE resource collection. The
-          information type of a resource collection is characterized
+          information contained in a ROLIE resource Collection. The
+          information type of a resource Collection is characterized
           using an "atom:category" element with a "scheme" attribute
           value of "urn:ietf:params:rolie:information-type", and a "term"
           attribute value identifying the specific information type
@@ -981,13 +903,13 @@
         <!--
         <t>The general category of information as given by the "Category"
           Column in the IANA table is declared in the atomCategory element
-          of the collection. The supported formats of representation of
+          of the Collection. The supported formats of representation of
           the category are provided by the "Formats" column, and declared
-          in the rolie:format element in the entry. Finally, links to the
+          in the rolie:format element in the Entry. Finally, links to the
           specifications for the format are provided in the "schema"
           column. The particular serialization of a format is stored
           within the type attribute of the content element in the
-          entry.</t>
+          Entry.</t>
         <t>Feed implementers MAY provide Atom categories that do not
           correspond to categories described in that IANA table, but run
           the risk of losing interoperability when doing so. Note that
@@ -1062,13 +984,6 @@
               added to this registry uses the value 1, and this value is
               incremented for each subsequent entry added to the
               registry.</t>
-            <t>Description: A complete description of the security
-              resource information type as a string from the printable
-              ASCII character set RFC0020 with individual embedded spaces
-              allowed. The ABNF RFC5324 syntax for this field is: <list
-              hangIndent="0">
-              <t>1*VCHAR *(SP 1*VCHAR)</t>
-              </list> </t>
             <t>Specification URI/Reference: A list of one or more URIs
               <xref target="RFC3986"/> from which the registered specification can be
               obtained. The registered specification MUST be readily and
@@ -1130,7 +1045,7 @@
         the information sharing consortium, with suitably stringent
         technical and management controls.</t>
       <t>All security measures MUST be enforced at the source, that is, a
-        provider SHALL NOT return any feed content or member entry
+        provider SHALL NOT return any Feed content or member Entry
         content for which the client identity has not been specifically
         authenticated, authorized, and audited.</t>
       <t>Sharing communities that have a requirement for forward message
@@ -1185,7 +1100,7 @@
         not unique to this specification, and a similar potential for
         abuse exists with any other cyber security information sharing
         protocol. However, the wide availability of tools for HTTP
-        clients and Atom feed handling implies that the resources and
+        clients and Atom Feed handling implies that the resources and
         technical skills required for a successful exploit may be less
         than it was previously. This risk can be best mitigated through
         appropriate vetting of the client at account provisioning time.
@@ -1419,7 +1334,7 @@
         <t>This section provides a non-normative example of a client
           doing service discovery.</t>
         <t>An Atom service document enables a client to dynamically
-          discover what feeds a particular publisher makes available.
+          discover what Feeds a particular publisher makes available.
           Thus, a provider uses an Atom service document to enable
           clients or other authorized parties to determine what specific
           information the provider makes available to the community.
@@ -1441,7 +1356,7 @@
         <t>Notice the use of the HTTP Accept: request header, indicating
           the MIME type for Atom service discovery. The response to this
           GET request will be an XML document that contains information
-          on the specific feed collections that are provided by the
+          on the specific Feed Collections that are provided by the
           provider. </t>
 
         <t>Example HTTP GET response:</t>
@@ -1473,13 +1388,13 @@
 
         <t>This simple Service Document example shows that this server
           provides one workspace, named "Vunerabilities". Within that
-          workspace, the producer makes one feed collection
+          workspace, the producer makes one Feed Collection
           available.</t>
 
-        <t>A server may also offer a number of different feeds, each
+        <t>A server may also offer a number of different Feeds, each
           containing different types of security automation information.
-          In the following example, the feeds have been categorized. This
-          categorization will help the clients to decide which feeds will
+          In the following example, the Feeds have been categorized. This
+          categorization will help the clients to decide which Feeds will
           meet their needs. </t>
 
         <figure height="" suppress-title="false" width="" alt="" title=""
@@ -1521,27 +1436,27 @@
         </figure>
 
         <t>In this example, the provider is making available a total of
-          two feed collections, organized into two different workspaces.
-          The first workspace contains a feed consisting of publicly
+          two Feed Collections, organized into two different workspaces.
+          The first workspace contains a Feed consisting of publicly
           available software vulnerabilities. The second workspace
-          provides one additional vulnerability feed, for use by a
+          provides one additional vulnerability Feed, for use by a
           private sharing consortium. An appropriately authenticated and
           authorized client may then proceed to make GET requests for one
-          or more of these feeds. The publicly provided incident
+          or more of these Feeds. The publicly provided incident
           information may be accessible with or without authentication.
-          However, users accessing the feed targeted to the private
+          However, users accessing the Feed targeted to the private
           sharing consortium would be expected to authenticate, and
           appropriate authorization policies would subsequently be
-          enforced by the feed provider.</t>
+          enforced by the Feed provider.</t>
       </section>
 
       <section title="Feed Retrieval" anchor="feed-doc">
         <t>This section provides a non-normative example of a client
-          retrieving an incident feed.</t>
+          retrieving an incident Feed.</t>
         <t>Having discovered the available security information sharing
-          feeds, a client who is a member of the general public may be
-          interested in receiving the feed of public vulnerabilities. The
-          client may retrieve this feed by performing an HTTP GET
+          Feeds, a client who is a member of the general public may be
+          interested in receiving the Feed of public vulnerabilities. The
+          client may retrieve this Feed by performing an HTTP GET
           operation on the indicated URL. </t>
 
         <t>Example HTTP GET request for a Feed:</t>
@@ -1555,7 +1470,7 @@
         </figure>
 
         <t>The corresponding HTTP response would be an XML document
-          containing the incidents feed:</t>
+          containing the incidents Feed:</t>
 
         <t>Example HTTP GET response for a Feed:</t>
 
@@ -1603,8 +1518,8 @@
   </feed>   ]]></artwork>
         </figure>
 
-        <t>This feed document has two atom entries, one of which has been
-          elided. The completed entry illustrates an Atom &lt;entry&gt;
+        <t>This Feed document has two atom entries, one of which has been
+          elided. The completed Entry illustrates an Atom &lt;entry&gt;
           element that provides a summary of essential details about one
           particular incident. Based upon this summary information and
           the provided category information, a client may choose to do an
@@ -1618,11 +1533,11 @@
       <section title="Entry Retrieval" anchor="entry-doc">
 
         <t>This section provides a non-normative example of a client
-          retrieving an incident as an Atom entry.</t>
+          retrieving an incident as an Atom Entry.</t>
 
-        <t>Having retrieved the feed of interest, the client may then
+        <t>Having retrieved the Feed of interest, the client may then
           decide based on the description and/or category information
-          that one of the entries in the feed is of further interest. The
+          that one of the entries in the Feed is of further interest. The
           client may retrieve this incident Entry by performing an HTTP
           GET operation on the indicated URL. </t>
 
@@ -1676,17 +1591,17 @@
           model.</t>
 
         <t>Finally, it should be noted that in order to optimize the
-          client experience, and avoid an additional round trip, a feed
-          provider may choose to include certain entry elements inline,
-          as part of the feed document. That is, an Atom &lt;entry&gt;
+          client experience, and avoid an additional round trip, a Feed
+          provider may choose to include certain Entry elements inline,
+          as part of the Feed document. That is, an Atom &lt;entry&gt;
           element within a Feed document may contain arbitrary
           non-required Atom elements as children. In this case, the
           client will receive the more explicit information on entries
-          from within the feed. The decision of whether to include extra
-          entry elements inline or to include it as a link is a design
-          choice left to the feed provider (e.g. based upon local
+          from within the Feed. The decision of whether to include extra
+          Entry elements inline or to include it as a link is a design
+          choice left to the Feed provider (e.g. based upon local
           environmental factors such as the number of entries contained
-          in a feed, the available network bandwidth, the available
+          in a Feed, the available network bandwidth, the available
           server compute cycles, the expected client usage patterns,
           etc.). </t>
 
@@ -1767,7 +1682,7 @@
           &lt;Url&gt; elements that contain parametrized URL templates.
           These templates provide a representation of how the client
           should make search requests. The exact format of the query
-          string, including the parametrization is specified by the feed
+          string, including the parametrization is specified by the Feed
           provider</t>
 
         <t>This OpenSearch Description Document also contains an example
@@ -1874,7 +1789,7 @@
         draft-field-mile-rolie-02 version, August 15, 2013 to December 2,
         2015: <list style="symbols">
         <t>Added section specifying the use of RFC5005 for Archive and
-          Paging of feeds.</t>
+          Paging of Feeds.</t>
         <t>Added section describing use of atom categories that
           correspond to IODEF expectation class and impact classes. See:
           normative-expectation-impact </t>
