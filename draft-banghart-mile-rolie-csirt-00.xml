@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd"[
-  <!ENTITY xml-names SYSTEM "http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-xml-names-20091208.xml">
-  <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-  <!ENTITY RFC2141 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2141.xml">
+  <!ENTITY xml-names SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml4/reference.W3C.REC-xml-names-20091208.xml">
+  <!ENTITY RFC2119 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+  <!ENTITY RFC2141 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2141.xml">
   <!ENTITY RFC2616 SYSTEM
-  "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml">
-  <!ENTITY RFC3444 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3444.xml">
-  <!ENTITY RFC3688 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3688.xml">
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2616.xml">
+  <!ENTITY RFC3444 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3444.xml">
+  <!ENTITY RFC3688 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3688.xml">
   <!ENTITY RFC3986 SYSTEM
-  "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml">
-  <!ENTITY RFC4287 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4287.xml">
-  <!ENTITY RFC5070 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5070.xml">
-  <!ENTITY RFC5023 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5023.xml">
-  <!ENTITY RFC5005 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5005.xml">
-  <!ENTITY RFC6545 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6545.xml">
-  <!ENTITY RFC6546 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6546.xml">
-  <!ENTITY RFC5070bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rfc5070-bis-25.xml">
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml">
+  <!ENTITY RFC4287 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4287.xml">
+  <!ENTITY RFC5070 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5070.xml">
+  <!ENTITY RFC5023 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5023.xml">
+  <!ENTITY RFC5005 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5005.xml">
+  <!ENTITY RFC6545 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6545.xml">
+  <!ENTITY RFC6546 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6546.xml">
+  <!ENTITY RFC5070bis SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rfc5070-bis-25.xml">
   <!ENTITY I-D.ietf-mile-rolie SYSTEM
-  "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rolie-03.xml">
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rolie-03.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200811" category="info"
