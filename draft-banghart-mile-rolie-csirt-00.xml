@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd"[
   <!ENTITY xml-names SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml4/reference.W3C.REC-xml-names-20091208.xml">
   <!ENTITY RFC2119 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
@@ -84,19 +83,19 @@
   <middle>
     <section title="Introduction" anchor="starting-intro">
       <t>This specification is an extension to the ROLIE core<xref
-        target="I-D.ietf-mile-rolie"/> designed to address CSIRT use cases. The primary
-        purpose of this extension in to define two new information types:
-        incident, and indicator, along with data-models that can express
-        these information types. Implementation requirements and use
-        examples beyond those present in the ROLIE core will be laid out
-        by this document.</t>
+        target="I-D.ietf-mile-rolie"/> designed to address CSIRT use
+        cases. The primary purpose of this extension in to define two new
+        information types: incident, and indicator, along with
+        data-models that can express these information types.
+        Implementation requirements and use examples beyond those present
+        in the ROLIE core will be laid out by this document.</t>
     </section>
     <section title="Terminology" anchor="ext-terminology">
       <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL
         NOT," "SHOULD," "SHOULD NOT," "RECOMMENDED," "MAY," and
         "OPTIONAL" in this document are to be interpreted as described in
         <xref target="RFC2119"/>. </t>
-      <t>Definitions for some of the common computer security-related 
+      <t>Definitions for some of the common computer security-related
         terminology used in this document can be found in Section 2 of
         <xref target="RFC5070"/>.</t>
     </section>
@@ -187,54 +186,392 @@
     </section>
     <section title="Content Formats">
       <section title="The IODEF Format">
-        <section title="Background">
-          <t>The Incident Object Description Exchange Format (IODEF) is a
-            format for representing computer security information
-            commonly exchanged between Computer Security Incident
-            Response Teams (CSIRTs) or other operational security teams. </t>
-          <t>IODEF conveys indicators, incident reports, response
-            activities, and related meta-data in an XML serialization.
-            This information is formally structured in order to support
-            and encourage automated machine-to-machine security
-            communication, as well as enhanced processing at the
-            endpoint.</t>
-          <t>The full IODEF specification provides further high-level
-            discussion and technical details.</t>
-        </section>
-        <section title="Motivation for Integration in ROLIE">
-          <t>IODEF's goals as a format specification aligns closely with
-            ROLIE's goals as a exchange specification. Both strive to
-            create a security automation ecosystem that is built on a
-            foundation of open communication and interoperability.</t>
-          <t>Any stakeholder current supporting the IODEF format and
-            sharing IODEF information by some mechanism benefits greatly
-            by adopting a standardized information sharing scheme. ROLIE
-            provides a means to easily share and acquire IODEF
-            information as well asa way to append any additional metadata
-            that could be useful to operations.</t>
-          <t>Any current ROLIE implementation would be motivated to adopt
-            this extension in order to support existing CSIRTs and other
-            operators that utilize the IODEF format.</t>
-        </section>
+
+        <t>The Incident Object Description Exchange Format (IODEF) is a
+          format for representing computer security information commonly
+          exchanged between Computer Security Incident Response Teams
+          (CSIRTs) or other operational security teams. </t>
+        <t>IODEF conveys indicators, incident reports, response
+          activities, and related meta-data in an XML serialization. This
+          information is formally structured in order to support and
+          encourage automated machine-to-machine security communication,
+          as well as enhanced processing at the endpoint.</t>
+        <t>The full IODEF specification provides further high-level
+          discussion and technical details.</t>
 
       </section>
       <section title="The STIX Format">
-        <section title="Background">
-          <t>STIX is a structured language for describing a wide range of
-            security resources. STIX approaches the problem with a focus
-            on flexibility, automatability, readability, and
-            extensibility. TODO </t>
-        </section>
-        <section title="Motivation for Integration in ROLIE">
-          <t>STIX strives to create a structured format of information to
-            aid communication between sharing security entities both
-            externally and internally. STIX is a valuable format to
-            support in a ROLIE implementation in order to support CSIRTs
-            and other security stakeholders that utilize the standard.
-            TODO</t>
-        </section>
+
+        <t>STIX is a structured language for describing a wide range of
+          security resources. STIX approaches the problem with a focus on
+          flexibility, automatability, readability, and extensibility.
+          TODO </t>
+
       </section>
     </section>
+    <section title="Normative Requirements">
+      <section title="Additional Atom Syndication Requirements"
+        anchor="category-mapping">
+        <t>This section defines normative requirements for mapping IODEF
+          metadata to corresponding Atom syndication elements. </t>
+        <t>AUTHOR's NOTE: The decision is currently being made if any
+          payload data will be exposed outside of the payload. The
+          majority of these requirements hinge on this and are subject to
+          change as this document moves forward.</t>
+        <section title="Collection Elements">
+          <t> A collection containing IODEF incident content MUST contain
+            a &lt;ROLIE-CSIRT:purpose&gt; element. The content of this
+            element is constrained as per section 3.2 of IODEF, e.g.
+            traceback, mitigation, reporting, or other. A collection
+            containing IODEF incident content MUST contain a
+            &lt;ROLIE-CSIRT:restriction&gt; element. The allowable
+            content for the element is constrained as per section 3.2 of
+            IODEF, e.g. public, need-to-know, private, default. When the
+            category scheme="purpose", the allowable values for the
+            "term" attribute are constrained as per section 3.2 of IODEF,
+            e.g. traceback, mitigation, reporting, other. This metadata
+            provides valuable metadata for searching and organization.
+          </t>
+        </section>
+        <section title="Entry Elements">
+          <t>An entry containing an IODEF payload MUST contain aa
+            &lt;ROLIE-CSIRT:ID&gt; element. This element The ID element
+            for an Atom entry SHOULD be established via the concatenation
+            of the value of the name attribute from the IODEF
+            &lt;IncidentID&gt; element and the corresponding value of the
+            &lt;IncidentID&gt; element. This requirement ensures a simple
+            and direct one-to-one relationship between an IODEF incident
+            ID and a corresponding Feed entry ID and avoids the need for
+            any system to maintain a persistent store of these identity
+            mappings. </t>
+          <t> (todo: Note that this implies a constraint on the IODEF
+            document that is more restrictive than the current IODEF
+            schema. IODEF section 3.3 requires only that the name be a
+            STRING type. Here we are stating that name must be an IRI.
+            Possible request to update IODEF to constrain, or to support
+            a new element or attribute). </t>
+        </section>
+        <section title="Entry Category">
+          <t>An Atom entry containing IODEF content MUST contain at least
+            two &lt;category&gt; elements. One category MUST be specified
+            with the value of the "scheme" attribute as "restriction".
+            One category MUST be specified with the value of the "scheme"
+            attribute as "purpose". When the category
+            scheme="restriction", the value of the "term" attribute must
+            be exactly one of ( public, need-to-know, private, default).
+            When the category scheme="purpose", the value of the "term"
+            attribute must be exactly one of (traceback, mitigation,
+            reporting, other). When the purpose is "other".... </t>
+          <t> Any member entry MAY have any number of additional
+            categories. </t>
+        </section>
+      </section>
+      <section title="User Authorization" anchor="normative-user-authz">
+        <t>When the content model for the Atom &lt;content&gt; element of
+          an Atom Entry contains an &lt;IODEF-Document&gt;, then
+          authorization MUST be adjudicated based upon the Atom
+          &lt;category&gt; element(s), whose values have been mapped as
+          per <xref target="category-mapping"/>. </t>
+      </section>
+      <section title="Date Mapping">
+        <t>The Atom entry &lt;published&gt; element MUST be populated
+          with the same time value as the &lt;reportTime&gt; element from
+          the IODEF document. </t>
+      </section>
+      <section title="Expectation and Impact Classes"
+        anchor="normative-expectation-impact">
+        <t>It is frequently the case that an organization will need to
+          triage their investigation and response activities based upon,
+          e.g., the state of the current threat environment, or simply as
+          a result of having limited resources. </t>
+        <t> In order to enable operators to effectively prioritize their
+          response activity, it is RECOMMENDED that feed implementers
+          provide Atom categories that correspond to the IODEF
+          Expectation and Impact classes. The availability of these feed
+          categories will enable clients to more easily retrieve and
+          prioritize cyber security information that has already been
+          identified as having a specific potential impact, or having a
+          specific expectation. </t>
+        <t> Support for these categories may also enable efficiencies for
+          organizations that already have established (or plan to
+          establish) operational processes and workflows that are based
+          on these IODEF classes. </t>
+      </section>
+      <section title="Additional Link Relation Requirements"
+        anchor="link-rel-notes">
+        <texttable anchor="link-relations-table"
+          title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
+          <ttcol align="left">Name</ttcol>
+          <ttcol align="left">Description</ttcol>
+          <ttcol align="left">Conformance</ttcol>
+          <c>incidents</c>
+          <c>Provides a link to a collection of zero or more instances of
+            incident representations associated with the resource.</c>
+          <c>MUST</c>
+          <c>indicators</c>
+          <c>Provides a link to a collection of zero or more instances of
+            cyber security indicators that are associated with the
+            resource.</c>
+          <c>MUST</c>
+          <c>evidence</c>
+          <c>Provides a link to a collection of zero or more resources
+            that provides some proof of attribution for an incident. The
+            evidence may or may not have any identified chain of
+            custody.</c>
+          <c>SHOULD</c>
+          <c>campaign</c>
+          <c>Provides a link to a collection of zero or more resources
+            that provides a representation of the associated cyber attack
+            campaign.</c>
+          <c>SHOULD</c>
+          <c>attacker</c>
+          <c>Provides a link to a collection of zero or more resources
+            that provides a representation of the attacker.</c>
+          <c>SHOULD</c>
+          <c>vector</c>
+          <c>Provides a link to a collection of zero or more resources
+            that provides a representation of the method used by the
+            attacker.</c>
+          <c>SHOULD</c>
+          <c>assessments</c>
+          <c>Provides a link to a collection of zero or more resources
+            that represent the results of executing a benchmark.</c>
+          <c>SHOULD</c>
+          <c>reports</c>
+          <c>Provides a link to a collection of zero or more resources
+            that represent RID reports.</c>
+          <c>SHOULD</c>
+          <c>traceRequests</c>
+          <c>Provides a link to a collection of zero or more resources
+            that represent RID traceRequests.</c>
+          <c>SHOULD</c>
+          <c>investigationRequests</c>
+          <c>Provides a link to a collection of zero or more resources
+            that represent RID investigationRequests.</c>
+          <c>SHOULD</c>
+        </texttable>
+        <t>An IODEF document that is carried in an Atom Entry SHOULD NOT
+          contain a &lt;relatedActivity&gt; element. Instead, the related
+          activity SHOULD be available via a link rel=related. </t>
+        <t> An IODEF document that is carried in an Atom Entry SHOULD NOT
+          contain a &lt;history&gt; element. Instead, the related history
+          SHOULD be available via a link rel="history" (todo: or a fully
+          qualified link rek name). The associated href MAY leverage
+          OpenSearch to specify the required query. </t>
+      </section>
+      <section title="Search">
+        <t> Implementers SHOULD support search based upon the IODEF
+          AlternativeID class as a search parameter. </t>
+        <t> Implementers SHOULD support search based upon the four
+          timestamp elements of the IODEF Incident class:
+          &lt;startTime&gt;, &lt;EndTime&gt;, &lt;DetectTime&gt;, and
+          &lt;ReportTime&gt;. </t>
+        <t> Implementers MAY support additional search capabilities based
+          upon any of the remaining elements of the IODEF Incident class,
+          including the &lt;Description&gt; element. </t>
+        <t> Collections that support use of the RID schema as a content
+          model in the Atom member entry &lt;content&gt; element (e.g. in
+          a report resource representation reachable via the "report"
+          link relationship) MUST support search operations that include
+          the RID MessageType as a search parameter, in addition to the
+          aforementioned IODEF schema elements, as contained within the
+          &lt;ReportSchema&gt; element. </t>
+        <t> Implementers MUST fully qualify all OpenSearch URL template
+          parameter names using the defined IODEF or RID XML namespaces,
+          as appropriate. </t>
+      </section>
+      <section title="/ (forward slash) Resource URL" anchor="rid-ref">
+        <!-- Should this be moved to the CSIRT document? -->
+        <t>The "/" resource MUST be provided for compatibility with
+          existing deployments that are using <xref target="RFC6546"
+          >Transport of Real-time Inter-network Defense (RID) Messages
+          over HTTP/TLS</xref>. Consistent with RFC6546 errata, a client
+          requesting a GET on "/" MUST receive an HTTP status code 405
+          Method Not Allowed. An implementation MUST provide full support
+          for RFC6546 such that a POST to "/" containing a recognized RID
+          message type functions as expected. </t>
+        <t>Alternatively, a client requesting a POST to "/" MAY receive
+          an HTTP status code 307 Temporary Redirect. In this case, the
+          location header in the HTTP response will provide the URL of
+          the appropriate RID endpoint, and the client may repeat the
+          POST method at the indicated location.</t>
+      </section>
+    </section>
+    <section title="IANA Considerations">
+      <t>TBA: Add registries for rolie:format and for information-type
+        category.</t>
+    </section>
+    <section title="Security Considerations">
+      <t>TODO</t>
+    </section>
+  </middle>
+  <back>
+    <references title="Normative References"> &RFC2119; &RFC5070;
+      &I-D.ietf-mile-rolie; <reference anchor="opensearch"
+        target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
+        <front>
+          <title>OpenSearch 1.1 draft 5 specification</title>
+          <author initials="D." surname="Clinton"
+            fullname="Dewitt Clinton">
+            <organization abbrev="OpenSearch"> OpenSearch Community
+            </organization>
+          </author>
+          <date year="2011"/>
+        </front>
+      </reference>
+      <reference anchor="SAML-core"
+        target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
+        <front>
+          <title>Assertions and Protocols for the OASIS Security
+            Assertion Markup Language (SAML) V2.0 </title>
+          <author initials="S." surname="Cantor" fullname="Scott Cantor">
+            <organization/>
+          </author>
+          <author initials="J." surname="Kemp" fullname="John Kemp">
+            <organization/>
+          </author>
+          <author initials="R." surname="Philpott"
+            fullname="Rob Philpott">
+            <organization/>
+          </author>
+          <author initials="E." surname="Mahler" fullname="Eve Mahler">
+            <organization/>
+          </author>
+          <date day="15" month="March" year="2005"/>
+        </front>
+        <seriesInfo name="OASIS Standard" value=""/>
+      </reference>
+      <reference anchor="SAML-prof"
+        target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf">
+        <front>
+          <title>Profiles for the OASIS Security Assertion Markup
+            Language (SAML) V2.0</title>
+          <author initials="J." surname="Hughes" fullname="John Hughes">
+            <organization/>
+          </author>
+          <author initials="S." surname="Cantor" fullname="Scott Cantor">
+            <organization/>
+          </author>
+          <author initials="J." surname="Hodges" fullname="Jeff Hodges">
+            <organization/>
+          </author>
+          <author initials="F." surname="Hirsch"
+            fullname="Frederick Hirsch">
+            <organization/>
+          </author>
+          <author initials="P." surname="Mishra"
+            fullname="Prateek Mishra">
+            <organization/>
+          </author>
+          <author initials="R." surname="Philpott"
+            fullname="Rob Philpott">
+            <organization/>
+          </author>
+          <author initials="E." surname="Mahler" fullname="Eve Mahler">
+            <organization/>
+          </author>
+          <date day="15" month="March" year="2005"/>
+        </front>
+        <seriesInfo name="OASIS Standard" value=""/>
+      </reference>
+      <reference anchor="SAML-bind"
+        target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf">
+        <front>
+          <title>Bindings for the OASIS Security Assertion Markup
+            Language (SAML) V2.0 </title>
+          <author initials="S." surname="Cantor" fullname="Scott Cantor">
+            <organization/>
+          </author>
+          <author initials="F." surname="Hirsch"
+            fullname="Frederick Hirsch">
+            <organization/>
+          </author>
+          <author initials="J." surname="Kemp" fullname="John Kemp">
+            <organization/>
+          </author>
+          <author initials="R." surname="Philpott"
+            fullname="Rob Philpott">
+            <organization/>
+          </author>
+          <author initials="E." surname="Mahler" fullname="Eve Mahler">
+            <organization/>
+          </author>
+          <date day="15" month="March" year="2005"/>
+        </front>
+        <seriesInfo name="OASIS Standard" value=""/>
+      </reference>
+    </references>
+    <references title="Informative References">
+      <reference anchor="XMLencrypt"
+        target="http://www.w3.org/TR/xmlenc-core/">
+        <front>
+          <title>XML Encryption Syntax and Processing</title>
+          <author initials="T." surname="Imaura" fullname="">
+            <organization/>
+          </author>
+          <author initials="B." surname="Dillaway" fullname="">
+            <organization/>
+          </author>
+          <author initials="E." surname="Simon" fullname="">
+            <organization/>
+          </author>
+          <date month="December" year="2002"/>
+        </front>
+        <seriesInfo name="W3C Recommendation" value=""/>
+      </reference>
+      <reference anchor="XMLsig"
+        target="http://www.w3.org/TR/xmldsig-core/">
+        <front>
+          <title>XML-Signature Syntax and Processing</title>
+          <author initials="M." surname="Bartel">
+            <organization/>
+          </author>
+          <author initials="J." surname="Boyer">
+            <organization/>
+          </author>
+          <author initials="B." surname="Fox">
+            <organization/>
+          </author>
+          <author initials="B." surname="LaMaccia">
+            <organization/>
+          </author>
+          <author initials="E." surname="Simon">
+            <organization/>
+          </author>
+          <date month="June" year="2008"/>
+        </front>
+        <seriesInfo name="W3C Recommendation" value="Second Edition"/>
+      </reference>
+      <reference anchor="XACML"
+        target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
+        <front>
+          <title>eXtensible Access Control Markup Language (XACML)
+            Version 3.0</title>
+          <author initials="E." surname="Rissanen"
+            fullname="Erik Rissanen">
+            <organization/>
+          </author>
+          <date day="10" month="August" year="2010"/>
+        </front>
+      </reference>
+      <reference anchor="REST"
+        target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
+        <front>
+          <title>Architectural Styles and the Design of Network-based
+            Software Architectures</title>
+          <author initials="R." surname="Fielding"
+            fullname="Roy Thomas Fielding">
+            <organization abbrev="UCI"> University of California, Irvine;
+              Department of Information and Computer Science
+            </organization>
+          </author>
+          <date year="2000"/>
+        </front>
+        <format type="text/html"
+          target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"
+          octets="7287"/>
+      </reference>
+    </references>
     <section title="Non-Normative Examples" anchor="non-norm-ex">
       <section title="Use of Link Relations" anchor="link-relations">
         <t> A key benefit of using the RESTful architectural style is the
@@ -580,354 +917,5 @@ Content-Type: application/atom+xml;type=feed;charset="utf-8"
         </section>
       </section>
     </section>
-    <section title="Normative Requirements">
-      <section title="Additional Atom Syndication Requirements"
-        anchor="category-mapping">
-        <t>This section defines normative requirements for mapping IODEF
-          metadata to corresponding Atom syndication elements. </t>
-        <t>AUTHOR's NOTE: The decision is currently being made if any
-          payload data will be exposed outside of the payload. The
-          majority of these requirements hinge on this and are subject to
-          change as this document moves forward.</t>
-        <section title="Collection Elements">
-          <t> A collection containing IODEF incident content MUST contain
-            a &lt;ROLIE-CSIRT:purpose&gt; element. The content of this
-            element is constrained as per section 3.2 of IODEF, e.g.
-            traceback, mitigation, reporting, or other. A collection
-            containing IODEF incident content MUST contain a
-            &lt;ROLIE-CSIRT:restriction&gt; element. The allowable
-            content for the element is constrained as per section 3.2 of
-            IODEF, e.g. public, need-to-know, private, default. When the
-            category scheme="purpose", the allowable values for the
-            "term" attribute are constrained as per section 3.2 of IODEF,
-            e.g. traceback, mitigation, reporting, other. This metadata
-            provides valuable metadata for searching and organization.
-          </t>
-        </section>
-        <section title="Entry Elements">
-          <t>An entry containing an IODEF payload MUST contain aa
-            &lt;ROLIE-CSIRT:ID&gt; element. This element The ID element
-            for an Atom entry SHOULD be established via the concatenation
-            of the value of the name attribute from the IODEF
-            &lt;IncidentID&gt; element and the corresponding value of the
-            &lt;IncidentID&gt; element. This requirement ensures a simple
-            and direct one-to-one relationship between an IODEF incident
-            ID and a corresponding Feed entry ID and avoids the need for
-            any system to maintain a persistent store of these identity
-            mappings. </t>
-          <t> (todo: Note that this implies a constraint on the IODEF
-            document that is more restrictive than the current IODEF
-            schema. IODEF section 3.3 requires only that the name be a
-            STRING type. Here we are stating that name must be an IRI.
-            Possible request to update IODEF to constrain, or to support
-            a new element or attribute). </t>
-        </section>
-        <section title="Entry Category">
-          <t>An Atom entry containing IODEF content MUST contain at least
-            two &lt;category&gt; elements. One category MUST be specified
-            with the value of the "scheme" attribute as "restriction".
-            One category MUST be specified with the value of the "scheme"
-            attribute as "purpose". When the category
-            scheme="restriction", the value of the "term" attribute must
-            be exactly one of ( public, need-to-know, private, default).
-            When the category scheme="purpose", the value of the "term"
-            attribute must be exactly one of (traceback, mitigation,
-            reporting, other). When the purpose is "other".... </t>
-          <t> Any member entry MAY have any number of additional
-            categories. </t>
-        </section>
-      </section>
-      <section title="User Authorization" anchor="normative-user-authz">
-        <t>When the content model for the Atom &lt;content&gt; element of
-          an Atom Entry contains an &lt;IODEF-Document&gt;, then
-          authorization MUST be adjudicated based upon the Atom
-          &lt;category&gt; element(s), whose values have been mapped as
-          per <xref target="category-mapping"/>. </t>
-      </section>
-      <section title="Date Mapping">
-        <t>The Atom entry &lt;published&gt; element MUST be populated
-          with the same time value as the &lt;reportTime&gt; element from
-          the IODEF document. </t>
-      </section>
-      <section title="Expectation and Impact Classes"
-        anchor="normative-expectation-impact">
-        <t>It is frequently the case that an organization will need to
-          triage their investigation and response activities based upon,
-          e.g., the state of the current threat environment, or simply as
-          a result of having limited resources. </t>
-        <t> In order to enable operators to effectively prioritize their
-          response activity, it is RECOMMENDED that feed implementers
-          provide Atom categories that correspond to the IODEF
-          Expectation and Impact classes. The availability of these feed
-          categories will enable clients to more easily retrieve and
-          prioritize cyber security information that has already been
-          identified as having a specific potential impact, or having a
-          specific expectation. </t>
-        <t> Support for these categories may also enable efficiencies for
-          organizations that already have established (or plan to
-          establish) operational processes and workflows that are based
-          on these IODEF classes. </t>
-      </section>
-      <section title="Additional Link Relation Requirements"
-        anchor="link-rel-notes">
-        <texttable anchor="link-relations-table"
-          title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
-          <ttcol align="left">Name</ttcol>
-          <ttcol align="left">Description</ttcol>
-          <ttcol align="left">Conformance</ttcol>
-          <c>incidents</c>
-          <c>Provides a link to a collection of zero or more instances of
-            incident representations associated with the resource.</c>
-          <c>MUST</c>
-          <c>indicators</c>
-          <c>Provides a link to a collection of zero or more instances of
-            cyber security indicators that are associated with the
-            resource.</c>
-          <c>MUST</c>
-          <c>evidence</c>
-          <c>Provides a link to a collection of zero or more resources
-            that provides some proof of attribution for an incident. The
-            evidence may or may not have any identified chain of
-            custody.</c>
-          <c>SHOULD</c>
-          <c>campaign</c>
-          <c>Provides a link to a collection of zero or more resources
-            that provides a representation of the associated cyber attack
-            campaign.</c>
-          <c>SHOULD</c>
-          <c>attacker</c>
-          <c>Provides a link to a collection of zero or more resources
-            that provides a representation of the attacker.</c>
-          <c>SHOULD</c>
-          <c>vector</c>
-          <c>Provides a link to a collection of zero or more resources
-            that provides a representation of the method used by the
-            attacker.</c>
-          <c>SHOULD</c>
-          <c>assessments</c>
-          <c>Provides a link to a collection of zero or more resources
-            that represent the results of executing a benchmark.</c>
-          <c>SHOULD</c>
-          <c>reports</c>
-          <c>Provides a link to a collection of zero or more resources
-            that represent RID reports.</c>
-          <c>SHOULD</c>
-          <c>traceRequests</c>
-          <c>Provides a link to a collection of zero or more resources
-            that represent RID traceRequests.</c>
-          <c>SHOULD</c>
-          <c>investigationRequests</c>
-          <c>Provides a link to a collection of zero or more resources
-            that represent RID investigationRequests.</c>
-          <c>SHOULD</c>
-        </texttable>
-        <t>An IODEF document that is carried in an Atom Entry SHOULD NOT
-          contain a &lt;relatedActivity&gt; element. Instead, the related
-          activity SHOULD be available via a link rel=related. </t>
-        <t> An IODEF document that is carried in an Atom Entry SHOULD NOT
-          contain a &lt;history&gt; element. Instead, the related history
-          SHOULD be available via a link rel="history" (todo: or a fully
-          qualified link rek name). The associated href MAY leverage
-          OpenSearch to specify the required query. </t>
-      </section>
-      <section title="Search">
-        <t> Implementers SHOULD support search based upon the IODEF
-          AlternativeID class as a search parameter. </t>
-        <t> Implementers SHOULD support search based upon the four
-          timestamp elements of the IODEF Incident class:
-          &lt;startTime&gt;, &lt;EndTime&gt;, &lt;DetectTime&gt;, and
-          &lt;ReportTime&gt;. </t>
-        <t> Implementers MAY support additional search capabilities based
-          upon any of the remaining elements of the IODEF Incident class,
-          including the &lt;Description&gt; element. </t>
-        <t> Collections that support use of the RID schema as a content
-          model in the Atom member entry &lt;content&gt; element (e.g. in
-          a report resource representation reachable via the "report"
-          link relationship) MUST support search operations that include
-          the RID MessageType as a search parameter, in addition to the
-          aforementioned IODEF schema elements, as contained within the
-          &lt;ReportSchema&gt; element. </t>
-        <t> Implementers MUST fully qualify all OpenSearch URL template
-          parameter names using the defined IODEF or RID XML namespaces,
-          as appropriate. </t>
-      </section>
-    </section>
-    <section title="IANA Considerations">
-      <t>TBA: Add registries for rolie:format and for information-type
-        category.</t>
-    </section>
-    <section title="Security Considerations">
-      <t>TODO</t>
-    </section>
-  </middle>
-  <back>
-
-    <references title="Normative References"> &RFC2119;
-      &RFC5070; &I-D.ietf-mile-rolie;
-        <reference anchor="opensearch"
-        target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
-        <front>
-          <title>OpenSearch 1.1 draft 5 specification</title>
-          <author initials="D." surname="Clinton"
-            fullname="Dewitt Clinton">
-            <organization abbrev="OpenSearch"> OpenSearch Community
-            </organization>
-          </author>
-          <date year="2011"/>
-        </front>
-      </reference>
-      <reference anchor="SAML-core"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
-        <front>
-          <title>Assertions and Protocols for the OASIS Security
-            Assertion Markup Language (SAML) V2.0 </title>
-          <author initials="S." surname="Cantor" fullname="Scott Cantor">
-            <organization/>
-          </author>
-          <author initials="J." surname="Kemp" fullname="John Kemp">
-            <organization/>
-          </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
-            <organization/>
-          </author>
-          <author initials="E." surname="Mahler" fullname="Eve Mahler">
-            <organization/>
-          </author>
-          <date day="15" month="March" year="2005"/>
-        </front>
-        <seriesInfo name="OASIS Standard" value=""/>
-      </reference>
-      <reference anchor="SAML-prof"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf">
-        <front>
-          <title>Profiles for the OASIS Security Assertion Markup
-            Language (SAML) V2.0</title>
-          <author initials="J." surname="Hughes" fullname="John Hughes">
-            <organization/>
-          </author>
-          <author initials="S." surname="Cantor" fullname="Scott Cantor">
-            <organization/>
-          </author>
-          <author initials="J." surname="Hodges" fullname="Jeff Hodges">
-            <organization/>
-          </author>
-          <author initials="F." surname="Hirsch"
-            fullname="Frederick Hirsch">
-            <organization/>
-          </author>
-          <author initials="P." surname="Mishra"
-            fullname="Prateek Mishra">
-            <organization/>
-          </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
-            <organization/>
-          </author>
-          <author initials="E." surname="Mahler" fullname="Eve Mahler">
-            <organization/>
-          </author>
-          <date day="15" month="March" year="2005"/>
-        </front>
-        <seriesInfo name="OASIS Standard" value=""/>
-      </reference>
-      <reference anchor="SAML-bind"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf">
-        <front>
-          <title>Bindings for the OASIS Security Assertion Markup
-            Language (SAML) V2.0 </title>
-          <author initials="S." surname="Cantor" fullname="Scott Cantor">
-            <organization/>
-          </author>
-          <author initials="F." surname="Hirsch"
-            fullname="Frederick Hirsch">
-            <organization/>
-          </author>
-          <author initials="J." surname="Kemp" fullname="John Kemp">
-            <organization/>
-          </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
-            <organization/>
-          </author>
-          <author initials="E." surname="Mahler" fullname="Eve Mahler">
-            <organization/>
-          </author>
-          <date day="15" month="March" year="2005"/>
-        </front>
-        <seriesInfo name="OASIS Standard" value=""/>
-      </reference>
-    </references>
-    <references title="Informative References">
-      <reference anchor="XMLencrypt"
-        target="http://www.w3.org/TR/xmlenc-core/">
-        <front>
-          <title>XML Encryption Syntax and Processing</title>
-          <author initials="T." surname="Imaura" fullname="">
-            <organization/>
-          </author>
-          <author initials="B." surname="Dillaway" fullname="">
-            <organization/>
-          </author>
-          <author initials="E." surname="Simon" fullname="">
-            <organization/>
-          </author>
-          <date month="December" year="2002"/>
-        </front>
-        <seriesInfo name="W3C Recommendation" value=""/>
-      </reference>
-      <reference anchor="XMLsig"
-        target="http://www.w3.org/TR/xmldsig-core/">
-        <front>
-          <title>XML-Signature Syntax and Processing</title>
-          <author initials="M." surname="Bartel">
-            <organization/>
-          </author>
-          <author initials="J." surname="Boyer">
-            <organization/>
-          </author>
-          <author initials="B." surname="Fox">
-            <organization/>
-          </author>
-          <author initials="B." surname="LaMaccia">
-            <organization/>
-          </author>
-          <author initials="E." surname="Simon">
-            <organization/>
-          </author>
-          <date month="June" year="2008"/>
-        </front>
-        <seriesInfo name="W3C Recommendation" value="Second Edition"/>
-      </reference>
-      <reference anchor="XACML"
-        target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
-        <front>
-          <title>eXtensible Access Control Markup Language (XACML)
-            Version 3.0</title>
-          <author initials="E." surname="Rissanen"
-            fullname="Erik Rissanen">
-            <organization/>
-          </author>
-          <date day="10" month="August" year="2010"/>
-        </front>
-      </reference>
-      <reference anchor="REST"
-        target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
-        <front>
-          <title>Architectural Styles and the Design of Network-based
-            Software Architectures</title>
-          <author initials="R." surname="Fielding"
-            fullname="Roy Thomas Fielding">
-            <organization abbrev="UCI"> University of California, Irvine;
-              Department of Information and Computer Science
-            </organization>
-          </author>
-          <date year="2000"/>
-        </front>
-        <format type="text/html"
-          target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"
-          octets="7287"/>
-      </reference>
-    </references>
   </back>
 </rfc>
