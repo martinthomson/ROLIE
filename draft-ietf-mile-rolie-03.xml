@@ -244,7 +244,7 @@
         title="Resource-oriented Architecture"
         anchor="roa">
         <t>Applying the REST architectural style to the problem domain of
-          security information sharing involves exposing information in
+          security information sharing involves exposing information of
           any relevant type as simple Web-addressable resources. Each
           provider maintains their own repository of data, with public
           and private sections as needed. Any producer or consumer can
@@ -1013,12 +1013,19 @@
     </section>
     <section title="Security Considerations TODO" anchor="sec-security">
       <t>This document defines a resource-oriented approach to
-        lightweight information exchange using HTTP, TLS, Atom Syndicate
-        Format, and Atom Publishing Protocol. As such, implementers must
-        understand the security considerations described in those
-        specifications.</t>
-      <t>In addition, there are a number of additional security
-        considerations that are unique to this specification.</t>
+        lightweight information exchange using HTTP, TLS, Atom
+        Syndication Format, and Atom Publishing Protocol. As such,
+        implementers must understand the security considerations
+        described in those specifications. In addition, there are a
+        number of additional security considerations that are unique to
+        this specification.</t>
+      <t>All security measures MUST be enforced at the source, that is, a
+        provider SHALL NOT return any Feed content or member Entry
+        content for which the client identity has not been specifically
+        authenticated, authorized, and audited.</t>
+      <t>All that follows is guidance, more specific instruction is out
+        of scope for this document and will be located in a dedicated
+        informational document.</t>
       <t>The approach described herein is based upon all policy
         enforcements being implemented at the point when a resource
         representation is created. As such, producers sharing cyber
@@ -1026,15 +1033,15 @@
         authenticate their HTTP clients using a suitably strong user
         authentication mechanism. Sharing communities that are exchanging
         information on well-known indicators and incidents for purposes
-        of public education may choose to rely upon, e.g. HTTP
-        Authentication, or similar. However, sharing communities that are
-        engaged in sensitive collaborative analysis and/or operational
-        response for indicators and incidents targeting high value
-        information systems should adopt a suitably stronger user
-        authentication solution, such as TLS client certificates, or a
-        risk-based or multi-factor approach. In general, trust in the
-        sharing consortium will depend upon the members maintaining
-        adequate user authentication mechanisms.</t>
+        of public education may choose to rely upon HTTP Authentication
+        or similar. However, sharing communities that are engaged in
+        sensitive collaborative analysis and/or operational response for
+        indicators and incidents targeting high value information systems
+        should adopt a suitably stronger user authentication solution,
+        such as TLS client certificates, or a risk-based or multi-factor
+        approach. In general, trust in the sharing consortium will depend
+        upon the members maintaining adequate user authentication
+        mechanisms.</t>
       <t>Collaborating consortiums may benefit from the adoption of a
         federated identity solution, such as those based upon <xref
         target="SAML-core">SAML-core</xref> and <xref target="SAML-bind"
@@ -1048,10 +1055,6 @@
         federation-aware identity provider that is under the control of
         the information sharing consortium, with suitably stringent
         technical and management controls.</t>
-      <t>All security measures MUST be enforced at the source, that is, a
-        provider SHALL NOT return any Feed content or member Entry
-        content for which the client identity has not been specifically
-        authenticated, authorized, and audited.</t>
       <t>Sharing communities that have a requirement for forward message
         security (such that client systems are required to participate in
         providing message level security and/or distributed authorization
@@ -1111,13 +1114,6 @@
         In addition, any increase in the risk of this type of abuse
         should be offset by the corresponding increase in effectiveness
         that this specification affords to the defenders.</t>
-      <t>While it is a goal of this specification to enable more agile
-        cyber security information sharing across a broader and varying
-        constituency, there is nothing in this specification that
-        necessarily requires this type of deployment. A cyber security
-        information sharing consortium may chose to adopt this
-        specification while continuing to operate as a gated community
-        with strictly limited membership.</t>
     </section>
 
     <section title="Acknowledgements" anchor="acknowledgements">
