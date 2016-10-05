@@ -244,7 +244,7 @@
         title="Resource-oriented Architecture"
         anchor="roa">
         <t>Applying the REST architectural style to the problem domain of
-          security information sharing involves exposing information in
+          security information sharing involves exposing information of
           any relevant type as simple Web-addressable resources. Each
           provider maintains their own repository of data, with public
           and private sections as needed. Any producer or consumer can
@@ -453,7 +453,7 @@
           existing deployments that are using <xref target="RFC6546">
           Transport of Real-time Inter-network Defense (RID) Messages
           over HTTP/TLS</xref>. Consistent with RFC6546 errata, a client
-          requesting a GET on "/" MUST receive an HTTP status code 405
+          requesting a GET on "/" SHOULD receive an HTTP status code 405
           Method Not Allowed. An implementation MAY provide full support
           for RFC6546 such that a POST to "/" containing a recognized RID
           message type just works. Alternatively, a client requesting a
@@ -461,9 +461,7 @@
           Redirect. In this case, the location header in the HTTP
           response will provide the URL of the appropriate RID endpoint,
           and the client may repeat the POST method at the indicated
-          location. This resource could also leverage the new draft by
-          reschke that proposes HTTP status code 308 (cf:
-          draft-reschke-http-status-308-07.txt). TODO</t>
+          location.</t>
       </section>
 
       <section title="HTTP methods" anchor="inc-http-methods">
@@ -501,8 +499,9 @@
           represent Collections of other meaningful and useful security
           automation resources.</t>
         <t>This Atom Feed definition represents a stricter definition of
-          the Atom Entry element. Any element not specified here inherits
-          its definition and requirements from RFC 4287.</t>
+          the atom:feed element defined in RFC 4287 for use in a ROLIE
+          Any element not specified here inherits its definition and
+          requirements from RFC 4287.</t>
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
           <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
@@ -582,6 +581,9 @@
               relationship type is defined in the <eref
               target="https://www.iana.org/assignments/link-relations/link-relations.xhtml"
               >IANA Link Relations Registry</eref>.</t>
+              <t>"collection" - Indicates that the href value of the link
+              identifies a resource IRI that be used to retrieve the
+              collection that this entry originated from.</t>
             </list> </t>
           <t>An atom:feed MAY include additional link relationships not
             specified in this document. If a client encounters an unknown
@@ -656,7 +658,7 @@
           element, describes a single information record, format, and
           type combination. The following atom:entry schema definition
           represents a stricter representation of the atom:entry element
-          defined in RFC 4287 for use in a ROLE-based Atom Feed.</t>
+          defined in RFC 4287 for use in a ROLIE-based Atom Feed.</t>
 
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
@@ -725,8 +727,21 @@
           <t>There MUST be exactly one rolie:format element in the Entry.
             This format SHOULD be one of the formats listed under the
             category of this Entry as discussed in the Content Model
-            section. The format is contained in the content of this
-            tag.</t>
+            section. The format is contained in the content of this tag.
+            The element MUST adhere to this definition:</t>
+          <figure height="" suppress-title="false" width="" alt=""
+            title="" align="left">
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+  rolieFormat =
+    element rolie:format {
+      atomCommonAttributes,
+      attribute ns { atomURI },
+      attribute version { text } ?,
+      attribute schema { atomURI } ?,
+      attribute schema-type { atomMediaType } ?,
+      text
+  }   ]]></artwork>
+          </figure>
         </section>
       </section>
       <section title="Link Relations">
@@ -773,18 +788,6 @@
           -->
         <t>TODO: This section needs to be expanded.</t>
       </section>
-    </section>
-
-    <section title="Use of OpenSearch">
-      <t>Implementers MUST support <xref target="opensearch">OpenSearch
-        1.1</xref> as the mechanism for describing how clients may form
-        search requests.</t>
-      <t>Implementers MUST provide a link with a relationship type of
-        "search". This link SHALL return an Open Search Description
-        Document as defined in OpenSearch 1.1.</t>
-      <t>Implementers MUST fully qualify all OpenSearch URL template
-        parameter names using the defined XML namespaces, as
-        appropriate.</t>
     </section>
 
     <section title="Characterizing ROLIE Collections and Resources"
@@ -1010,12 +1013,19 @@
     </section>
     <section title="Security Considerations TODO" anchor="sec-security">
       <t>This document defines a resource-oriented approach to
-        lightweight information exchange using HTTP, TLS, Atom Syndicate
-        Format, and Atom Publishing Protocol. As such, implementers must
-        understand the security considerations described in those
-        specifications.</t>
-      <t>In addition, there are a number of additional security
-        considerations that are unique to this specification.</t>
+        lightweight information exchange using HTTP, TLS, Atom
+        Syndication Format, and Atom Publishing Protocol. As such,
+        implementers must understand the security considerations
+        described in those specifications. In addition, there are a
+        number of additional security considerations that are unique to
+        this specification.</t>
+      <t>All security measures MUST be enforced at the source, that is, a
+        provider SHALL NOT return any Feed content or member Entry
+        content for which the client identity has not been specifically
+        authenticated, authorized, and audited.</t>
+      <t>All that follows is guidance, more specific instruction is out
+        of scope for this document and will be located in a dedicated
+        informational document.</t>
       <t>The approach described herein is based upon all policy
         enforcements being implemented at the point when a resource
         representation is created. As such, producers sharing cyber
@@ -1023,15 +1033,15 @@
         authenticate their HTTP clients using a suitably strong user
         authentication mechanism. Sharing communities that are exchanging
         information on well-known indicators and incidents for purposes
-        of public education may choose to rely upon, e.g. HTTP
-        Authentication, or similar. However, sharing communities that are
-        engaged in sensitive collaborative analysis and/or operational
-        response for indicators and incidents targeting high value
-        information systems should adopt a suitably stronger user
-        authentication solution, such as TLS client certificates, or a
-        risk-based or multi-factor approach. In general, trust in the
-        sharing consortium will depend upon the members maintaining
-        adequate user authentication mechanisms.</t>
+        of public education may choose to rely upon HTTP Authentication
+        or similar. However, sharing communities that are engaged in
+        sensitive collaborative analysis and/or operational response for
+        indicators and incidents targeting high value information systems
+        should adopt a suitably stronger user authentication solution,
+        such as TLS client certificates, or a risk-based or multi-factor
+        approach. In general, trust in the sharing consortium will depend
+        upon the members maintaining adequate user authentication
+        mechanisms.</t>
       <t>Collaborating consortiums may benefit from the adoption of a
         federated identity solution, such as those based upon <xref
         target="SAML-core">SAML-core</xref> and <xref target="SAML-bind"
@@ -1045,10 +1055,6 @@
         federation-aware identity provider that is under the control of
         the information sharing consortium, with suitably stringent
         technical and management controls.</t>
-      <t>All security measures MUST be enforced at the source, that is, a
-        provider SHALL NOT return any Feed content or member Entry
-        content for which the client identity has not been specifically
-        authenticated, authorized, and audited.</t>
       <t>Sharing communities that have a requirement for forward message
         security (such that client systems are required to participate in
         providing message level security and/or distributed authorization
@@ -1108,13 +1114,6 @@
         In addition, any increase in the risk of this type of abuse
         should be offset by the corresponding increase in effectiveness
         that this specification affords to the defenders.</t>
-      <t>While it is a goal of this specification to enable more agile
-        cyber security information sharing across a broader and varying
-        constituency, there is nothing in this specification that
-        necessarily requires this type of deployment. A cyber security
-        information sharing consortium may chose to adopt this
-        specification while continuing to operate as a gated community
-        with strictly limited membership.</t>
     </section>
 
     <section title="Acknowledgements" anchor="acknowledgements">
@@ -1141,23 +1140,6 @@
           </author>
           <date year="2002" month="11" day="21"/>
         </front>
-      </reference>
-      <reference anchor="opensearch"
-        target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
-        <front>
-          <title>OpenSearch 1.1 draft 5 specification</title>
-          <author initials="D." surname="Clinton"
-            fullname="Dewitt Clinton">
-            <organization abbrev="OpenSearch">OpenSearch
-              Community</organization>
-          </author>
-          <date year="2011"/>
-        </front>
-        <seriesInfo name="OASIS Committee Specification"
-          value="saml-core-2.0-os"/>
-        <format type="text/html"
-          target="https://www.oasis-open.org/committees/relax-ng/compact-20021121.html"
-        />
       </reference>
       <reference anchor="SAML-core"
         target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
@@ -1330,7 +1312,7 @@
           octets="7287"/>
       </reference>
     </references>
-    <section title="Use Case Examples">
+    <section title="Examples of Use">
       <section title="Service Discovery" anchor="svc-doc">
         <t>This section provides a non-normative example of a client
           doing service discovery.</t>
@@ -1606,94 +1588,6 @@
           server compute cycles, the expected client usage patterns,
           etc.). </t>
 
-      </section>
-      <section title="Use Case:  Search" anchor="search-query">
-        <t>This section provides a non-normative example of a search use
-          case. </t>
-
-        <t>The following example provides a RESTful solution to handling
-          search results. Note that in the RESTful approach described
-          herein there is no requirement to define a query language.
-          Instead, implementations may provide support for search
-          operations via existing search facilities, and advertise these
-          capabilities via an appropriate URL template. Clients
-          dynamically retrieve the search description document, and
-          invoke specific searches via an instantiated URL template. </t>
-
-        <t>An HTTP response body may include a link relationship of type
-          "search." This link provides a reference to an OpenSearch
-          description document.</t>
-
-        <t>Example HTTP response that includes a "search" link:</t>
-        <figure height="" suppress-title="false" width="" alt="" title=""
-          align="left">
-
-          <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
-  HTTP/1.1 200 OK
-  Date: Fri, 24 Aug 2012 17:20:11 GMT
-  Content-Length: nnnn
-  Content-Type: application/atom+xml;type=feed;charset="utf-8"
-
-  <?xml version="1.0" encoding="UTF-8"?>
-  <feed xmlns="http://www.w3.org/2005/Atom">
-      <link href="http://www.example.org/opensearchdescription.xml" 
-              rel="search" 
-              type="application/opensearchdescription+xml"/>
-      <!-- ...other links... -->
-      <!-- ...other required elements -->
-      <entry>
-          <!-- ...zero or more entries... -->
-      </entry>
-                
-  </feed> ]]></artwork>
-        </figure>
-
-        <t>The OpenSearch Description document contains the information
-          needed by a client to request a search. An example of an Open
-          Search description document is shown below:</t>
-
-        <t>Example HTTP response that includes a "search" link:</t>
-
-        <figure height="" suppress-title="false" width="" alt="" title=""
-          align="left">
-
-          <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
-  <?xml version="1.0" encoding="UTF-8"?>
-  <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-    <ShortName>Provider search example</ShortName>
-    <Description>Computer security information 
-                      sharing consortium search interface</Description>
-    <Tags>example provider indicator search</Tags>
-    <Contact>admin@example.org</Contact>
-    <!-- optionally, other elements, as per OpenSearch specification -->
-    <Url type="application/opensearchdescription+xml" rel="self" 
-     template="http://www.example.com/provider/opensearchdescription.xml"/>
-    <Url type="application/atom+xml" rel="results" 
-     template="http://www.example.org/provider?q={searchTerms}&amp;
-                        format=Atom+xml"/>
-    <LongName>www.example.org Provider search</LongName>
-    <Query role="example" searchTerms="incident" />
-    <Language>en-us</Language>
-    <OutputEncoding>UTF-8</OutputEncoding>
-    <InputEncoding>UTF-8</InputEncoding>
-  </OpenSearchDescription> ]]></artwork>
-
-        </figure>
-        <t>The OpenSearch Description document shown above contains two
-          &lt;Url&gt; elements that contain parametrized URL templates.
-          These templates provide a representation of how the client
-          should make search requests. The exact format of the query
-          string, including the parametrization is specified by the Feed
-          provider</t>
-
-        <t>This OpenSearch Description Document also contains an example
-          of a &lt;Query&gt; element. Each &lt;Query&gt; element
-          describes a specific search request that can be made by the
-          client. Note that the parameters of the &lt;Query&gt; element
-          correspond to the URL template parameters. In this way, a
-          provider may fully describe the search interface available to
-          the clients. The search section, above, provides specific
-          NORMATIVE requirements for the use of Open Search. </t>
       </section>
     </section>
     <section title="XACML Guidance" anchor="xacml">
