@@ -89,6 +89,24 @@
         data-models that can express these information types.
         Implementation requirements and use examples beyond those present
         in the ROLIE core will be laid out by this document.</t>
+      <t> &lt;t>Threats to computer security are evolving ever more
+        rapidly as time goes on. As software increases in complexity, the
+        number of vulnerabilities in systems and networks can increase
+        exponentially. Threat actors looking to exploit these
+        vulnerabilities are making more frequent and more widely
+        distributed attacks across a large variety of systems. The
+        adoption of liberal information sharing amongst attackers allows
+        a discovered vulnerability to be shared and used to attack a
+        vulnerable system within a narrow window of time. As the skills
+        and knowledge required to identify and combat these attacks
+        become more and more specialized, even a well established and
+        secure system may find itself unable to quickly respond to an
+        incident. Effective identification of and response to a
+        sophisticated attack requires open cooperation and collaboration
+        between defending operators, software vendors, and end-users. To
+        improve the timeliness of responses, automation must be used to
+        acquire, contextualize, and put to use shared computer security
+        information. TODO: Move to CSIRT, add intro sentence&lt;/t></t>
     </section>
     <section title="Terminology" anchor="ext-terminology">
       <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL
@@ -376,9 +394,7 @@
           the RID MessageType as a search parameter, in addition to the
           aforementioned IODEF schema elements, as contained within the
           &lt;ReportSchema&gt; element. </t>
-        <t> Implementers MUST fully qualify all OpenSearch URL template
-          parameter names using the defined IODEF or RID XML namespaces,
-          as appropriate. </t>
+        <t> </t>
       </section>
       <section title="/ (forward slash) Resource URL" anchor="rid-ref">
         <!-- Should this be moved to the CSIRT document? -->
