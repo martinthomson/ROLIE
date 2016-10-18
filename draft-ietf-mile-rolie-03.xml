@@ -415,7 +415,7 @@
           organization's Web home page or another well-known public
           resource. An example of this can be found in appendix <xref
           target="example-svcdoc" format="counter"/>.</t>
-        <t>The service document SHOULD (TODO: MUST?) be located at the
+        <t>The service document SHOULD be located at the
           standardized location
           "https://{host:port}/rolie/servicedocument", where {host:port}
           is the authority portion of the URI. Dereferencing this URI MAY
@@ -426,7 +426,9 @@
           is deployed.</t>
         <t>When deploying a service document for use by a closed
           consortium, the service document MAY also be digitally signed
-          and/or encrypted.<!-- reference the specs for this --></t>
+          and/or encrypted. For example, consider <xref
+            target="xmldsig">XML Signature Syntax and Processing</xref>
+          and <xref target="xmlenc">XML Encryption Syntax and Processing</xref> </t>
       </section>
       <section title="Transport Layer Security" anchor="atompub-tls">
         <t>ROLIE is intended to be handled with TLS. The following
@@ -443,7 +445,7 @@
           meets the client’s expectations. Particularly, the client MUST
           check its understanding of the server hostname against the
           server’s identity as presented in the server Certificate
-          message, in order to prevent man- in-the-middle attacks.
+          message, in order to prevent man-in-the-middle attacks.
           Matching is performed according to the rules laid out in the
           Security Considerations section of <xref target="RFC4642"
           />.</t>
@@ -1361,7 +1363,54 @@
       </reference>
     </references>
     <references title="Informative References"> &RFC2141; &RFC3444;
-      &RFC6545; &RFC5070bis; <reference anchor="XACML"
+      &RFC6545; &RFC5070bis; 
+      <reference anchor="xmldsig"
+        target="https://www.w3.org/TR/xmldsig-core/">
+        <front>
+          <title>XML Signature Syntax and Processing (Second Edition)</title>
+          <author initials="M." surname="Bartel"
+            fullname="Mark Bartel">
+            <organization/>
+          </author>   
+          <author initials="J." surname="Boyer"
+            fullname="John Boyer">
+            <organization/>
+          </author>   
+          <author initials="B." surname="Fox"
+            fullname="Barb Fox">
+            <organization/>
+          </author>   
+          <author initials="B." surname="LaMacchia"
+            fullname="Brian LaMacchia">
+            <organization/>
+          </author>   
+          <author initials="E." surname="Simon"
+            fullname="Ed Simon">
+            <organization/>
+          </author>   
+          <date day="10" month="June" year="2008"/>
+        </front>
+      </reference>
+      <reference anchor="xmlenc"
+        target="https://www.w3.org/TR/xmlenc-core/">
+        <front>
+          <title>XML Encryption Syntax and Processing</title>
+          <author initials="T." surname="Imamura"
+            fullname="Takeshi Rissanen">
+            <organization/>
+          </author>
+          <author initials="B." surname="Dillaway"
+            fullname="Blair Dillaway">
+            <organization/>
+          </author>
+          <author initials="E." surname="Simon"
+            fullname="Ed Simon">
+            <organization/>
+          </author>          
+          <date day="10" month="December" year="2002"/>
+        </front>
+      </reference>
+      <reference anchor="XACML"
         target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
         <front>
           <title>eXtensible Access Control Markup Language (XACML)
