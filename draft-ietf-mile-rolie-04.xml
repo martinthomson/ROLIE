@@ -20,6 +20,12 @@
   "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3553.xml">
     <!ENTITY RFC5226 SYSTEM
   "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+  <!ENTITY RFC5539 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5539.xml">
+  <!ENTITY RFC5280 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml">
+  <!ENTITY RFC4642 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4642.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200902" category="info" docName="draft-ietf-mile-rolie-04">
@@ -192,10 +198,10 @@
         identification, security incidents, and patching data are just a
         few of the classes of information that are shared today to enable
         effective cyber security on a wide scale. However, as the scale
-        of defense broadens to sometimes global networks, and the inherent
-        scaling issues of human-in-the-loop sharing become apparent,the
-        need for automation and machine-to-machine communication becomes
-        apparent.</t>
+        of defense broadens to sometimes global networks, and the
+        inherent scaling issues of human-in-the-loop sharing become
+        apparent,the need for automation and machine-to-machine
+        communication becomes apparent.</t>
       <section title="Proactive Sharing" anchor="sharing">
         <t>Existing approaches to computer security information sharing
           often use message exchange patterns that are point-to-point.
@@ -409,7 +415,7 @@
           organization's Web home page or another well-known public
           resource. An example of this can be found in appendix <xref
           target="example-svcdoc" format="counter"/>.</t>
-        <t>The service document SHOULD (TODO: MUST?) be located at the
+        <t>The service document SHOULD be located at the
           standardized location
           "https://{host:port}/rolie/servicedocument", where {host:port}
           is the authority portion of the URI. Dereferencing this URI MAY
@@ -420,13 +426,47 @@
           is deployed.</t>
         <t>When deploying a service document for use by a closed
           consortium, the service document MAY also be digitally signed
-          and/or encrypted.<!-- reference the specs for this --></t>
+          and/or encrypted. For example, consider <xref
+            target="xmldsig">XML Signature Syntax and Processing</xref>
+          and <xref target="xmlenc">XML Encryption Syntax and Processing</xref> </t>
       </section>
       <section title="Transport Layer Security" anchor="atompub-tls">
-        <!-- This section needs to be more descriptive-->
-        <t>Implementations MUST support server-authenticated TLS.</t>
-        <t>Implementations MAY support mutually authenticated TLS.</t>
-        <t>Implementations MAY support client authenticated TLS.</t>
+        <t>ROLIE is intended to be handled with TLS. The following
+          requirements have been derived from <xref target="RFC5539"
+          />.</t>
+        <t>The most recent published version of TLS MUST be supported,
+          and any MTI cipher suites in that version MUST be supported as
+          well.</t>
+        <t>The server MUST support certificate-based client
+          authentication. The implementation MAY use any TLS cipher suite
+          that supports mutual authentication.</t>
+        <t>During the TLS negotiation, the client MUST carefully examine
+          the certificate presented by the server to determine if it
+          meets the client’s expectations. Particularly, the client MUST
+          check its understanding of the server hostname against the
+          server’s identity as presented in the server Certificate
+          message, in order to prevent man-in-the-middle attacks.
+          Matching is performed according to the rules laid out in the
+          Security Considerations section of <xref target="RFC4642"
+          />.</t>
+        <t>If the match fails, the client MUST either ask for explicit
+          user confirmation or terminate the connection and indicate the
+          server’s identity is suspect. Additionally, clients MUST verify
+          the binding between the identity of the servers to which they
+          connect and the public keys presented by those servers. Clients
+          SHOULD implement the algorithm in Section 6 of <xref
+          target="RFC5280"/> for general certificate validation, but MAY
+          supplement that algorithm with other validation methods that
+          achieve equivalent levels of verification (such as comparing
+          the server certificate against a local store of
+          already-verified certificates and identity bindings). If the
+          client has external information as to the expected identity of
+          the server, the hostname check MAY be omitted.</t>
+        <t>The server MUST be capable of verifying the identity of the
+          client with certificate- based authentication according to
+          local policy to ensure that the incoming client request is
+          legitimate before any configuration or state data is sent to or
+          received from the client.</t>
       </section>
       <section title="User Authentication" anchor="atompub-auth">
         <t>Implementations MUST support user authentication. User
@@ -1168,7 +1208,8 @@
   <back>
     <references title="Normative References"> &RFC2119; &RFC3688;
       &RFC3986; &RFC4287; &RFC5005; &RFC5023; &RFC5070; &RFC6546;
-      &RFC3553; &RFC5226; &xml-names; <reference anchor="relax-NG"
+      &RFC3553; &RFC5226; &xml-names; &RFC5539; &RFC5280; &RFC4642;
+        <reference anchor="relax-NG"
         target="https://www.oasis-open.org/committees/relax-ng/compact-20021121.html">
         <front>
           <title>RELAX NG Compact Syntax</title>
@@ -1322,7 +1363,54 @@
       </reference>
     </references>
     <references title="Informative References"> &RFC2141; &RFC3444;
-      &RFC6545; &RFC5070bis; <reference anchor="XACML"
+      &RFC6545; &RFC5070bis; 
+      <reference anchor="xmldsig"
+        target="https://www.w3.org/TR/xmldsig-core/">
+        <front>
+          <title>XML Signature Syntax and Processing (Second Edition)</title>
+          <author initials="M." surname="Bartel"
+            fullname="Mark Bartel">
+            <organization/>
+          </author>   
+          <author initials="J." surname="Boyer"
+            fullname="John Boyer">
+            <organization/>
+          </author>   
+          <author initials="B." surname="Fox"
+            fullname="Barb Fox">
+            <organization/>
+          </author>   
+          <author initials="B." surname="LaMacchia"
+            fullname="Brian LaMacchia">
+            <organization/>
+          </author>   
+          <author initials="E." surname="Simon"
+            fullname="Ed Simon">
+            <organization/>
+          </author>   
+          <date day="10" month="June" year="2008"/>
+        </front>
+      </reference>
+      <reference anchor="xmlenc"
+        target="https://www.w3.org/TR/xmlenc-core/">
+        <front>
+          <title>XML Encryption Syntax and Processing</title>
+          <author initials="T." surname="Imamura"
+            fullname="Takeshi Rissanen">
+            <organization/>
+          </author>
+          <author initials="B." surname="Dillaway"
+            fullname="Blair Dillaway">
+            <organization/>
+          </author>
+          <author initials="E." surname="Simon"
+            fullname="Ed Simon">
+            <organization/>
+          </author>          
+          <date day="10" month="December" year="2002"/>
+        </front>
+      </reference>
+      <reference anchor="XACML"
         target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
         <front>
           <title>eXtensible Access Control Markup Language (XACML)
