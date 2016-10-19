@@ -150,10 +150,10 @@
         specification documents. This primary document is resource
         representation agnostic, and defines the core requirements of all
         implementations. An overview of the extension system is provided
-        in <xref target="content-model"/>.Those seeking to provide support for specific
-        security automation information types should refer to the
-        specification for that domain described by the IANA registry
-        found in section <xref target="iana-information-type"
+        in <xref target="content-model"/>.Those seeking to provide
+        support for specific security automation information types should
+        refer to the specification for that domain described by the IANA
+        registry found in section <xref target="iana-information-type"
         format="counter"/>.</t>
     </section>
     <section title="Terminology" anchor="ext-terminology">
@@ -184,10 +184,11 @@
         <t>Some sections of this specification are illustrated with
           fragments of a non-normative RELAX NG Compact schema <xref
           target="relax-NG"/>. However, the text of this specification
-          provides the definition of conformance. Schema for the "http://www.w3.org/2007/app" and
-          "http://www.w3.org/2005/Atom" namespaces appear in <xref
-          target="RFC5023">RFC5023 appendix B</xref> and <xref
-          target="RFC4287">RFC4287 appendix B</xref> respectively.</t>
+          provides the definition of conformance. Schema for the
+          "http://www.w3.org/2007/app" and "http://www.w3.org/2005/Atom"
+          namespaces appear in <xref target="RFC5023">RFC5023 appendix
+          B</xref> and <xref target="RFC4287">RFC4287 appendix B</xref>
+          respectively.</t>
       </section>
     </section>
     <section title="Background and Motivation" anchor="back-motive">
@@ -236,7 +237,7 @@
           consumer to identify and retrieve any information that is
           relevant to its needs. In this way, the consumer can gain
           access to meaningful current and historic information, catching
-        up to the knowledge level of its peers.</t>
+          up to the knowledge level of its peers.</t>
         <t>Consider the case of an automated endpoint management system
           attempting to proactively prevent software flaws and
           mis-configured software from compromising the security of the
@@ -414,20 +415,20 @@
           organization's Web home page or another well-known public
           resource. An example of this can be found in appendix <xref
           target="example-svcdoc" format="counter"/>.</t>
-        <t>The service document SHOULD be located at the
-          standardized location
-          "https://{host:port}/rolie/servicedocument", where {host:port}
-          is the authority portion of the URI. Dereferencing this URI MAY
-          result in a redirect based on a HTTP 3xx status code to direct
-          the client to the actual service document. This allows clients
-          to have a well-known location to find a ROLIE service document,
-          while giving implementations flexibility over how the service
-          is deployed.</t>
+        <t>The service document SHOULD be located at the standardized
+          location "https://{host:port}/rolie/servicedocument", where
+          {host:port} is the authority portion of the URI. Dereferencing
+          this URI MAY result in a redirect based on a HTTP 3xx status
+          code to direct the client to the actual service document. This
+          allows clients to have a well-known location to find a ROLIE
+          service document, while giving implementations flexibility over
+          how the service is deployed.</t>
         <t>When deploying a service document for use by a closed
           consortium, the service document MAY also be digitally signed
-          and/or encrypted. For example, consider <xref
-            target="xmldsig">XML Signature Syntax and Processing</xref>
-          and <xref target="xmlenc">XML Encryption Syntax and Processing</xref> </t>
+          and/or encrypted. For example, consider <xref target="xmldsig"
+          >XML Signature Syntax and Processing</xref> and <xref
+          target="xmlenc">XML Encryption Syntax and Processing</xref>
+        </t>
       </section>
       <section title="Transport Layer Security" anchor="atompub-tls">
         <t>ROLIE is intended to be handled with TLS. The following
@@ -1096,16 +1097,13 @@
         lightweight information exchange using HTTP, TLS, Atom
         Syndication Format, and Atom Publishing Protocol. As such,
         implementers must understand the security considerations
-        described in those specifications. In addition, there are a
-        number of additional security considerations that are unique to
-        this specification.</t>
-      <t>All security measures MUST be enforced at the source, that is, a
-        provider SHALL NOT return any Feed content or member Entry
-        content for which the client identity has not been specifically
-        authenticated, authorized, and audited.</t>
-      <t>All that follows is guidance, more specific instruction is out
+        described in those specifications. All that follows is guidance, more specific instruction is out
         of scope for this document and will be located in a dedicated
         informational document.</t>
+      <t>All security measures SHOULD be enforced at the source, that is, a
+        provider SHOULD NOT return any Feed content or member Entry
+        content for which the client identity has not been specifically
+        authenticated, authorized, and audited.</t>
       <t>The approach described herein is based upon all policy
         enforcements being implemented at the point when a resource
         representation is created. As such, producers sharing cyber
@@ -1118,10 +1116,9 @@
         sensitive collaborative analysis and/or operational response for
         indicators and incidents targeting high value information systems
         should adopt a suitably stronger user authentication solution,
-        such as TLS client certificates, or a risk-based or multi-factor
-        approach. In general, trust in the sharing consortium will depend
-        upon the members maintaining adequate user authentication
-        mechanisms.</t>
+        such as a risk-based or multi-factor approach. In general, trust
+        in the sharing consortium will depend upon the members
+        maintaining adequate user authentication mechanisms.</t>
       <t>Collaborating consortiums may benefit from the adoption of a
         federated identity solution, such as those based upon <xref
         target="SAML-core">SAML-core</xref> and <xref target="SAML-bind"
@@ -1135,16 +1132,6 @@
         federation-aware identity provider that is under the control of
         the information sharing consortium, with suitably stringent
         technical and management controls.</t>
-      <t>Sharing communities that have a requirement for forward message
-        security (such that client systems are required to participate in
-        providing message level security and/or distributed authorization
-        policy enforcement), MUST use TODO.</t>
-      <t>The implementation details of the authorization scheme chosen by
-        a ROLIE-compliant provider are out of scope for this
-        specification. Implementers are free to choose any suitable
-        authorization mechanism that is capable of fulfilling the policy
-        enforcement requirements relevant to their consortium and/or
-        organization.</t>
       <t>Authorization of resource representations is the responsibility
         of the source system, i.e. based on the authenticated user
         identity associated with an HTTP(S) request. The required
@@ -1156,7 +1143,10 @@
         ABAC, as embodied in <xref target="XACML">XACML</xref>. In
         particular, implementers adopting XACML may benefit from the
         capability to represent their authorization policies in a
-        standardized, interoperable format.</t>
+        standardized, interoperable format. Note that implementers are
+        free to choose any suitable authorization mechanism that is
+        capable of fulfilling the policy enforcement requirements
+        relevant to their consortium and/or organization.</t>
       <t>Additional security requirements such as enforcing message-level
         security at the destination system could supplement the security
         enforcements performed at the source system, however these
@@ -1194,7 +1184,6 @@
         In addition, any increase in the risk of this type of abuse
         should be offset by the corresponding increase in effectiveness
         that this specification affords to the defenders.</t>
-      <t>TODO: RFC 7589, encyption, TLS security</t>
     </section>
     <section title="Acknowledgements" anchor="acknowledgements">
       <t>The author gratefully acknowledges the valuable contributions of
@@ -1362,31 +1351,27 @@
       </reference>
     </references>
     <references title="Informative References"> &RFC2141; &RFC3444;
-      &RFC6545; &RFC5070bis; 
-      <reference anchor="xmldsig"
+      &RFC6545; &RFC5070bis; <reference anchor="xmldsig"
         target="https://www.w3.org/TR/xmldsig-core/">
         <front>
-          <title>XML Signature Syntax and Processing (Second Edition)</title>
-          <author initials="M." surname="Bartel"
-            fullname="Mark Bartel">
+          <title>XML Signature Syntax and Processing (Second
+            Edition)</title>
+          <author initials="M." surname="Bartel" fullname="Mark Bartel">
             <organization/>
-          </author>   
-          <author initials="J." surname="Boyer"
-            fullname="John Boyer">
+          </author>
+          <author initials="J." surname="Boyer" fullname="John Boyer">
             <organization/>
-          </author>   
-          <author initials="B." surname="Fox"
-            fullname="Barb Fox">
+          </author>
+          <author initials="B." surname="Fox" fullname="Barb Fox">
             <organization/>
-          </author>   
+          </author>
           <author initials="B." surname="LaMacchia"
             fullname="Brian LaMacchia">
             <organization/>
-          </author>   
-          <author initials="E." surname="Simon"
-            fullname="Ed Simon">
+          </author>
+          <author initials="E." surname="Simon" fullname="Ed Simon">
             <organization/>
-          </author>   
+          </author>
           <date day="10" month="June" year="2008"/>
         </front>
       </reference>
@@ -1402,10 +1387,9 @@
             fullname="Blair Dillaway">
             <organization/>
           </author>
-          <author initials="E." surname="Simon"
-            fullname="Ed Simon">
+          <author initials="E." surname="Simon" fullname="Ed Simon">
             <organization/>
-          </author>          
+          </author>
           <date day="10" month="December" year="2002"/>
         </front>
       </reference>
