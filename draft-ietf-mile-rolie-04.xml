@@ -20,8 +20,8 @@
   "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3553.xml">
     <!ENTITY RFC5226 SYSTEM
   "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
-  <!ENTITY RFC5539 SYSTEM
-  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5539.xml">
+  <!ENTITY RFC7589 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7589.xml">
   <!ENTITY RFC5280 SYSTEM
   "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml">
   <!ENTITY RFC4642 SYSTEM
@@ -90,7 +90,7 @@
     <abstract>
       <t>This document defines a resource-oriented approach for security
         automation information publication, discovery, and sharing. Using
-        this approach producers may publish, share, and exchange
+        this approach, producers may publish, share, and exchange
         representations of security incidents, attack indicators,
         software vulnerabilities, configuration checklists, and other
         security automation information as Web-addressable resources.
@@ -149,9 +149,10 @@
         representations by means of additional supplementary
         specification documents. This primary document is resource
         representation agnostic, and defines the core requirements of all
-        implementations. Those seeking to provide support for specific
+        implementations. An overview of the extension system is provided
+        in <xref target="content-model"/>.Those seeking to provide support for specific
         security automation information types should refer to the
-        specification for that format described by the IANA registry
+        specification for that domain described by the IANA registry
         found in section <xref target="iana-information-type"
         format="counter"/>.</t>
     </section>
@@ -183,10 +184,7 @@
         <t>Some sections of this specification are illustrated with
           fragments of a non-normative RELAX NG Compact schema <xref
           target="relax-NG"/>. However, the text of this specification
-          provides the definition of conformance. Complete schemas appear
-          for the "urn:ietf:params:xml:ns:rolie-1.0" namespace in
-          appendix <xref target="appendix-schema" format="counter"/>.
-          Schema for the "http://www.w3.org/2007/app" and
+          provides the definition of conformance. Schema for the "http://www.w3.org/2007/app" and
           "http://www.w3.org/2005/Atom" namespaces appear in <xref
           target="RFC5023">RFC5023 appendix B</xref> and <xref
           target="RFC4287">RFC4287 appendix B</xref> respectively.</t>
@@ -237,7 +235,8 @@
           knowledge that can be queried by a new consumer, allowing this
           consumer to identify and retrieve any information that is
           relevant to its needs. In this way, the consumer can gain
-          access to meaningful current and historic information.</t>
+          access to meaningful current and historic information, catching
+        up to the knowledge level of its peers.</t>
         <t>Consider the case of an automated endpoint management system
           attempting to proactively prevent software flaws and
           mis-configured software from compromising the security of the
@@ -432,7 +431,7 @@
       </section>
       <section title="Transport Layer Security" anchor="atompub-tls">
         <t>ROLIE is intended to be handled with TLS. The following
-          requirements have been derived from <xref target="RFC5539"
+          requirements have been derived from <xref target="RFC7589"
           />.</t>
         <t>The most recent published version of TLS MUST be supported,
           and any MTI cipher suites in that version MUST be supported as
@@ -968,13 +967,13 @@
             <vspace blankLines="1"/> Registrant Contact: IESG <vspace
             blankLines="1"/> XML: None. Namespace URIs do not represent
             an XML specification.</t>
-          <t hangText="ROLIE XML Schema">The ROLIE schema (rolie-1.0) has
+          <!--<t hangText="ROLIE XML Schema">The ROLIE schema (rolie-1.0) has
             been registered in the "schema" registry. <vspace
             blankLines="1"/> URI: urn:ietf:params:xml:schema:rolie-1.0
             <vspace blankLines="1"/> Registrant Contact: IESG <vspace
             blankLines="1"/> XML: See section <xref
             target="appendix-schema" format="counter"/> of this
-            document.</t>
+            document.</t>-->
           </list> </t>
       </section>
       <section title="ROLIE URN Sub-namespace" anchor="iana-urn">
@@ -1208,7 +1207,7 @@
   <back>
     <references title="Normative References"> &RFC2119; &RFC3688;
       &RFC3986; &RFC4287; &RFC5005; &RFC5023; &RFC5070; &RFC6546;
-      &RFC3553; &RFC5226; &xml-names; &RFC5539; &RFC5280; &RFC4642;
+      &RFC3553; &RFC5226; &xml-names; &RFC7589; &RFC5280; &RFC4642;
         <reference anchor="relax-NG"
         target="https://www.oasis-open.org/committees/relax-ng/compact-20021121.html">
         <front>
@@ -1440,530 +1439,6 @@
           octets="7287"/>
       </reference>
     </references>
-    <section title="Relax NG Compact Schema for ROLIE"
-      anchor="appendix-schema">
-      <t>The ROLIE schema is a slightly more constrained version of the
-        Atom Syndication Format schema. Included here are the extended
-        schemas for both Atom Syndication (Feeds and Entries) and for
-        Atom Publishing Protocol (Service Documents, Workspaces,
-        Collections, and Category Documents). <figure height=""
-        suppress-title="false" width="" alt="" title="" align="left">
-        <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
-   # -*- rnc -*-
-   # RELAX NG Compact Syntax Grammar for the ROLIE extension of the Atom
-   # Syndication Specification Version 11
-
-   namespace rolie = "http://www.TODO.com/rolie"
-   namespace atom = "http://www.w3.org/2005/Atom"
-   namespace xhtml = "http://www.w3.org/1999/xhtml"
-   namespace s = "http://www.ascc.net/xml/schematron"
-   namespace local = ""
-
-   start = atomFeed | atomEntry
-
-   # Common attributes
-
-   atomCommonAttributes =
-      attribute xml:base { atomUri }?,
-      attribute xml:lang { atomLanguageTag }?,
-      undefinedAttribute*
-
-   # Text Constructs
-
-   atomPlainTextConstruct =
-      atomCommonAttributes,
-      attribute type { "text" | "html" }?,
-      text
-
-   atomXHTMLTextConstruct =
-      atomCommonAttributes,
-      attribute type { "xhtml" },
-      xhtmlDiv
-
-   atomTextConstruct = atomPlainTextConstruct | atomXHTMLTextConstruct
-
-   # Person Construct
-
-   atomPersonConstruct =
-      atomCommonAttributes,
-      (element atom:name { text }
-       & element atom:uri { atomUri }?
-       & element atom:email { atomEmailAddress }?
-       & extensionElement*)
-
-   # Date Construct
-
-   atomDateConstruct =
-      atomCommonAttributes,
-      xsd:dateTime
-
-# atom:feed
-
-   atomFeed =
-      [
-         s:rule [
-            context = "atom:feed"
-            s:assert [
-               test = "atom:author or not(atom:entry[not(atom:author)])"
-               "An atom:feed must have an atom:author unless all "
-               ~ "of its atom:entry children have an atom:author."
-            ]
-         ]
-      ]
-      element atom:feed {
-         atomCommonAttributes,
-         (atomAuthor*
-          & atomCategory+
-          & atomContributor*
-          & atomGenerator?
-          & atomIcon?
-          & atomId
-          & atomLink+
-          & atomLogo?
-          & atomRights?
-          & atomSubtitle?
-          & atomTitle
-          & atomUpdated
-          & extensionElement*),
-         atomEntry*
-      }
-
-   # atom:entry
-
-   atomEntry =
-      [
-         s:rule [
-            context = "atom:entry"
-            s:assert [
-               test = "atom:link[@rel='alternate'] "
-               ~ "or atom:link[not(@rel)] "
-               ~ "or atom:content"
-               "An atom:entry must have at least one atom:link element "
-               ~ "with a rel attribute of 'alternate' "
-               ~ "or an atom:content."
-            ]
-         ]
-         s:rule [
-            context = "atom:entry"
-            s:assert [
-               test = "atom:author or "
-               ~ "../atom:author or atom:source/atom:author"
-               "An atom:entry must have an atom:author "
-               ~ "if its feed does not."
-            ]
-         ]
-      ]
-      element atom:entry {
-         atomCommonAttributes,
-         (atomAuthor*
-          & atomCategory*
-          & atomContent
-          & atomContributor*
-          & atomId
-          & atomLink*
-          & atomPublished?
-          & atomRights?
-          & atomSource?
-          & atomSummary?
-          & atomTitle
-          & atomUpdated
-          & rolieFormat
-          & extensionElement*)
-      }
-
-
-   # atom:content
-
-   atomContent =
-      element atom:content {
-         atomCommonAttributes,
-         attribute type { atomMediaType }?,
-         attribute src { atomUri },
-         empty
-      }
-
-   # rolie:format
-
-   rolieFormat =
-      element rolie:format {
-         atomCommonAttributes,
-         attribute ns { atomURI },
-         attribute version { text } ?,
-         attribute schema-location { atomURI } ?,
-         attribute schema-type { atomMediaType } ?,
-         empty
-      }  
-
-   # atom:author
-
-   atomAuthor = element atom:author { atomPersonConstruct }
-
-   # atom:category
-
-   atomCategory =
-      element atom:category {
-         atomCommonAttributes,
-         attribute term { text },
-         attribute scheme { atomUri }?,
-         attribute label { text }?,
-         undefinedContent
-      }
-
-   # atom:contributor
-
-   atomContributor = element atom:contributor { atomPersonConstruct }
-
-   # atom:generator
-
-   atomGenerator = element atom:generator {
-      atomCommonAttributes,
-      attribute uri { atomUri }?,
-      attribute version { text }?,
-      text
-   }
-
-   # atom:icon
-
-   atomIcon = element atom:icon {
-      atomCommonAttributes,
-      (atomUri)
-   }
-
-   # atom:id
-
-   atomId = element atom:id {
-      atomCommonAttributes,
-      (atomUri)
-   }
-
-   # atom:logo
-
-   atomLogo = element atom:logo {
-      atomCommonAttributes,
-      (atomUri)
-   }
-
-   # atom:link
-
-   atomLink =
-      element atom:link {
-         atomCommonAttributes,
-         attribute href { atomUri },
-         attribute rel { atomNCName | atomUri }?,
-         attribute type { atomMediaType }?,
-         attribute hreflang { atomLanguageTag }?,
-         attribute title { text }?,
-         attribute length { text }?,
-         undefinedContent
-      }
-
-   # atom:published
-
-   atomPublished = element atom:published { atomDateConstruct }
-
-   # atom:rights
-
-   atomRights = element atom:rights { atomTextConstruct }
-
-   # atom:source
-
-   atomSource =
-      element atom:source {
-         atomCommonAttributes,
-         (atomAuthor*
-          & atomCategory*
-          & atomContributor*
-          & atomGenerator?
-          & atomIcon?
-          & atomId?
-          & atomLink*
-          & atomLogo?
-          & atomRights?
-          & atomSubtitle?
-          & atomTitle?
-          & atomUpdated?
-          & extensionElement*)
-      }
-
-   # atom:subtitle
-
-   atomSubtitle = element atom:subtitle { atomTextConstruct }
-
-   # atom:summary
-
-   atomSummary = element atom:summary { atomTextConstruct }
-
-   # atom:title
-
-   atomTitle = element atom:title { atomTextConstruct }
-
-   # atom:updated
-
-   atomUpdated = element atom:updated { atomDateConstruct }
-
-   # Low-level simple types
-
-   atomNCName = xsd:string { minLength = "1" pattern = "[^:]*" }
-
-   # Whatever a media type is, it contains at least one slash
-   atomMediaType = xsd:string { pattern = ".+/.+" }
-
-   # As defined in RFC 3066
-   atomLanguageTag = xsd:string {
-      pattern = "[A-Za-z]{1,8}(-[A-Za-z0-9]{1,8})*"
-   }
-
-   # Unconstrained; it's not entirely clear how IRI fit into
-   # xsd:anyURI so let's not try to constrain it here
-   atomUri = text
-
-   # Whatever an email address is, it contains at least one @
-
-   atomEmailAddress = xsd:string { pattern = ".+@.+" }
-
-   # Simple Extension
-
-   simpleExtensionElement =
-      element * - atom:* {
-         text
-      }
-
-   # Structured Extension
-
-   structuredExtensionElement =
-      element * - atom:* {
-         (attribute * { text }+,
-            (text|anyElement)*)
-       | (attribute * { text }*,
-          (text?, anyElement+, (text|anyElement)*))
-      }
-
-   # Other Extensibility
-
-   extensionElement =
-      simpleExtensionElement | structuredExtensionElement
-
-   undefinedAttribute =
-     attribute * - (xml:base | xml:lang | local:*) { text }
-
-   undefinedContent = (text|anyForeignElement)*
-
-   anyElement =
-      element * {
-         (attribute * { text }
-          | text
-          | anyElement)*
-      }
-
-   anyForeignElement =
-      element * - atom:* {
-         (attribute * { text }
-          | text
-          | anyElement)*
-      }
-
-   # XHTML
-
-   anyXHTML = element xhtml:* {
-      (attribute * { text }
-       | text
-       | anyXHTML)*
-   }
-
-   xhtmlDiv = element xhtml:div {
-      (attribute * { text }
-       | text
-       | anyXHTML)*
-   }
-
-   # EOF
-    
- # -*- rnc -*- 
- # RELAX NG Compact Syntax Grammar for the ROLIE Extension
- # of the Atom Publishing Protocol
-  
-   namespace rolie = "http://www.TODO.com/rolie" 
-   namespace app = "http://www.w3.org/2007/app"
-   namespace atom = "http://www.w3.org/2005/Atom"
-   namespace xsd = "http://www.w3.org/2001/XMLSchema"
-   namespace xhtml = "http://www.w3.org/1999/xhtml"
-   namespace local = ""
-
-   start = appService
-
-   # common:attrs
-
-   atomURI = text
-
-   appCommonAttributes =
-      attribute xml:base { atomURI }?,
-      attribute xml:lang { atomLanguageTag  }?,
-      attribute xml:space {"default"|"preserved"}?,
-      undefinedAttribute*
-
-   atomCommonAttributes = appCommonAttributes
-
-   undefinedAttribute = attribute * - (xml:base | xml:space  | xml:lang
-     | local:*) { text }
-
-   atomLanguageTag = xsd:string {
-      pattern = "([A-Za-z]{1,8}(-[A-Za-z0-9]{1,8})*)?"
-   }
-
-   atomDateConstruct =
-       appCommonAttributes,
-       xsd:dateTime
-
-   # app:service
-   appService =
-      element app:service {
-         appCommonAttributes,
-         ( appWorkspace+
-           & extensionElement* )
-      }
-
-   # app:workspace
-
-   appWorkspace =
-      element app:workspace {
-         appCommonAttributes,
-         ( atomTitle
-           & appCollection*
-           & extensionSansTitleElement* )
-      }
-
-   atomTitle = element atom:title { atomTextConstruct }
-
-   # app:collection
-
-   appCollection =
-      element app:collection {
-         appCommonAttributes,
-         attribute href { atomURI  },
-         ( atomTitle
-           & appAccept*
-           & appCategories+
-           & extensionSansTitleElement* )
-      }
-
-   # app:categories
-
-   atomCategory =
-       element atom:category {
-          atomCommonAttributes,
-          attribute term { text },
-          attribute scheme { atomURI }?,
-          attribute label { text }?,
-          undefinedContent
-       }
-
-   appInlineCategories =
-       element app:categories {
-           attribute fixed { "yes" | "no" }?,
-           attribute scheme { atomURI }?,
-           (atomCategory+,
-           undefinedContent)
-       }
-
-   appOutOfLineCategories =
-       element app:categories {
-           attribute href { atomURI },
-           undefinedContent
-       }
-
-   appCategories = appInlineCategories | appOutOfLineCategories
-
-   # app:accept
-
-   appAccept =
-      element app:accept {
-            appCommonAttributes,
-            ( text? )
-      }
-
-   # Simple Extension
-
-   simpleSansTitleExtensionElement =
-      element * - (app:*|atom:title) {
-         text
-      }
-
-   simpleExtensionElement =
-      element * - (app:*) {
-         text
-      }
-
-   # Structured Extension
-
-   structuredSansTitleExtensionElement =
-      element * - (app:*|atom:title) {
-         (attribute * { text }+,
-            (text|anyElement)*)
-       | (attribute * { text }*,
-          (text?, anyElement+, (text|anyElement)*))
-      }
-
-   structuredExtensionElement =
-      element * - (app:*) {
-         (attribute * { text }+,
-            (text|anyElement)*)
-       | (attribute * { text }*,
-          (text?, anyElement+, (text|anyElement)*))
-      }
-
-   # Other Extensibility
-
-   extensionSansTitleElement =
-    simpleSansTitleExtensionElement|structuredSansTitleExtensionElement
-
-   extensionElement = simpleExtensionElement |
-      structuredExtensionElement
-
-   undefinedContent = (text|anyForeignElement)*
-
-   # Extensions
-
-   anyElement =
-      element * {
-         (attribute * { text }
-          | text
-          | anyElement)*
-      }
-
-   anyForeignElement =
-       element * - app:* {
-          (attribute * { text }
-           | text
-           | anyElement)*
-       }
-
-   atomPlainTextConstruct =
-       atomCommonAttributes,
-       attribute type { "text" | "html" }?,
-       text
-
-   atomXHTMLTextConstruct =
-       atomCommonAttributes,
-       attribute type { "xhtml" },
-       xhtmlDiv
-
-   atomTextConstruct = atomPlainTextConstruct | atomXHTMLTextConstruct
-
-   anyXHTML = element xhtml:* {
-       (attribute * { text }
-        | text
-        | anyXHTML)*
-   }
-
-   xhtmlDiv = element xhtml:div {
-     (attribute * { text }
-      | text
-      | anyXHTML)*
-   }
-
-   # EOF    ]]></artwork>
-        </figure></t>
-    </section>
     <section title="Examples of Use">
       <section title="Service Discovery" anchor="example-svcdoc">
         <t>This section provides a non-normative example of a client
@@ -2013,7 +1488,7 @@
         <atom:title type="text">Vulnerabilities Feed</atom:title>
         <categories fixed="yes">
           <atom:category
-              scheme="urn:ietf:params:rolie:information-type"
+              scheme="urn:ietf:params:rolie:category:information-type"
               term="vulnerability"/>
         </categories>
       </collection>            
@@ -2048,9 +1523,11 @@
       <collection 
           href="http://example.org/provider/public/vulns">
         <atom:title>Public Vulnerabilities</atom:title>
+        <link rel="service" 
+          href="www.example.com/rolie/servicedocument">
         <categories fixed="yes">
           <atom:category
-              scheme="urn:ietf:params:rolie:information-type"
+              scheme="urn:ietf:params:rolie:category:information-type"
               term="vulnerability"/>
         </categories>
       </collection>          
@@ -2060,9 +1537,11 @@
       <collection 
           href="http://example.org/provider/private/vulns" >
         <atom:title>Incidents</atom:title>
+        <link rel="service" 
+          href="www.example.com/rolie/servicedocument">
         <categories fixed="yes">
           <atom:category
-              scheme="urn:ietf:params:rolie:information-type"
+              scheme="urn:ietf:params:rolie:category:information-type"
               term="incidents"/>
         </categories>
       </collection>
@@ -2126,13 +1605,12 @@
         a feed of XML incident documents
     </title>
     <atom:category
-        scheme="urn:ietf:params:rolie:information-type"
+        scheme="urn:ietf:params:rolie:category:information-type"
         term="vulnerability"/>
     <updated>2012-05-04T18:13:51.0Z</updated>
     <link rel="self" href="http://example.org/provider/vulns" />  
     <link rel="service" 
         href="http://example.org/rolie/servicedocument"/>
-    <link rel="search" href="http://example.org/provider/vulns/search/>
     <entry>
       <rolie:format ns="urn:ietf:params:xml:ns:exampleformat"/>
       <id>
@@ -2206,10 +1684,10 @@
     <published>2012-08-04T18:13:51.0Z</published>
     <updated>2012-08-05T18:13:51.0Z</updated>
     <atom:category
-        scheme="urn:ietf:params:rolie:information-type"
+        scheme="urn:ietf:params:rolie:category:information-type"
         term="incident"/>
     <summary>A short description of this incident resource</summary>
-TODO:add rolie:format
+    <rolie:format ns="urn:ietf:params:xml:ns:exampleformat"/>
     <content type="application/xml" 
         src="http://www.example.org/provider/vulns/123456/data">
     </content>
