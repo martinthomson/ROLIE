@@ -114,9 +114,10 @@
         terminology used in this document can be found in Section 2 of
         <xref target="RFC5070"/>.</t>
     </section>
-    <section title="Information-Type Extensions">
+    <section title="Information-Type Extensions" anchor="ext-it">
       <t/>
-      <section title="The 'incident' information-type">
+      <section title="The 'incident' information-type"
+        anchor="ext-it-incident">
         <t> The incident information-type represents any information
           describing or otherwise related to a computer security
           incident. There is no widely agreed upon definition of an
@@ -144,7 +145,8 @@
           that in is the abstract realm of an incident should be
           classified under this information-type.</t>
       </section>
-      <section title="The 'indicator' information-type">
+      <section title="The 'indicator' information-type"
+        anchor="ext-it-indicator">
         <t> The indicator information-type represents computer security
           indicators or any information surrounding them. Some examples
           of indicator information is provided below, but note that
@@ -189,24 +191,22 @@
               or a fully qualified link rek name). The associated href
               MAY leverage OpenSearch to specify the required query. </t>
           </section>
-          <section title="Collection Elements">
-            <t> A collection containing IODEF incident content MUST
-              contain a &lt;category&gt; element. The scheme of the
-              element MUST be either
-              'urn:ietf:params:rolie:category:iodef:purpose' or
-              'urn:ietf:params:rolie:category:iodef:restriction'.
-              The scheme attribute
-              of this element is constrained as per section 3.2 of IODEF,
-              e.g. traceback, mitigation, reporting, or other. A
-              collection containing IODEF incident content MUST contain a
-              &lt;ROLIE-CSIRT:restriction&gt; element. The allowable
-              content for the element is constrained as per section 3.2
-              of IODEF, e.g. public, need-to-know, private, default. When
-              the category scheme="purpose", the allowable values for the
-              "term" attribute are constrained as per section 3.2 of
-              IODEF, e.g. traceback, mitigation, reporting, other. This
-              metadata provides valuable metadata for searching and
-              organization. </t>
+          <section title="Category Element">
+            <t> A collection or entry containing IODEF incident content
+            MUST contain at least two &lt;category&gt; element. One
+            cateogry elemnt must have the scheme attribute be equal to
+            'urn:ietf:params:rolie:category:iodef:purpose' and the other
+            'urn:ietf:params:rolie:category:iodef:restriction'. This
+            metadata provides valuable metadata for searching and
+            organization.</t>
+          <t>When the scheme attribute of this element is
+            'urn:ietf:params:rolie:category:iodef:purpose', the term
+            attribute MUST be constrained as per section 3.2 of IODEF,
+            e.g. traceback, mitigation, reporting, or other. </t>
+          <t>When the scheme attribute of this element is
+            'urn:ietf:params:rolie:category:iodef:restriction', the term
+            attribute MUST be constrained as per section 3.2 of IODEF,
+            e.g. public, need-to-know, private, default.  </t>
           </section>
           <section title="Entry Elements">
             <t>An entry containing an IODEF payload MUST contain aa
@@ -225,21 +225,6 @@
               STRING type. Here we are stating that name must be an IRI.
               Possible request to update IODEF to constrain, or to
               support a new element or attribute). </t>
-          </section>
-          <section title="Entry Category">
-            <t>An Atom entry containing IODEF content MUST contain at
-              least two &lt;category&gt; elements. One category MUST be
-              specified with the value of the "scheme" attribute as
-              "restriction". One category MUST be specified with the
-              value of the "scheme" attribute as "purpose". When the
-              category scheme="restriction", the value of the "term"
-              attribute must be exactly one of ( public, need-to-know,
-              private, default). When the category scheme="purpose", the
-              value of the "term" attribute must be exactly one of
-              (traceback, mitigation, reporting, other). When the purpose
-              is "other".... </t>
-            <t> Any member entry MAY have any number of additional
-              categories. </t>
           </section>
         <section title="User Authorization" anchor="normative-user-authz">
           <t>When the content model for the Atom &lt;content&gt; element
@@ -356,11 +341,34 @@
       </section>
     </section>
     <section title="IANA Considerations">
-      <t>TBA: Add registries for rolie:format and for information-type
-        category.</t>
+      <section title="incident information-type" anchor="iana-inc">
+        <t>IANA has added an entry to the "ROLIE Security Resource
+          Information Type Sub-Registry" registry located at
+          <eref target="https://www.iana.org/assignments/rolie/category/information-type"/> . </t>
+        <t>The entry is as follows:<list>
+          <t>name: incident</t>
+          <t>index: TBD</t>
+          <t>reference: This document, <xref target="ext-it-incident"/></t>
+        </list></t>
+      </section>
+      <section title="indicator information-type" anchor="iana-ind">
+        <t>IANA has added an entry to the "ROLIE Security Resource
+          Information Type Sub-Registry" registry located at
+          <eref target="https://www.iana.org/assignments/rolie/category/information-type"/> . </t>
+        <t>The entry is as follows:<list>
+          <t>name: indicator</t>
+          <t>index: TBD</t>
+          <t>reference: This document, <xref target="ext-it-indicator"/></t>
+        </list></t>
+      </section>
     </section>
     <section title="Security Considerations">
-      <t>TODO</t>
+      <t>This document implies the use of ROLIE in high-security use
+        cases, as such, added care should be taken to fortify and secure
+        ROLIE repositories and clients using this extension. The guidance
+        in the ROLIE core specification is strongly recommended, and
+        implementers should consider adding additional security measures
+        as they see fit.</t>
     </section>
   </middle>
   <back>
