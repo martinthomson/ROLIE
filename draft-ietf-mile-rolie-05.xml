@@ -21,7 +21,7 @@
   <!ENTITY RFC7589 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7589.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
-<rfc ipr="trust200902" category="info" docName="draft-ietf-mile-rolie-04">
+<rfc ipr="trust200902" category="std" docName="draft-ietf-mile-rolie-04">
   <!-- Working draft of draft04 -->
   <?rfc compact="yes"?>
   <?rfc subcompact="no"?>
@@ -95,8 +95,9 @@
     </abstract>
     <note title="Contributing to this document">
       <!--RFC EDITOR - Please remove this note before publishing -->
-      <t>The source for this draft is being maintained in GitHub.
-        Suggested changes should be submitted as pull requests at <eref target="https://github.com/CISecurity/ROLIE"/>. Instructions are
+      <t>The source for this draft is being maintained on GitHub.
+        Suggested changes should be submitted as pull requests at <eref
+        target="https://github.com/CISecurity/ROLIE"/>. Instructions are
         on that page as well. Editorial changes can be managed in GitHub,
         but any substantial issues need to be discussed on the MILE
         mailing list.</t>
@@ -690,7 +691,6 @@
             approach (e.g., application/rdf+xml). The src attribute MUST
             be an IRI that can be dereferenced to retrieve the related
             content data.</t>
-          <!-- Discuss complex types -->
         </section>
         <section title="Use of the &quot;atom:link&quot; Element" anchor="atom-synd-entry-link">
           <t>Link relations can be included in an atom:entry to
@@ -885,21 +885,22 @@
       </section>
       <section title="The &quot;rolie:format&quot; Extension Point" anchor="content-model-format">
           <t>Security automation data pertaining to a given information
-            type may be expressed using a number of supported formats.
-            As described in section <xref target="atom-synd-entry-rolie-format" format="counter"/>,
-            the rolie:format element is used to describe the specific
-            data model used to represent the Resource referenced by a
-            given "atom:entry". The structure provided by the
-            rolie:format element, provides a mechanism for extension
-            within the atom:entry model. ROLIE extensions MAY further
-            restrict which data models are allowed to be used for a
-            given information-type</t>
+          type may be expressed using a number of supported formats. As
+          described in section <xref
+          target="atom-synd-entry-rolie-format" format="counter"/>, the
+          rolie:format element is used to describe the specific data
+          model used to represent the Resource referenced by a given
+          "atom:entry". The structure provided by the rolie:format
+          element, provides a mechanism for extension within the
+          atom:entry model. ROLIE extensions MAY further restrict which
+          data models are allowed to be used for a given
+          information-type.</t>
           <t>By declaring the data model used for a given Resource, a
-            consumer can choose to download or ignore the resource, or
-            look for alternate formats. This saves the consumer from
-            downloading and parsing resources that the consumer is not
-            interested in or resources expressed in formats that are not
-            supported by the consumer.</t>
+          consumer can choose to download or ignore the Resource, or look
+          for alternate formats. This saves the consumer from downloading
+          and parsing resources that the consumer is not interested in or
+          resources expressed in formats that are not supported by the
+          consumer.</t>
       </section>
       <section title="The Link Relation Extension Point" anchor="content-model-link">
         <t>This document uses several link relations defined in the
@@ -963,10 +964,12 @@
         <t>Each entry in this sub-registry must record the following fields:<list>
           <t>Name: A URN segment that adheres to the pattern
             {type}:{label}. The keywords are defined as follows:<list>
-            <t>{type}: The parameter type. The allowed values are
-              "category" and "format". "category" denotes a category
-              extension as discussed in <xref target="content-model-category"/>, "format" denotes a
-              additional supported format as discussed in <xref target="content-model-format"/>.</t>
+            <t>{type}: The parameter type. The allowed value is
+              "category". "category" denotes a category extension as
+              discussed in <xref target="content-model-category"/>. While
+              a single value is used in this specification, future
+              revisions or extensions of this specification may define
+              additional {type} values.</t>
             <t>{label}: A required US-ASCII string that conforms to the
               URN syntax requirements (see <xref target="RFC2141"/>).
               This string must be unique within the namespace defined by
