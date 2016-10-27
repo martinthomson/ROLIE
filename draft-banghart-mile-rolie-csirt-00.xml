@@ -28,8 +28,8 @@
   <?rfc toc="yes"?>
   <?rfc symrefs="yes"?>
   <front>
-    <title abbrev="ROLIE CSIRT">ROLIE - CSIRT: Requirements and Guidance
-      for Use of ROLIE in CSIRT Use Cases</title>
+    <title abbrev="ROLIE CSIRT">Definition of ROLIE CSIRT
+      Extension</title>
     <author initials="J.P." surname="Field" fullname="John P. Field">
       <organization abbrev="Pivotal">Pivotal Software,
         Inc.</organization>
@@ -68,9 +68,9 @@
         categories and related requirements needed to support Computer
         Security Incident Response Team (CSIRT) use cases. The indicator
         and incident information types are defined as ROLIE extensions.
-        Additional supporting requirements are also defined that
-        describe the use of specific formats and link relations
-        pertaining to the new information types.</t>
+        Additional supporting requirements are also defined that describe
+        the use of specific formats and link relations pertaining to the
+        new information types.</t>
     </abstract>
     <note title="Contributing to this document">
       <!--RFC EDITOR - Please remove this note before publishing -->
@@ -84,13 +84,6 @@
   </front>
   <middle>
     <section title="Introduction" anchor="starting-intro">
-      <t>This specification is an extension to the esource-Oriented
-        Lightweight Information Exchange (ROLIE) core <xref
-          target="I-D.ietf-mile-rolie"/> designed to address CSIRT use
-        cases. The primary purpose of this extension is to define two
-        new information types: incident, and indicator, along with
-        formats and link relations that support these
-        information-types.</t>
       <t>Threats to computer security are evolving ever more rapidly as
         time goes on. As software increases in complexity, the number of
         vulnerabilities in systems and networks can increase
@@ -109,6 +102,16 @@
         improve the timeliness of responses, automation must be used to
         acquire, contextualize, and put to use shared computer security
         information.</t>
+
+      <t>As a means to bring automation of content discovery and
+        dissemination into the CSIRT domain, this specification provides
+        an extension to the Resource-Oriented Lightweight Information
+        Exchange (ROLIE) core <xref target="I-D.ietf-mile-rolie"/>
+        designed to address CSIRT use cases. The primary purpose of this
+        extension is to define two new information types: incident, and
+        indicator, along with formats and link relations that support
+        these information-types.</t>
+
     </section>
     <section title="Terminology" anchor="ext-terminology">
       <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL
@@ -119,19 +122,16 @@
         terminology used in this document can be found in Section 2 of
         <xref target="RFC5070"/>.</t>
     </section>
-    <section title="Information-Type Extensions" anchor="ext-it">
-      <t/>
+    <section title="New information-types" anchor="infotypes">
+      <t>This document defines the following two information types:</t>
       <section title="The &quot;incident&quot; information type"
-        anchor="ext-it-incident">
-        <t>The &quot;incident&quot; information type represents any information
-          describing or pertaining to a computer security
-          incident. There is no widely agreed upon definition of an
-          incident, and any given definition will vary across user cases.
-          As such, this information-type deals with a flexible and
-          abstract definition of incident that encompasses the whole
-          range of uses. Provided below is a non-exhaustive list of
-          information that may be considered to be an incident
-          information type. <list style="symbols">
+        anchor="infotype-incident">
+        <t>The &quot;incident&quot; information type represents any
+          information describing or pertaining to a computer security
+          incident. This document uses the definition of incident
+          provided by <xref target="RFC4949"/>. Provided below is a
+          non-exhaustive list of information that may be considered to be
+          an incident information type. <list style="symbols">
           <t>Timing information: start and end times for the incident
             and/or the response.</t>
           <t>Descriptive information: plain text or machine readable data
@@ -151,13 +151,14 @@
           classified under this information-type.</t>
       </section>
       <section title="The &quot;indicator&quot; information type"
-        anchor="ext-it-indicator">
-        <t> The &quot;indicator&quot; information type represents computer security
-          indicators or any information surrounding them. Some examples
-          of indicator information is provided below, but note that
-          indicator is defined in an abstract sense, to be understood as
-          a flexible and widely-applicable definition. <list
-          style="symbols">
+         anchor="infotype-indicator">
+        <t> The &quot;indicator&quot; information type represents
+          computer security indicators or any information surrounding
+          them. This document uses the definition of indicator provided
+          by <xref target="RFC4949"/>. Some examples of indicator
+          information is provided below, but note that indicator is
+          defined in an abstract sense, to be understood as a flexible
+          and widely-applicable definition. <list style="symbols">
           <t>Specific vulnerabilities that indicate a vector for
             attack.</t>
           <t>Signs of malicious reconnaissance.</t>
@@ -170,184 +171,257 @@
           information-type, not to define it.</t>
       </section>
     </section>
-    <section title="Supporting Data Formats">
-      <section title="IODEF Format">
-        <t>The Incident Object Description Exchange Format (IODEF) is a
-          format for representing computer security information commonly
-          exchanged between Computer Security Incident Response Teams
-          (CSIRTs) or other operational security teams. </t>
-        <t>IODEF conveys indicators, incident reports, response
-          activities, and related meta-data in an XML serialization. This
-          information is formally structured in order to support and
-          encourage automated machine-to-machine security communication,
-          as well as enhanced processing at the endpoint.</t>
-        <t>The full IODEF specification provides further high-level
-          discussion and technical details.</t>
-        <t>The following are additional requirements for use of the IODEF
-          format.</t>
+    <section
+      title="Usage of CSIRT Information Types in the Atom
+      Publishing Protocol" anchor="ext-APP">
+      <t>These requirements apply when a ROLIE repository contains any
+        Collections with categories with scheme attributes of either
+        CSIRT information type, or if the CSIRT information types appear
+        in the Categories document.</t>
+      <section title="/ (forward slash) Resource URL" anchor="rid-ref">
+        <t>The forward slash resource URL MUST be supported as defined in
+          <xref target="I-D.ietf-mile-rolie">Section 5.5</xref>. Note
+          that this is a stricter requirement than the core document.</t>
+      </section>
+    </section>
+    <section
+      title="Usage of CSIRT Information Types in the atom:feed element"
+      anchor="ext-synd">
+      <t>This document does not define any additional requirements for
+        Feeds.</t>
+    </section>
+    <section title="Usage of CSIRT Information Types in an atom:entry" anchor="ext-synd-entries">
+      <t>This document defines the following requirements for any Entries
+        that are of the CSIRT information type categories.</t>
+      <section title="Use of the atom:link element"
+        anchor="ext-synd-entries-link">
+        <t>These sections define requirements for atom:link elements in
+          Entries. Note that the requirements are determined by the
+          information type that appears in either the Entry or in the
+          parent Feed.</t>
+          <section
+            title="Link relations for the 'incident'
+          information-type" anchor="links-inc">
+            <t>If the category of an Entry is the incident information
+            type, then the following requirements MUST be followed for
+            inclusion of atom:link elements.</t>
+            <texttable anchor="links-inc-table"
+              title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
+              <ttcol align="left">Name</ttcol>
+              <ttcol align="left">Description</ttcol>
+              <ttcol align="left">Conformance</ttcol>
+              <c>indicators</c>
+              <c>Provides a link to a collection of zero or more
+                instances of cyber security indicators that are
+                associated with the resource.</c>
+              <c>SHOULD</c>
+              <c>evidence</c>
+              <c>Provides a link to a collection of zero or more
+                resources that provides some proof of attribution for
+                an incident. The evidence may or may not have any
+                identified chain of custody.</c>
+              <c>SHOULD</c>
+              <c>attacker</c>
+              <c>Provides a link to a collection of zero or more
+                resources that provides a representation of the
+                attacker.</c>
+              <c>SHOULD</c>
+              <c>vector</c>
+              <c>Provides a link to a collection of zero or more
+                resources that provides a representation of the method
+                used by the attacker.</c>
+              <c>SHOULD</c>
+            </texttable>
+          </section>
+          <section
+            title="Link relations for the 'indicator'
+          information-type" anchor="links-ind">
+            <t>If the category of an Entry is the indicator information
+            type, then the following requirements MUST be followed for
+            inclusion of atom:link elements.</t>
+            <texttable anchor="links-ind-table"
+              title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
+              <ttcol align="left">Name</ttcol>
+              <ttcol align="left">Description</ttcol>
+              <ttcol align="left">Conformance</ttcol>
+              <c>incidents</c>
+              <c>Provides a link to a collection of zero or more
+                instances of incident representations associated with
+                the resource.</c>
+              <c>SHOULD</c>
+            </texttable>
+          </section>
+          <section
+            title="Link relations for both information-types" anchor="links-both">
+            <t>Regardless of the category of an Entry, the following
+            requirements MUST be followed for inclusion of atom:link
+            elements.</t>
+            <texttable anchor="links-both-table"
+              title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
+              <ttcol align="left">Name</ttcol>
+              <ttcol align="left">Description</ttcol>
+              <ttcol align="left">Conformance</ttcol>
+              <c>assessments</c>
+              <c>Provides a link to a collection of zero or more
+                resources that represent the results of executing a
+                benchmark.</c>
+              <c>MAY</c>
+              <c>reports</c>
+              <c>Provides a link to a collection of zero or more
+                resources that represent RID reports.</c>
+              <c>MAY</c>
+              <c>traceRequests</c>
+              <c>Provides a link to a collection of zero or more
+                resources that represent RID traceRequests.</c>
+              <c>MAY</c>
+              <c>investigationRequests</c>
+              <c>Provides a link to a collection of zero or more
+                resources that represent RID investigationRequests.</c>
+            <c>MAY</c>
+            </texttable>
+          </section>
+        
+      </section>
+      <section title="Use of the rolie:format element"
+        anchor="ext-synd-format">
+        <t>This document defines two additional valid values for the
+          'ns' attribute of the rolie:format element. Both
+        of these formats are valid for either information type.</t>
+        <section title="IODEF Format" anchor="ext-synd-format-iodef">
+          <t>If, and only if, the content of the Entry contains an
+            IODEF document, then
+            the 'ns' attribute of the rolie:format element MUST be
+            'TODO-IODEF-URN'.</t>
+          <t>Any entry using the IODEF format MUST conform to the
+            requirements in <xref target="iodefrequirements"/></t>
+          <t>The Incident Object Description Exchange Format (IODEF) is
+            a format for representing computer security information
+            commonly exchanged between Computer Security Incident
+            Response Teams (CSIRTs) or other operational security
+            teams. </t>
+          <t>IODEF conveys indicators, incident reports, response
+            activities, and related meta-data in an XML serialization.
+            This information is formally structured in order to support
+            and encourage automated machine-to-machine security
+            communication, as well as enhanced processing at the
+            endpoint.</t>
+          <t>The full IODEF specification provides further high-level
+            discussion and technical details.</t>
+        </section>
+        <section title="STIX Format" anchor="ext-synd-format-stix">
+          <t>If, and only if, the content of the Entry contains a STIX
+            document, then the 'ns' attribute of the rolie:format element
+            MUST be 'TODO-STIX-URN'.</t>
+          <t>STIX is a structured language for describing a wide range
+            of security resources. STIX approaches the problem with a
+            focus on flexibility, automatability, readability, and
+            extensibility. </t>
+          <t>The use of STIX as the content of an Entry does not impose
+            any additional requirements on ROLIE implementations.</t>
+        </section>
+      </section>
+      <section title="Additional requirements for use of IODEF"
+        anchor="iodefrequirements">
+        <t>This section provides the normative requirements for usage
+          of the IODEF format.</t>
         <section title="The IODEF Document">
-          <t>An IODEF document that is carried in an Atom Entry SHOULD
-            NOT contain a &lt;relatedActivity&gt; element. Instead, the
-            related activity SHOULD be available via a link rel=related. </t>
-          <t> An IODEF document that is carried in an Atom Entry SHOULD
-            NOT contain a &lt;history&gt; element. Instead, the related
-            history SHOULD be available via a link rel="history" (todo:
-            or a fully qualified link rek name). The associated href MAY
-            leverage OpenSearch to specify the required query. </t>
+          <t>An IODEF document that is carried in an Atom Entry
+            SHOULD NOT contain a &lt;relatedActivity&gt; element.
+            Instead, the related activity SHOULD be available via a
+            link rel=related. </t>
+          <t> An IODEF document that is carried in an Atom Entry
+            SHOULD NOT contain a &lt;history&gt; element. Instead,
+            the related history SHOULD be available via a link
+            rel="history" (todo: or a fully qualified link rek name).
+            The associated href MAY leverage OpenSearch to specify
+            the required query. </t>
         </section>
         <section title="Category Element" anchor="iodefcategory">
           <t> A collection or entry containing IODEF incident content
             MUST contain at least two &lt;category&gt; element. One
-            cateogry elemnt must have the scheme attribute be equal to
-            'urn:ietf:params:rolie:category:iodef:purpose' and the other
-            'urn:ietf:params:rolie:category:iodef:restriction'. This
-            metadata provides valuable metadata for searching and
-            organization.</t>
+            cateogry elemnt must have the scheme attribute be equal
+            to 'urn:ietf:params:rolie:category:iodef:purpose' and the
+            other 'urn:ietf:params:rolie:category:iodef:restriction'.
+            This metadata provides valuable metadata for searching
+            and organization.</t>
           <t>When the scheme attribute of this element is
             'urn:ietf:params:rolie:category:iodef:purpose', the term
-            attribute MUST be constrained as per section 3.2 of IODEF,
-            e.g. traceback, mitigation, reporting, or other. </t>
+            attribute MUST be constrained as per section 3.2 of
+            IODEF, e.g. traceback, mitigation, reporting, or other. </t>
           <t>When the scheme attribute of this element is
-            'urn:ietf:params:rolie:category:iodef:restriction', the term
-            attribute MUST be constrained as per section 3.2 of IODEF,
-            e.g. public, need-to-know, private, default. </t>
+            'urn:ietf:params:rolie:category:iodef:restriction', the
+            term attribute MUST be constrained as per section 3.2 of
+            IODEF, e.g. public, need-to-know, private, default. </t>
         </section>
         <section title="Entry Elements">
-          <t>AUTHORS NOTE: This section is TODO</t>
+          <t>AUTHORS NOTE: This section is TODO.</t>
           <t>An entry containing an IODEF payload MUST contain aa
-            &lt;ROLIE-CSIRT:ID&gt; element. This element The ID element
-            for an Atom entry SHOULD be established via the concatenation
-            of the value of the name attribute from the IODEF
-            &lt;IncidentID&gt; element and the corresponding value of the
-            &lt;IncidentID&gt; element. This requirement ensures a simple
-            and direct one-to-one relationship between an IODEF incident
-            ID and a corresponding Feed entry ID and avoids the need for
-            any system to maintain a persistent store of these identity
-            mappings. </t>
+            &lt;ROLIE-CSIRT:ID&gt; element. This element The ID
+            element for an Atom entry SHOULD be established via the
+            concatenation of the value of the name attribute from the
+            IODEF &lt;IncidentID&gt; element and the corresponding
+            value of the &lt;IncidentID&gt; element. This requirement
+            ensures a simple and direct one-to-one relationship
+            between an IODEF incident ID and a corresponding Feed
+            entry ID and avoids the need for any system to maintain a
+            persistent store of these identity mappings. </t>
           <t> (todo: Note that this implies a constraint on the IODEF
             document that is more restrictive than the current IODEF
-            schema. IODEF section 3.3 requires only that the name be a
-            STRING type. Here we are stating that name must be an IRI.
-            Possible request to update IODEF to constrain, or to support
-            a new element or attribute). </t>
+            schema. IODEF section 3.3 requires only that the name be
+            a STRING type. Here we are stating that name must be an
+            IRI. Possible request to update IODEF to constrain, or to
+            support a new element or attribute). </t>
         </section>
-        <section title="User Authorization" anchor="normative-user-authz">
-          <t>When the content model for the Atom &lt;content&gt; element
-            of an Atom Entry contains an &lt;IODEF-Document&gt;, then
-            authorization MUST be adjudicated based upon the Atom
-            &lt;category&gt; element(s), whose values have been mapped as
-            per <xref target="iodefcategory"/>. </t>
+        <section title="User Authorization"
+          anchor="normative-user-authz">
+          <t>When the content model for the Atom &lt;content&gt;
+            element of an Atom Entry contains an
+            &lt;IODEF-Document&gt;, then authorization MUST be
+            adjudicated based upon the Atom &lt;category&gt;
+            element(s), whose values have been mapped as per <xref
+              target="iodefcategory"/>. </t>
         </section>
         <section title="Expectation and Impact Classes"
           anchor="normative-expectation-impact">
-          <t>It is frequently the case that an organization will need to
-            triage their investigation and response activities based
-            upon, e.g., the state of the current threat environment, or
-            simply as a result of having limited resources. </t>
+          <t>It is frequently the case that an organization will need
+            to triage their investigation and response activities
+            based upon, e.g., the state of the current threat
+            environment, or simply as a result of having limited
+            resources. </t>
           <t> In order to enable operators to effectively prioritize
             their response activity, it is RECOMMENDED that feed
-            implementers provide Atom categories that correspond to the
-            IODEF Expectation and Impact classes. The availability of
-            these feed categories will enable clients to more easily
-            retrieve and prioritize cyber security information that has
-            already been identified as having a specific potential
-            impact, or having a specific expectation. </t>
-          <t> Support for these categories may also enable efficiencies
-            for organizations that already have established (or plan to
-            establish) operational processes and workflows that are based
-            on these IODEF classes. </t>
+            implementers provide Atom categories that correspond to
+            the IODEF Expectation and Impact classes. The
+            availability of these feed categories will enable clients
+            to more easily retrieve and prioritize cyber security
+            information that has already been identified as having a
+            specific potential impact, or having a specific
+            expectation. </t>
+          <t> Support for these categories may also enable
+            efficiencies for organizations that already have
+            established (or plan to establish) operational processes
+            and workflows that are based on these IODEF classes. </t>
         </section>
         <section title="Search">
           <t> Implementers SHOULD support search based upon the IODEF
             AlternativeID class as a search parameter. </t>
           <t> Implementers SHOULD support search based upon the four
             timestamp elements of the IODEF Incident class:
-            &lt;startTime&gt;, &lt;EndTime&gt;, &lt;DetectTime&gt;, and
-            &lt;ReportTime&gt;. </t>
+            &lt;startTime&gt;, &lt;EndTime&gt;, &lt;DetectTime&gt;,
+            and &lt;ReportTime&gt;. </t>
           <t> Implementers MAY support additional search capabilities
             based upon any of the remaining elements of the IODEF
-            Incident class, including the &lt;Description&gt; element. </t>
-          <t> Collections that support use of the RID schema as a content
-            model in the Atom member entry &lt;content&gt; element (e.g.
-            in a report resource representation reachable via the
-            "report" link relationship) MUST support search operations
-            that include the RID MessageType as a search parameter, in
-            addition to the aforementioned IODEF schema elements, as
-            contained within the &lt;ReportSchema&gt; element. </t>
+            Incident class, including the &lt;Description&gt;
+            element. </t>
+          <t> Collections that support use of the RID schema as a
+            content model in the Atom member entry &lt;content&gt;
+            element (e.g. in a report resource representation
+            reachable via the "report" link relationship) MUST
+            support search operations that include the RID
+            MessageType as a search parameter, in addition to the
+            aforementioned IODEF schema elements, as contained within
+            the &lt;ReportSchema&gt; element. </t>
         </section>
-      </section>
-    </section>
-    <section title="STIX Format">
-      <t>STIX is a structured language for describing a wide range of
-        security resources. STIX approaches the problem with a focus on
-        flexibility, automatability, readability, and extensibility.
-      </t>
-      <t>The use of STIX as the content of an Entry does not impose any
-        additional requirements on ROLIE implementations.</t>
-    </section>
-
-    <section title="Use of Link Relations">
-      <t>This section provides additional link relation "rel" values whose
-      support is adjudicated by the conformance column. As these links
-      provide support specific to CSIRT use cases, they will not be
-      registered in the IANA table, but rather defined locally here.</t>
-      <texttable anchor="link-relations-table"
-        title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
-        <ttcol align="left">Name</ttcol>
-        <ttcol align="left">Description</ttcol>
-        <ttcol align="left">Conformance</ttcol>
-        <c>incidents</c>
-        <c>Provides a link to a collection of zero or more instances of
-          incident representations associated with the resource.</c>
-        <c>MUST</c>
-        <c>indicators</c>
-        <c>Provides a link to a collection of zero or more instances of
-          cyber security indicators that are associated with the
-          resource.</c>
-        <c>MUST</c>
-        <c>evidence</c>
-        <c>Provides a link to a collection of zero or more resources that
-          provides some proof of attribution for an incident. The
-          evidence may or may not have any identified chain of
-          custody.</c>
-        <c>SHOULD</c>
-        <c>campaign</c>
-        <c>Provides a link to a collection of zero or more resources that
-          provides a representation of the associated cyber attack
-          campaign.</c>
-        <c>SHOULD</c>
-        <c>attacker</c>
-        <c>Provides a link to a collection of zero or more resources that
-          provides a representation of the attacker.</c>
-        <c>SHOULD</c>
-        <c>vector</c>
-        <c>Provides a link to a collection of zero or more resources that
-          provides a representation of the method used by the
-          attacker.</c>
-        <c>SHOULD</c>
-        <c>assessments</c>
-        <c>Provides a link to a collection of zero or more resources that
-          represent the results of executing a benchmark.</c>
-        <c>SHOULD</c>
-        <c>reports</c>
-        <c>Provides a link to a collection of zero or more resources that
-          represent RID reports.</c>
-        <c>SHOULD</c>
-        <c>traceRequests</c>
-        <c>Provides a link to a collection of zero or more resources that
-          represent RID traceRequests.</c>
-        <c>SHOULD</c>
-        <c>investigationRequests</c>
-        <c>Provides a link to a collection of zero or more resources that
-          represent RID investigationRequests.</c>
-        <c>SHOULD</c>
-      </texttable>
-    </section>
-    <section title="Addtional Requirements">
-      <section title="/ (forward slash) Resource URL" anchor="rid-ref">
-        <t>The forward slash resource URL MUST be supported as defined in
-          <xref target="I-D.ietf-mile-rolie">Section 5.5</xref>. Note that this is a stricter
-          requirement than the core document.</t>
       </section>
     </section>
     <section title="IANA Considerations">
@@ -359,7 +433,7 @@
         <t>The entry is as follows:<list>
           <t>name: incident</t>
           <t>index: TBD</t>
-          <t>reference: This document, <xref target="ext-it-incident"
+          <t>reference: This document, <xref target="infotype-incident"
             /></t>
           </list></t>
       </section>
@@ -371,7 +445,7 @@
         <t>The entry is as follows:<list>
           <t>name: indicator</t>
           <t>index: TBD</t>
-          <t>reference: This document, <xref target="ext-it-indicator"
+          <t>reference: This document, <xref target="infotype-indicator"
             /></t>
           </list></t>
       </section>
@@ -384,10 +458,13 @@
         implementers should consider adding additional security measures
         as they see fit.</t>
     </section>
+
   </middle>
   <back>
     <references title="Normative References"> &RFC2119; &RFC5070;
-      &I-D.ietf-mile-rolie; <reference anchor="opensearch"
+      &I-D.ietf-mile-rolie;
+      <!--TODO-->
+      <reference anchor="opensearch"
         target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
         <front>
           <title>OpenSearch 1.1 draft 5 specification</title>
@@ -553,6 +630,7 @@
       </reference>
     </references>
     <section title="Non-Normative Examples" anchor="non-norm-ex">
+      <t>TODO</t>
       <section title="Use of Link Relations" anchor="link-relations">
         <t> A key benefit of using the RESTful architectural style is the
           ability to enable the client to navigate to related resources
