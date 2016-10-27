@@ -154,6 +154,14 @@
       <t>Definitions for some of the common computer security-related
         terminology used in this document can be found in Section 2 of
         <xref target="RFC5070"/>.</t>
+      <t>The following terms are unqiue to this specification:<list style="hanging">
+          <t hangText="Information Type">A class of security automation
+            information, having an associated data model, that is the
+            subject of a security process that can be automated. See
+            section <xref target="content-model-category-info-type"
+              format="counter"/> for more information.</t>
+        <t>Do we need other terms to be defined?</t>
+      </list></t>
     </section>
     <section title="XML-related Conventions">
       <section title="XML Namespaces" anchor="xml-namespaces">
@@ -284,11 +292,13 @@
     </section>
     <section title="ROLIE Requirements for the Atom Publishing Protocol" anchor="atompub">
       <t>This section describes a number of restrictions of and
-        extensions to the <xref target="RFC5023">Atom Publishing Protocol
-        (AtomPub)</xref> that define the use of that protocol in the
-        context of a ROLIE-based solution.</t>
-      <t>This document assumes that the reader has an understanding of
-        the Atom Publishing Protocol specification.</t>
+        extensions to the <xref target="RFC5023">Atom Publishing
+          Protocol (AtomPub)</xref> that define the use of that protocol
+        in the context of a ROLIE-based solution. The normative
+        requirements in this section are generally oriented towards
+        client and server implementations. An understanding of the Atom
+        Publishing Protocol specification <xref target="RFC5023"/> is
+        helpful to understand the requirements in this section.</t>
       <section title="AtomPub Service Documents" anchor="atompub-service">
         <t>As described in <xref target="RFC5023">RFC5023 section
           8</xref>, a Service Document is an XML-based document format
@@ -348,12 +358,13 @@
             information Entries that may be of interest to a client. The
             association between a Collection and a Feed is provided by
             the "href" attribute of the app:collection element. Building
-            on the AtomPub concept of a Collection, in ROLIE a Collection
-            represents a pointer to a group of security automation
-            information resources pertaining to a given type of security
-            automation information. Collections are represented as Atom
-            Feeds as per RFC 5023. Feed specific requirements are defined
-            in section <xref target="atom-synd-feed" format="counter"/>.</t>
+            on the AtomPub concept of a Collection, in ROLIE a
+            Collection represents a pointer to a group of security
+            automation information resources pertaining to a given type
+            of security automation information. Collections are
+            represented as Atom Feeds as per RFC 5023. Atom Feed
+            specific requirements are defined in section <xref
+              target="atom-synd-feed" format="counter"/>.</t>
           <t>The following restrictions are imposed on the use of the
             app:collection element for ROLIE:<list style="symbols">
             <t>The atom:category elements contained in the
@@ -387,30 +398,46 @@
                 allows other category metadata to be included.</t>
             </list></t>
         </section>
+        <section title="Service Discovery" anchor="atompub-discover">
+          <t>This specification requires that an implementation MUST
+            publish an Atom Service Document that describes the set of
+            security information sharing Collections that are provided by
+            the repository.</t>
+          <t>The Service Document SHOULD be discoverable via the
+            organization's Web home page or another well-known public
+            resource. An example of this can be found in appendix <xref
+              target="example-svcdoc" format="counter"/>.</t>
+          <t>The Service Document SHOULD be located at the standardized
+            location "https://{host:port}/rolie/servicedocument", where
+            {host:port} is the authority portion of the URI.
+            Dereferencing this URI MAY result in a redirect based on a
+            HTTP 3xx status code to direct the client to the actual
+            Service Document. This allows clients to have a well-known
+            location to find a ROLIE service document, while giving
+            implementations flexibility over how the service is
+            deployed.</t>
+          <t>When deploying a Service Document for use by a closed
+            consortium, the service document MAY also be digitally
+            signed and/or encrypted. For example, consider <xref
+              target="xmldsig">XML Signature Syntax and
+              Processing</xref> and <xref target="xmlenc">XML Encryption
+              Syntax and Processing.</xref>
+          </t>
+        </section>
       </section>
-      <section title="Service Discovery" anchor="atompub-discover">
-        <t>This specification requires that an implementation MUST
-          publish an Atom Service Document that describes the set of
-          security information sharing Collections that are provided by
-          the repository.</t>
-        <t>The service document SHOULD be discoverable via the
-          organization's Web home page or another well-known public
-          resource. An example of this can be found in appendix <xref
-          target="example-svcdoc" format="counter"/>.</t>
-        <t>The service document SHOULD be located at the standardized
-          location "https://{host:port}/rolie/servicedocument", where
-          {host:port} is the authority portion of the URI. Dereferencing
-          this URI MAY result in a redirect based on a HTTP 3xx status
-          code to direct the client to the actual service document. This
-          allows clients to have a well-known location to find a ROLIE
-          service document, while giving implementations flexibility over
-          how the service is deployed.</t>
-        <t>When deploying a service document for use by a closed
-          consortium, the service document MAY also be digitally signed
-          and/or encrypted. For example, consider <xref target="xmldsig"
-          >XML Signature Syntax and Processing</xref> and <xref
-          target="xmlenc">XML Encryption Syntax and Processing</xref>
-        </t>
+      <section title="AtomPub Category Documents">
+        <t>As described in <xref target="RFC5023">RFC5023 section
+            7</xref>, a Category Document is an XML-based document
+          format that allows a client to dynamically discover the
+          Categories used within AtomPub Service Documents, and Atom
+          Syndication Feed and Entry documents provided by a publisher.
+          A Category Document consists of one or more app:categories
+          elements that may each contain a number of app:collection
+          elements.</t>
+        <t>A ROLIE implementation MUST
+          publish an Category Document that describes the set of
+          atom:category elements and associated terms used within the
+          implemented repository.</t>
       </section>
       <section title="Transport Layer Security" anchor="atompub-tls">
         <t>ROLIE is intended to be handled with TLS. The following
@@ -490,27 +517,29 @@
     <section title="ROLIE Requirements for the Atom Syndication Format" anchor="atom-synd">
       <t>This section describes a number of restrictions of and
         extensions to the <xref target="RFC4287">Atom Syndication
-        Format</xref> that define the use of that format in the context
-        of a ROLIE-based solution.</t>
-      <t>This document assumes that the reader has an understanding of
-        the Atom Syndication Format specification.</t>
+          Format</xref> that define the use of that format in the
+        context of a ROLIE-based solution. The normative requirements in
+        this section are generally oriented towards content to be
+        published to a ROLIE repository. An understanding of the Atom
+        Syndication Format  specification <xref target="RFC4287"/> is
+        helpful to understand the requirements in this section.</t>
       <section title="Use of the &quot;atom:feed&quot; element" anchor="atom-synd-feed">
         <t>As described in <xref target="RFC4287">RFC4287 section
           4.1.1</xref>, an Atom Feed is an XML-based document format that
           describes a list of related information items, also known as a
           Collection. Each Feed document, represented using the atom:feed
-          element, contains a Collection of zero or more related
-          information items individually called a "member Entry" or
+          element, contains a collection of zero or more related
+          information items individually called a "Member Entry" or
           "Entry".</t>
         <t>When applied to the problem domain of security automation
           information sharing, an Atom Feed may be used to represent any
-          meaningful Collection of security automation information
+          meaningful collection of security automation information
           resources. Each Entry in an atom:feed represents an individual
           resource (e.g., a specific checklist , a software
           vulnerability record). Additional Feeds can be used to
-          represent other Collections of security automation
+          represent other collections of security automation
           resources.</t>
-        <t>This Atom Feed definition represents a stricter definition of
+        <t>The following Atom Feed definition represents a stricter definition of
           the atom:feed element defined in RFC 4287 for use in a ROLIE
           Any element not specified here inherits its definition and
           requirements from <xref target="RFC4287"/>.</t>
@@ -547,9 +576,9 @@
                 of "urn:ietf:params:rolie:category:information-type".
                 This category MUST have an appropriate "term" attribute
                 value as defined in section <xref target="content-model-category-general" format="counter"/>. This ensures that a given
-                Collection corresponds to a specific type of security
-                automation information. All member entries in the
-                Collection MUST represent security automation
+                Feed corresponds to a specific type of security
+                automation information. All member Entries in the
+                Feed MUST represent security automation
                 information records of this information type.</t>
               <t>Any atom:feed element that does not contain a child
                 atom:category element with the "scheme" attribute value
@@ -769,26 +798,26 @@
               may contain. In the case of the Entry have multiple
               containing Feeds, the Entry MUST have one atom:link for
               each related Feed.</t>
-              <t>The Entry MUST declare the information-type of the
-                content resource referenced by the Entry (see <xref target="content-model-category-info-type"/>).</t>
+              <t>The Entry MUST declare the information type of the
+                content resource referenced by the Entry (see <xref
+                  target="content-model-category-info-type"/>).</t>
             </list></t>
         </section>
       </section>
     </section>
     <section title="Available Extension Points Provided by ROLIE" anchor="content-model">
       <t>This specification does not require particular information
-        types or data formats, rather, ROLIE is intended to be extended
-        by additional specifications that add new categories and link
-        relations. The primary point of extension is through the
-        information-type category, which is used to enumerate the set of
-        all types of information supported by ROLIE. Additional
-        specifications can register new information-type records with
-        IANA that serve as the main characterizing feature of a ROLIE
-        Collection or Resource. These additional specifications defining
-        new information-type values, can describe requirements for
-        including specific categories, link relations, as well as, use
-        of  specific data formats supporting a given
-        information-type.</t>
+        types or data formats; rather, ROLIE is intended to be extended
+        by additional specifications that define the use of new
+        categories and link relations. The primary point of extension is
+        through the definition of new information type category terms.
+        Additional specifications can register new information type
+        category terms with IANA that serve as the main characterizing
+        feature of a ROLIE Collection/Feed or Resource/Entry. These additional
+        specifications defining new information type terms, can describe
+        additional requirements for including specific categories, link
+        relations, as well as, use of specific data formats supporting a
+        given information type term.</t>
       <section title="The Category Extension Point" anchor="content-model-category">
         <t>The atom:category element, defined in <xref target="RFC4287">RFC 4287 section 4.2.2</xref>, provides a mechanism to
           provide additional categorization information for a content
@@ -798,12 +827,16 @@
             7</xref>, provides a mechanism for an Atom repository to
           make discoverable the atom:category terms and allowed values
           used by a given repository.</t>
-        <t>ROLIE adds to this existing Atom extension mechanism by
-          allowing ROLIE specific category extensions to be registered
-          with IANA, and additionally has assigned an information-type
-          category that has special meaning for implementations of
-          ROLIE. These aspects are discussed in the following
-          subsections.</t>
+        <t>ROLIE further defines the use of the existing Atom extension
+          category mechanism by allowing ROLIE specific category
+          extensions to be registered with IANA, and additionally has
+          assigned the "urn:ietf:params:rolie:category:information-type"
+          category scheme that has special meaning for implementations
+          of ROLIE. This allows category scheme namespaces to be managed
+          in a more consistent way, allowing for greater
+          interoperability between content producers and consumers.</t>
+        <t>Use of the "atom:category" element is discussed in the
+          following subsections.</t>
         <section title="General Use of the &quot;atom:category&quot; Element" anchor="content-model-category-general">
           <t>The atom:category element can be used for characterizing a
             ROLIE Resource.  As discussed earlier in this document, an
@@ -831,14 +864,15 @@
             given security automation information type can be used
               to:<list style="numbers">
               <t>identify that an "app:collection" element in a Service
-                Document points to an Atom Feed that contains entries
+                Document points to an Atom Feed that contains Entries
                 pertaining to a specific type of security automation
                 information (see section <xref target="atompub-service-collection" format="counter"/>), or</t>
               <t>identify that an "atom:feed" element in an Atom Feed
-                contains entries pertaining to a specific type of
+                contains Entries pertaining to a specific type of
                 security automation information (see section <xref target="atom-synd-feed-category" format="counter"/>).</t>
-              <t>identify the information-type of a standalone Resource
-                (see section <xref target="atom-synd-entry-standalone" format="counter"/>).</t>
+              <t>identify the information type of a standalone Resource
+                (see section <xref target="atom-synd-entry-standalone"
+                  format="counter"/>).</t>
             </list></t>
           <t>For example, the notional security automation information
             type "incident" would be identified as follows:</t>
@@ -875,8 +909,8 @@
             information types. This allows the information types used by
             ROLIE implementations to grow over time to support new
             security automation use cases. These extension documents may
-            also enhance ROLIE Resource representations by defining link
-            relations, other categories, and other AtomPub and Atom Syndication
+            also enhance ROLIE Service, Category, Feed, and Entry documents by defining link
+            relations, other categories, and 
             Format data model extensions to address the representational
             needs of these specific information types. New information types
             are added to ROLIE through registrations to the IANA ROLIE Security
@@ -887,14 +921,14 @@
           <t>Security automation data pertaining to a given information
           type may be expressed using a number of supported formats. As
           described in section <xref
-          target="atom-synd-entry-rolie-format" format="counter"/>, the
-          rolie:format element is used to describe the specific data
-          model used to represent the Resource referenced by a given
+            target="atom-synd-entry-rolie-format" format="counter"/>,
+          the rolie:format element is used to describe the specific data
+          model used to represent the resource referenced by a given
           "atom:entry". The structure provided by the rolie:format
           element, provides a mechanism for extension within the
           atom:entry model. ROLIE extensions MAY further restrict which
-          data models are allowed to be used for a given
-          information-type.</t>
+          data models are allowed to be used for a given information
+          type.</t>
           <t>By declaring the data model used for a given Resource, a
           consumer can choose to download or ignore the Resource, or look
           for alternate formats. This saves the consumer from downloading
@@ -1005,8 +1039,8 @@
         title="ROLIE Security Resource Information Type Sub-Registry"
         anchor="iana-information-type">
         <t>A new sub-registry has been created to store ROLIE
-          information-type values.<list hangIndent="0">
-            <t>Name of Registry: "ROLIE Information-Types"</t>
+          information type values.<list hangIndent="0">
+            <t>Name of Registry: "ROLIE Information Types"</t>
             <t>Location of Registry:
               https://www.iana.org/assignments/rolie/category/information-type</t>
             <t>Fields to record in the registry: <list hangIndent="0">
@@ -1062,7 +1096,7 @@
         in the sharing consortium will depend upon the members
         maintaining adequate user authentication mechanisms.</t>
       <t>Collaborating consortiums may benefit from the adoption of a
-        federated identity solution, such as those based upon <xref target="SAML-core">SAML-core</xref> and <xref target="SAML-bind">SAML-bind</xref> and <xref target="SAML-prof">SAML-prof</xref>
+        federated identity solution, such as those based upon <xref target="SAML-core">SAML-core</xref>, <xref target="SAML-bind">SAML-bind</xref>, and <xref target="SAML-prof">SAML-prof</xref>
         for Web-based authentication and cross-organizational single
         sign-on. Dependency on a trusted third party identity provider
         implies that appropriate care must be exercised to sufficiently
