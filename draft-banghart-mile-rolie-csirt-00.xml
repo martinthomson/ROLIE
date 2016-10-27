@@ -63,11 +63,14 @@
     <area>Security</area>
     <workgroup>MILE Working Group</workgroup>
     <abstract>
-      <t>This document extends the ROLIE core to support a number of
-        information-types needed to encompass Computer Security Incident
-        Response Team (CSIRT) use cases. Two information-types with
-        supporting formats and link relations are registered within this
-        document.</t>
+      <t>This document extends the Resource-Oriented Lightweight
+        Information Exchange (ROLIE) core to add the information type
+        categories and related requirements needed to support Computer
+        Security Incident Response Team (CSIRT) use cases. The indicator
+        and incident information types are defined as ROLIE extensions.
+        Additional supporting requirements are also defined that
+        describe the use of specific formats and link relations
+        pertaining to the new information types.</t>
     </abstract>
     <note title="Contributing to this document">
       <!--RFC EDITOR - Please remove this note before publishing -->
@@ -81,11 +84,13 @@
   </front>
   <middle>
     <section title="Introduction" anchor="starting-intro">
-      <t>This specification is an extension to the ROLIE core<xref
-        target="I-D.ietf-mile-rolie"/> designed to address CSIRT use
-        cases. The primary purpose of this extension is to define two new
-        information types: incident, and indicator, along with formats
-        and link relations that support these information-types..</t>
+      <t>This specification is an extension to the esource-Oriented
+        Lightweight Information Exchange (ROLIE) core <xref
+          target="I-D.ietf-mile-rolie"/> designed to address CSIRT use
+        cases. The primary purpose of this extension is to define two
+        new information types: incident, and indicator, along with
+        formats and link relations that support these
+        information-types.</t>
       <t>Threats to computer security are evolving ever more rapidly as
         time goes on. As software increases in complexity, the number of
         vulnerabilities in systems and networks can increase
@@ -116,10 +121,10 @@
     </section>
     <section title="Information-Type Extensions" anchor="ext-it">
       <t/>
-      <section title="The 'incident' information-type"
+      <section title="The &quot;incident&quot; information type"
         anchor="ext-it-incident">
-        <t> The incident information-type represents any information
-          describing or otherwise related to a computer security
+        <t>The &quot;incident&quot; information type represents any information
+          describing or pertaining to a computer security
           incident. There is no widely agreed upon definition of an
           incident, and any given definition will vary across user cases.
           As such, this information-type deals with a flexible and
@@ -145,9 +150,9 @@
           that in is the abstract realm of an incident should be
           classified under this information-type.</t>
       </section>
-      <section title="The 'indicator' information-type"
+      <section title="The &quot;indicator&quot; information type"
         anchor="ext-it-indicator">
-        <t> The indicator information-type represents computer security
+        <t> The &quot;indicator&quot; information type represents computer security
           indicators or any information surrounding them. Some examples
           of indicator information is provided below, but note that
           indicator is defined in an abstract sense, to be understood as
