@@ -103,6 +103,28 @@
         improve the timeliness of responses, automation must be used to
         acquire, contextualize, and put to use shared computer security
         information.</t>
+      
+      <t> CSIRTS operate using two primary forms of information:
+        incidents and indicators. Using the junction of these forms of
+        information, analysts are able to perform a wide range of
+        activities both proactive and reactive to ensure the security of
+        their system. </t> 
+        
+        <t>The information pertaining to incidents describes a
+      cyber security incident, everything from describing the attacker to
+      providing attack vector and endpoint data. Incident communication
+      aids in reactive actions against security threats, but sharing this
+      information also helps analysts both within the CSIRT and in the
+      broader security community to inoculate their systems against
+      similar attacks, providing proactive protection.</t>
+      
+      <t>The information pertaining to indicators helps describe the
+        things that make attacks possible or likely. Everything from system
+        vulnerabilities to unexpected network traffic can help analysts
+        secure systems and prepare for an attack. Making this information
+      available for sharing aids in the proactive defense of systems both
+      within an operating unit but also for any CSIRTs that are part of a
+      sharing consortium.</t>
 
       <t>As a means to bring automation of content discovery and
         dissemination into the CSIRT domain, this specification provides
