@@ -21,7 +21,7 @@
   <!ENTITY RFC7589 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7589.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
-<rfc ipr="trust200902" category="std" docName="draft-ietf-mile-rolie-04">
+<rfc ipr="trust200902" category="info" docName="draft-ietf-mile-rolie-05">
   <!-- Working draft of draft04 -->
   <?rfc compact="yes"?>
   <?rfc subcompact="no"?>
@@ -1669,7 +1669,6 @@
 
       </section>
     </section>
-    <!-- TODO: What happened to the schema? -->
     <section title="Change History" anchor="appendix-delta">
       <t>Changes in draft-ietf-mile-rolie-04 since
         draft-ietf-mile-rolie-04 version, July 8, 2016 to October 31,
