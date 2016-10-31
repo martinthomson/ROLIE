@@ -22,7 +22,7 @@
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200902" category="info" docName="draft-ietf-mile-rolie-05">
-  <!-- Working draft of draft04 -->
+  <!-- Working draft of draft05 -->
   <?rfc compact="yes"?>
   <?rfc subcompact="no"?>
   <?rfc toc="yes"?>
@@ -75,7 +75,7 @@
         <email>david.waltermire@nist.gov</email>
       </address>
     </author>
-    <date year="2016"/>
+    <date month="October" day="31" year="2016"/>
     <area>Security</area>
     <workgroup>MILE Working Group</workgroup>
     <abstract>

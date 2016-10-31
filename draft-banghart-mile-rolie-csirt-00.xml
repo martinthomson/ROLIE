@@ -60,7 +60,7 @@
       <email>sab3@nist.gov</email>
     </address>
     </author>
-    <date month="August" day="3" year="2016"/>
+    <date month="October" day="31" year="2016"/>
     <area>Security</area>
     <workgroup>MILE Working Group</workgroup>
     <abstract>
@@ -104,27 +104,24 @@
         acquire, contextualize, and put to use shared computer security
         information.</t>
       
-      <t> CSIRTS operate using two primary forms of information:
-        incidents and indicators. Using the junction of these forms of
-        information, analysts are able to perform a wide range of
-        activities both proactive and reactive to ensure the security of
-        their system. </t> 
-        
-        <t>The information pertaining to incidents describes a
-      cyber security incident, everything from describing the attacker to
-      providing attack vector and endpoint data. Incident communication
-      aids in reactive actions against security threats, but sharing this
-      information also helps analysts both within the CSIRT and in the
-      broader security community to inoculate their systems against
-      similar attacks, providing proactive protection.</t>
+      <t> CSIRTS share two primary forms of information: incidents and
+        indicators. Using these forms of information, analysts are able
+        to perform a wide range of activities both proactive and reactive
+        to ensure the security of their systems. </t>
+      <t>Incident information describes a cyber security incident. Such
+        information may include attack characteristics, information about
+        the attacker, and attack vector data. Sharing this information
+        helps analysts within the sharing community to inoculate their
+        systems against similar attacks, providing proactive
+        protection.</t>
       
-      <t>The information pertaining to indicators helps describe the
-        things that make attacks possible or likely. Everything from system
+      <t>Indicator information describes the symptoms or necessary
+        pre-conditions of an attack. Everything from system
         vulnerabilities to unexpected network traffic can help analysts
         secure systems and prepare for an attack. Making this information
-      available for sharing aids in the proactive defense of systems both
-      within an operating unit but also for any CSIRTs that are part of a
-      sharing consortium.</t>
+        available for sharing aids in the proactive defense of systems
+        both within an operating unit but also for any CSIRTs that are
+        part of a sharing consortium.</t>
 
       <t>As a means to bring automation of content discovery and
         dissemination into the CSIRT domain, this specification provides
@@ -335,10 +332,9 @@
           <t>If, and only if, the content of the Entry contains a STIX
             document, then the 'ns' attribute of the rolie:format element
             MUST be 'TODO-STIX-URN'.</t>
-          <t>STIX is a structured language for describing a wide range
-            of security resources. STIX approaches the problem with a
-            focus on flexibility, automatability, readability, and
-            extensibility. </t>
+          <t>STIX is a structured language for describing a wide range of
+            security resources. STIX approaches the problem with a focus
+            on flexibility, automation, readability, and extensibility. </t>
           <t>The use of STIX as the content of an Entry does not impose
             any additional requirements on ROLIE implementations.</t>
         </section>
@@ -485,172 +481,7 @@
   </middle>
   <back>
     <references title="Normative References"> &RFC2119; &RFC5070;
-      &I-D.ietf-mile-rolie;
-      <!--TODO-->
-      <reference anchor="opensearch"
-        target="http://www.opensearch.org/Specifications/OpenSearch/1.1">
-        <front>
-          <title>OpenSearch 1.1 draft 5 specification</title>
-          <author initials="D." surname="Clinton"
-            fullname="Dewitt Clinton">
-            <organization abbrev="OpenSearch"> OpenSearch Community
-            </organization>
-          </author>
-          <date year="2011"/>
-        </front>
-      </reference>
-      <reference anchor="SAML-core"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
-        <front>
-          <title>Assertions and Protocols for the OASIS Security
-            Assertion Markup Language (SAML) V2.0 </title>
-          <author initials="S." surname="Cantor" fullname="Scott Cantor">
-            <organization/>
-          </author>
-          <author initials="J." surname="Kemp" fullname="John Kemp">
-            <organization/>
-          </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
-            <organization/>
-          </author>
-          <author initials="E." surname="Mahler" fullname="Eve Mahler">
-            <organization/>
-          </author>
-          <date day="15" month="March" year="2005"/>
-        </front>
-        <seriesInfo name="OASIS Standard" value=""/>
-      </reference>
-      <reference anchor="SAML-prof"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf">
-        <front>
-          <title>Profiles for the OASIS Security Assertion Markup
-            Language (SAML) V2.0</title>
-          <author initials="J." surname="Hughes" fullname="John Hughes">
-            <organization/>
-          </author>
-          <author initials="S." surname="Cantor" fullname="Scott Cantor">
-            <organization/>
-          </author>
-          <author initials="J." surname="Hodges" fullname="Jeff Hodges">
-            <organization/>
-          </author>
-          <author initials="F." surname="Hirsch"
-            fullname="Frederick Hirsch">
-            <organization/>
-          </author>
-          <author initials="P." surname="Mishra"
-            fullname="Prateek Mishra">
-            <organization/>
-          </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
-            <organization/>
-          </author>
-          <author initials="E." surname="Mahler" fullname="Eve Mahler">
-            <organization/>
-          </author>
-          <date day="15" month="March" year="2005"/>
-        </front>
-        <seriesInfo name="OASIS Standard" value=""/>
-      </reference>
-      <reference anchor="SAML-bind"
-        target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf">
-        <front>
-          <title>Bindings for the OASIS Security Assertion Markup
-            Language (SAML) V2.0 </title>
-          <author initials="S." surname="Cantor" fullname="Scott Cantor">
-            <organization/>
-          </author>
-          <author initials="F." surname="Hirsch"
-            fullname="Frederick Hirsch">
-            <organization/>
-          </author>
-          <author initials="J." surname="Kemp" fullname="John Kemp">
-            <organization/>
-          </author>
-          <author initials="R." surname="Philpott"
-            fullname="Rob Philpott">
-            <organization/>
-          </author>
-          <author initials="E." surname="Mahler" fullname="Eve Mahler">
-            <organization/>
-          </author>
-          <date day="15" month="March" year="2005"/>
-        </front>
-        <seriesInfo name="OASIS Standard" value=""/>
-      </reference>
-    </references>
-    <references title="Informative References"> &RFC4949;
-      <reference anchor="XMLencrypt"
-        target="http://www.w3.org/TR/xmlenc-core/">
-        <front>
-          <title>XML Encryption Syntax and Processing</title>
-          <author initials="T." surname="Imaura" fullname="">
-            <organization/>
-          </author>
-          <author initials="B." surname="Dillaway" fullname="">
-            <organization/>
-          </author>
-          <author initials="E." surname="Simon" fullname="">
-            <organization/>
-          </author>
-          <date month="December" year="2002"/>
-        </front>
-        <seriesInfo name="W3C Recommendation" value=""/>
-      </reference>
-      <reference anchor="XMLsig"
-        target="http://www.w3.org/TR/xmldsig-core/">
-        <front>
-          <title>XML-Signature Syntax and Processing</title>
-          <author initials="M." surname="Bartel">
-            <organization/>
-          </author>
-          <author initials="J." surname="Boyer">
-            <organization/>
-          </author>
-          <author initials="B." surname="Fox">
-            <organization/>
-          </author>
-          <author initials="B." surname="LaMaccia">
-            <organization/>
-          </author>
-          <author initials="E." surname="Simon">
-            <organization/>
-          </author>
-          <date month="June" year="2008"/>
-        </front>
-        <seriesInfo name="W3C Recommendation" value="Second Edition"/>
-      </reference>
-      <reference anchor="XACML"
-        target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
-        <front>
-          <title>eXtensible Access Control Markup Language (XACML)
-            Version 3.0</title>
-          <author initials="E." surname="Rissanen"
-            fullname="Erik Rissanen">
-            <organization/>
-          </author>
-          <date day="10" month="August" year="2010"/>
-        </front>
-      </reference>
-      <reference anchor="REST"
-        target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">
-        <front>
-          <title>Architectural Styles and the Design of Network-based
-            Software Architectures</title>
-          <author initials="R." surname="Fielding"
-            fullname="Roy Thomas Fielding">
-            <organization abbrev="UCI"> University of California, Irvine;
-              Department of Information and Computer Science
-            </organization>
-          </author>
-          <date year="2000"/>
-        </front>
-        <format type="text/html"
-          target="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm"
-          octets="7287"/>
-      </reference>
+      &I-D.ietf-mile-rolie; &RFC4949;
     </references>
     <section title="Non-Normative Examples" anchor="non-norm-ex">
       <t>TODO</t>
