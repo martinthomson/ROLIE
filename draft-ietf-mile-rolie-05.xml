@@ -1670,8 +1670,18 @@
       </section>
     </section>
     <section title="Change History" anchor="appendix-delta">
+      <t>Changes in draft-ietf-mile-rolie-05 since
+        draft-ietf-mile-rolie-04 version, October 21, 2016 to November 2, 2016<list>
+        <t>Added ROLIE specific terminology to section 2 </t>
+        <t>Added AtomPub Category Document in section 5.2 </t>
+        <t>Edited document, improving consistency in terminology usage
+          and capitalization of key terms, as well as enhancing clarity. </t>
+        <t>Removed unused format parameter type in section 8.3 </t>
+        <t>Schema removed, the normative schema consists of the snippets
+          in the requirements sections.</t>
+        </list></t>
       <t>Changes in draft-ietf-mile-rolie-04 since
-        draft-ietf-mile-rolie-04 version, July 8, 2016 to October 31,
+        draft-ietf-mile-rolie-03 version, July 8, 2016 to October 31,
           2016<list style="symbols">
           <t>Further specification and clarification of requirements</t>
           <t>IANA Considerations and extension system fleshed out and
