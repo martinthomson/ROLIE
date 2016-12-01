@@ -21,7 +21,7 @@
   <!ENTITY RFC7589 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7589.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
-<rfc ipr="trust200902" category="info" docName="draft-ietf-mile-rolie-05">
+<rfc ipr="trust200902" category="standard" docName="draft-ietf-mile-rolie-06">
   <!-- Working draft of draft05 -->
   <?rfc compact="yes"?>
   <?rfc subcompact="no"?>
@@ -1670,6 +1670,10 @@
       </section>
     </section>
     <section title="Change History" anchor="appendix-delta">
+      <t>Changes in draft-ietf-mile-rolie-06 since
+        draft-ietf-mile-rolie-05 version, November 2, 2016 to TODO, 2016<list>
+          <t>Changed to standards track</t>
+        </list></t>
       <t>Changes in draft-ietf-mile-rolie-05 since
         draft-ietf-mile-rolie-04 version, October 21, 2016 to November 2, 2016<list>
         <t>Added ROLIE specific terminology to section 2 </t>
