@@ -21,7 +21,7 @@
   <!ENTITY RFC7589 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7589.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
-<rfc ipr="trust200902" category="standard" docName="draft-ietf-mile-rolie-06">
+<rfc ipr="trust200902" category="std" docName="draft-ietf-mile-rolie-06">
   <!-- Working draft of draft05 -->
   <?rfc compact="yes"?>
   <?rfc subcompact="no"?>
@@ -407,8 +407,9 @@
             organization's Web home page or another well-known public
             resource. An example of this can be found in appendix <xref
               target="example-svcdoc" format="counter"/>.</t>
-          <t>The Service Document SHOULD be located at the standardized
-            location "https://{host:port}/rolie/servicedocument", where
+          <t>The Service Document MUST be located at the standardized
+            location template
+            "https://{host:port}/rolie/servicedocument", where
             {host:port} is the authority portion of the URI.
             Dereferencing this URI MAY result in a redirect based on a
             HTTP 3xx status code to direct the client to the actual
@@ -427,17 +428,23 @@
       </section>
       <section title="AtomPub Category Documents">
         <t>As described in <xref target="RFC5023">RFC5023 section
-            7</xref>, a Category Document is an XML-based document
-          format that allows a client to dynamically discover the
-          Categories used within AtomPub Service Documents, and Atom
-          Syndication Feed and Entry documents provided by a publisher.
-          A Category Document consists of one or more app:categories
-          elements that may each contain a number of app:collection
-          elements.</t>
-        <t>A ROLIE implementation MUST
-          publish an Category Document that describes the set of
-          atom:category elements and associated terms used within the
-          implemented repository.</t>
+          7</xref>, a Category Document is an XML-based document format
+          that allows a client to dynamically discover the Categories
+          used within AtomPub Service Documents, and Atom Syndication
+          Feed and Entry documents provided by a publisher. A Category
+          Document consists of one or more app:categories elements that
+          may each contain a number of app:collection elements.</t>
+        <t>A ROLIE implementation MUST publish an Category Document that
+          describes the set of atom:category elements and associated
+          terms used within the implemented repository.</t>
+        <t>The Category Document MUST be located at the standardized
+          location template "https://{host:port}/rolie/categorydocument",
+          where {host:port} is the authority portion of the URI.
+          Dereferencing this URI MAY result in a redirect based on a HTTP
+          3xx status code to direct the client to the actual Category
+          Document. This allows clients to have a well-known location to
+          find a ROLIE category document, while giving implementations
+          flexibility over how the service is deployed.</t>
       </section>
       <section title="Transport Layer Security" anchor="atompub-tls">
         <t>ROLIE is intended to be handled with TLS. The following
@@ -948,6 +955,19 @@
           or limited in the intended use, an absolute IRI can be used in
           lieu of registering a new simple name with IANA.</t>
       </section>
+      <section title="The &quot;rolie:property&quot; Extension Point"
+        anchor="content-model-property">
+        <t>Many formats contain unique identifying and categorizing
+          properties that are vital for sharing. In order to provide a
+          global reference for these properties, this document establishes
+        an IANA table that allows extensions to register named properties
+        and their labels. Repositories and implementations are
+        encouraged, but not required, to use these global properties when
+        using the relevant formats.</t>
+        <t> Note that repositories may also use locally defined and
+          namespaced elements in the Entry, clients not familiar with
+          these elements will ignore them.</t>
+      </section>
     </section>
     <section title="IANA Considerations" anchor="iana">
       <t>This document has a number of IANA considerations described in
@@ -998,12 +1018,11 @@
         <t>Each entry in this sub-registry must record the following fields:<list>
           <t>Name: A URN segment that adheres to the pattern
             {type}:{label}. The keywords are defined as follows:<list>
-            <t>{type}: The parameter type. The allowed value is
-              "category". "category" denotes a category extension as
-              discussed in <xref target="content-model-category"/>. While
-              a single value is used in this specification, future
-              revisions or extensions of this specification may define
-              additional {type} values.</t>
+            <t>{type}: The parameter type. The allowed values are
+              "category" or "property". "category" denotes a category extension as
+              discussed in <xref target="content-model-category"/>.
+              "property" denotes a property extension as discussed in
+              <xref target="content-model-property"/>. </t>
             <t>{label}: A required US-ASCII string that conforms to the
               URN syntax requirements (see <xref target="RFC2141"/>).
               This string must be unique within the namespace defined by
