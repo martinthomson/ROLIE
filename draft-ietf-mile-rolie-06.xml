@@ -795,6 +795,28 @@
             schema resource identified by the "schema-location"
             attribute.</t>
         </section>
+        <section title="Use of the rolie:property Element">
+          <t>
+            <t>TODO Intro</t>
+            <t>TODO uses</t>
+            <t>There MAY be zero or more rolie:property elements in an
+              Entry. The element MUST adhere to this definition:</t>
+            <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+              <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+  rolieProperty =
+    element rolie:property {
+      atomCommonAttributes,
+      attribute ns { atomURI },
+      attribute label { text } ?,
+      attribute term { text } ?
+      empty
+  }   ]]></artwork>
+            </figure>
+            <t>TODO: Namespace?</t>
+            <t>TODO: label?</t>
+            <t>TODO: term?</t>
+          </t>
+        </section>
         <section title="Requirements for a Standalone Entry" anchor="atom-synd-entry-standalone">
           <t>If an Entry is ever shared as a standalone resource,
             separate from its containing Feed, then the following
