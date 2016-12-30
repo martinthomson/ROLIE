@@ -769,7 +769,7 @@
             <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
   rolieFormat =
     element rolie:format {
-      atomCommonAttributes,
+      appCommonAttributes,
       attribute ns { atomURI },
       attribute version { text } ?,
       attribute schema-location { atomURI } ?,
@@ -796,26 +796,39 @@
             attribute.</t>
         </section>
         <section title="Use of the rolie:property Element">
-          <t>
-            <t>TODO Intro</t>
-            <t>TODO uses</t>
+            <t>When additional non-categorical classification of content
+              is required, the "property" element can be used. Some
+              information is unique to each content payload, such as ID
+              and naming information. This information would be
+              inappropriate to store in a "category" element as this
+              category would never have more than one member.</t>
+            <t>The property element is intended to be used to aid in the
+              exposure of content information in cases where the other
+              methods are not viable.</t>
             <t>There MAY be zero or more rolie:property elements in an
               Entry. The element MUST adhere to this definition:</t>
             <figure height="" suppress-title="false" width="" alt="" title="" align="left">
               <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
   rolieProperty =
     element rolie:property {
-      atomCommonAttributes,
-      attribute ns { atomURI },
-      attribute label { text } ?,
-      attribute term { text } ?
+      appCommonAttributes,
+      attribute scheme { atomURI },
+      attribute term { text },
+      attribute label { text } ?
       empty
   }   ]]></artwork>
             </figure>
-            <t>TODO: Namespace?</t>
-            <t>TODO: label?</t>
-            <t>TODO: term?</t>
-          </t>
+            <t>The scheme attribute provides a URI that references the
+              registered property. This value identifies the property
+              that will be defined.</t>
+            <t>The term attribute is textual content that provides the
+              value of the property. </t>
+          <t>The label attribute is intended to be human-readable
+           text that provides a description or some contextual
+           information about the property. There is no guarantee about the
+          content of this attribute and therefore any behavior including
+          it is undefined.</t>
+
         </section>
         <section title="Requirements for a Standalone Entry" anchor="atom-synd-entry-standalone">
           <t>If an Entry is ever shared as a standalone resource,
@@ -1420,17 +1433,27 @@
 
  namespace rolie = "urn:ietf:params:xml:ns:rolie-1.0"
  namespace atom = "http://www.w3.org/2005/Atom"
+ namespace app = "http://www.w3.org/2007/app"
    
  # rolie:format
 
  rolieFormat =
     element rolie:format {
-       atom:atomCommonAttributes,
+       app:appCommonAttributes,
        attribute ns { atom:atomURI },
        attribute version { text } ?,
        attribute schema-location { atom:atomURI } ?,
        attribute schema-type { atom:atomMediaType } ?,
        empty
+       
+  rolieProperty =
+    element rolie:property {
+      app:appCommonAttributes,
+      attribute scheme { atom:atomURI },
+      attribute term { text },
+      attribute label { text } ?
+      empty
+  }
     }]]></artwork>
       </figure>
       
