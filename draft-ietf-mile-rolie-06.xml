@@ -10,8 +10,8 @@
   <!ENTITY RFC3986 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml">
   <!ENTITY RFC4287 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4287.xml">
   <!ENTITY RFC4642 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4642.xml">
-  <!ENTITY RFC5070 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5070.xml">
-  <!ENTITY RFC5070bis SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rfc5070-bis-26.xml">
+  <!ENTITY RFC7970 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7970.xml">
   <!ENTITY RFC5023 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5023.xml">
   <!ENTITY RFC5005 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5005.xml">
   <!ENTITY RFC5226 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
@@ -153,7 +153,7 @@
         <xref target="RFC2119"/>.</t>
       <t>Definitions for some of the common computer security-related
         terminology used in this document can be found in Section 2 of
-        <xref target="RFC5070"/>.</t>
+        <xref target="RFC7970"/>.</t>
       <t>The following terms are unqiue to this specification:<list style="hanging">
           <t hangText="Information Type">A class of security automation
             information, having an associated data model, that is the
@@ -939,9 +939,11 @@
             <t hangText="indicator:">Computing device- or network-related
               "observable features and phenomenon that aid in the
               forensic or proactive detection of malicious activity; and
-              associated meta-data" (from <xref target="I-D.ietf-mile-rfc5070-bis"/>).</t>
+              associated meta-data" (from <xref
+                target="RFC7970"/>).</t>
             <t hangText="incident:">Information pertaining to and
-              "derived analysis from security incidents" (from <xref target="I-D.ietf-mile-rfc5070-bis"/>).</t>
+              "derived analysis from security incidents" (from <xref
+                target="RFC7970"/>).</t>
             <t hangText="vulnerability reports:">Information identifying
               and describing a vulnerability in hardware or software.</t>
             <t hangText="configuration checklists:">Content that can be
@@ -1234,7 +1236,7 @@
   </middle>
   <back>
     <references title="Normative References"> &RFC0020;&RFC2119; &RFC3688;
-      &RFC3986; &RFC4287; &RFC5005; &RFC5023; &RFC5070; &RFC6546;
+      &RFC3986; &RFC4287; &RFC5005; &RFC5023; &RFC7970; &RFC6546;
       &RFC3553; &RFC5226; &xml-names; &RFC7589; &RFC5280; &RFC4642;
         <reference anchor="relax-NG" target="https://www.oasis-open.org/committees/relax-ng/compact-20021121.html">
         <front>
@@ -1249,8 +1251,7 @@
       </reference>
       
     </references>
-    <references title="Informative References"> &RFC2141; &RFC3444;
-      &RFC5070bis; &RFC5234;
+    <references title="Informative References"> &RFC2141; &RFC3444; &RFC5234;
       <reference anchor="SAML-core" target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
         <front>
           <title>Assertions and Protocol for the OASIS Security Assertion
