@@ -407,8 +407,8 @@
             organization's Web home page or another well-known public
             resource. An example of this can be found in appendix <xref
               target="example-svcdoc" format="counter"/>.</t>
-          <t>The Service Document MUST be located at the standardized
-            location template
+          <t>The Service Document MUST be retrievable using the
+            standardized URI template
             "https://{host:port}/rolie/servicedocument", where
             {host:port} is the authority portion of the URI.
             Dereferencing this URI MAY result in a redirect based on a
@@ -437,14 +437,15 @@
         <t>A ROLIE implementation MUST publish an Category Document that
           describes the set of atom:category elements and associated
           terms used within the implemented repository.</t>
-        <t>The Category Document MUST be located at the standardized
-          location template "https://{host:port}/rolie/categorydocument",
-          where {host:port} is the authority portion of the URI.
-          Dereferencing this URI MAY result in a redirect based on a HTTP
-          3xx status code to direct the client to the actual Category
-          Document. This allows clients to have a well-known location to
-          find a ROLIE category document, while giving implementations
-          flexibility over how the service is deployed.</t>
+        <t>The Category Document MUST be retrievable using the
+          standardized URI template
+          "https://{host:port}/rolie/categorydocument", where {host:port}
+          is the authority portion of the URI. Dereferencing this URI MAY
+          result in a redirect based on a HTTP 3xx status code to direct
+          the client to the actual Category Document. This allows clients
+          to have a well-known location to find a ROLIE category
+          document, while giving implementations flexibility over how the
+          service is deployed.</t>
       </section>
       <section title="Transport Layer Security" anchor="atompub-tls">
         <t>ROLIE is intended to be handled with TLS. The following
@@ -794,6 +795,11 @@
             element, which is a mime type identifying the  format of the
             schema resource identified by the "schema-location"
             attribute.</t>
+          <t>For example, the nominal element &lt;rolie:format
+            ns="urn:ietf:params:xml:ns:iodef-2.0" version="2.0"
+            schema-location="https://www.iana.org/assignments/xml-registry/schema/iodef-2.0.xsd"/>
+            would provide an indication that the content of this entry is
+            using the IODEF v2 format.</t>
         </section>
         <section title="Use of the rolie:property Element">
             <t>When additional non-categorical classification of content
@@ -814,20 +820,22 @@
       appCommonAttributes,
       attribute scheme { atomURI },
       attribute term { text },
-      attribute label { text } ?
+      attribute value { text }
       empty
   }   ]]></artwork>
             </figure>
-            <t>The scheme attribute provides a URI that references the
-              registered property. This value identifies the property
-              that will be defined.</t>
-            <t>The term attribute is textual content that provides the
-              value of the property. </t>
-          <t>The label attribute is intended to be human-readable
-           text that provides a description or some contextual
-           information about the property. There is no guarantee about the
-          content of this attribute and therefore any behavior including
-          it is undefined.</t>
+            <t>The scheme attribute provides a URI that identifies the
+            name space of the term. </t>
+            <t>The term attribute is text that identifies the name of the
+            property within the given namespace defined by the scheme
+            attribute.</t>
+          <t>The value attribute is text that provides a value for the
+            property identified by the term attribute.</t>
+          <t>For example, the nominal element &lt;rolie:property
+            scheme="urn:ietf:params:rolie:property:csirt" term="IODEF-ID"
+            value="12345"/> would provide exposure for an IODEF ID value
+            contained in a given entry's content, where the scheme is
+            defined and registered in a ROLIE extension.</t>
 
         </section>
         <section title="Requirements for a Standalone Entry" anchor="atom-synd-entry-standalone">
@@ -994,14 +1002,18 @@
         anchor="content-model-property">
         <t>Many formats contain unique identifying and categorizing
           properties that are vital for sharing. In order to provide a
-          global reference for these properties, this document establishes
-        an IANA table that allows extensions to register named properties
-        and their labels. Repositories and implementations are
-        encouraged, but not required, to use these global properties when
-        using the relevant formats.</t>
-        <t> Note that repositories may also use locally defined and
-          namespaced elements in the Entry, clients not familiar with
-          these elements will ignore them.</t>
+          global reference for these properties, this document
+          establishes an IANA table that allows extensions to register
+          named properties and their labels. Implementations are
+          encouraged, but not required, to use these global properties
+          when using the relevant formats and information types.</t>
+        <t>ROLIE extensions are expected to register the properties that
+          would provide valuable identifying and categorizing
+          information.</t>
+        <t>Note that repositories may also use locally defined and
+          namespaced elements in the Entry in order to provide additional
+          information, clients not familiar with these elements will
+          ignore them.</t>
       </section>
     </section>
     <section title="IANA Considerations" anchor="iana">
@@ -1221,7 +1233,6 @@
     </section>
   </middle>
   <back>
-    <!-- TODO: check normative vs informative reference use -->
     <references title="Normative References"> &RFC0020;&RFC2119; &RFC3688;
       &RFC3986; &RFC4287; &RFC5005; &RFC5023; &RFC5070; &RFC6546;
       &RFC3553; &RFC5226; &xml-names; &RFC7589; &RFC5280; &RFC4642;
@@ -1236,6 +1247,10 @@
           <date year="2002" month="11" day="21"/>
         </front>
       </reference>
+      
+    </references>
+    <references title="Informative References"> &RFC2141; &RFC3444;
+      &RFC5070bis; &RFC5234;
       <reference anchor="SAML-core" target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
         <front>
           <title>Assertions and Protocol for the OASIS Security Assertion
@@ -1359,9 +1374,6 @@
         <seriesInfo name="OASIS Standard" value="saml-bindings-2.0-os"/>
         <format type="PDF" target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf"/>
       </reference>
-    </references>
-    <references title="Informative References"> &RFC2141; &RFC3444;
-      &RFC5070bis; &RFC5234;
       <reference anchor="xmldsig" target="https://www.w3.org/TR/xmldsig-core/">
         <front>
           <title>XML Signature Syntax and Processing (Second Edition)</title>
@@ -1429,7 +1441,7 @@
       <figure>
         <artwork><![CDATA[
  # -*- rnc -*-
- # RELAX NG Compact Syntax Grammar for the rolie:format element
+ # RELAX NG Compact Syntax Grammar for the rolie ns
 
  namespace rolie = "urn:ietf:params:xml:ns:rolie-1.0"
  namespace atom = "http://www.w3.org/2005/Atom"
@@ -1445,16 +1457,18 @@
        attribute schema-location { atom:atomURI } ?,
        attribute schema-type { atom:atomMediaType } ?,
        empty
+}
        
-  rolieProperty =
+ # rolie:property
+       
+ rolieProperty =
     element rolie:property {
       app:appCommonAttributes,
       attribute scheme { atom:atomURI },
       attribute term { text },
       attribute label { text } ?
       empty
-  }
-    }]]></artwork>
+  }]]></artwork>
       </figure>
       
     </section>
@@ -1539,7 +1553,7 @@
      <collection 
          href="http://example.org/provider/public/vulns">
        <atom:title>Public Vulnerabilities</atom:title>
-       <link rel="service" 
+       <atom:link rel="service" 
          href="www.example.com/rolie/servicedocument">
        <categories fixed="yes">
          <atom:category
@@ -1553,7 +1567,7 @@
      <collection 
          href="http://example.org/provider/private/vulns">
        <atom:title>Incidents</atom:title>
-       <link rel="service" 
+       <atom:link rel="service" 
          href="www.example.com/rolie/servicedocument">
        <categories fixed="yes">
          <atom:category
@@ -1612,13 +1626,13 @@
 
   <?xml version="1.0" encoding="UTF-8"?>
   <feed xmlns="http://www.w3.org/2005/Atom"
-      xml:lang="en-US">
+      xml:lang="en-US" xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
     <id>http://www.example.org/provider/vulns</id>
     <title type="text">
         Atom formatted representation of 
         a feed of XML incident documents
     </title>
-    <atom:category
+    <category
         scheme="urn:ietf:params:rolie:category:information-type"
         term="vulnerability"/>
     <updated>2012-05-04T18:13:51.0Z</updated>
@@ -1690,12 +1704,13 @@
   Content-Type: application/atom+xml;type=entry;charset="utf-8"
 
   <?xml version="1.0" encoding="UTF-8"?>
-  <entry>
+  <atom:entry xmlns="http://www.w3.org/2005/Atom"
+      xml:lang="en-US">
     <id>http://www.example.org/provider/vulns/123456</id>
     <title>Sample Incident</title>
     <published>2012-08-04T18:13:51.0Z</published>
     <updated>2012-08-05T18:13:51.0Z</updated>
-    <atom:category
+    <category
         scheme="urn:ietf:params:rolie:category:information-type"
         term="incident"/>
     <summary>A short description of this incident resource</summary>
@@ -1737,6 +1752,11 @@
       <t>Changes in draft-ietf-mile-rolie-06 since
         draft-ietf-mile-rolie-05 version, November 2, 2016 to TODO, 2016<list>
           <t>Changed to standards track</t>
+        <t>Added the rolie:property element</t>
+        <t>Fixed references (Normative vs Informative)</t>
+        <t>Set Service and Category document URL template
+          requirements</t>
+        <t>Fixed XML snippets in examples</t>
         </list></t>
       <t>Changes in draft-ietf-mile-rolie-05 since
         draft-ietf-mile-rolie-04 version, October 21, 2016 to November 2, 2016<list>
@@ -1778,7 +1798,7 @@
         draft-field-mile-rolie-01 version, December, 2015 to May 27,
         2016: <list style="symbols">
         <t>All CSIRT and IODEF/RID material moved to companion CSIRT
-          document TODO: add reference </t>
+          document  </t>
         <t>Recast document into a more general use perspective. The
           implication of CSIRTs as the defacto end-user has been removed
           where ever possible. All of the original CSIRT based use cases
