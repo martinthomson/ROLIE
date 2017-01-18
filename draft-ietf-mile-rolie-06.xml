@@ -160,7 +160,6 @@
             subject of a security process that can be automated. See
             section <xref target="content-model-category-info-type"
               format="counter"/> for more information.</t>
-        <t>Do we need other terms to be defined?</t>
       </list></t>
     </section>
     <section title="XML-related Conventions">
@@ -185,6 +184,9 @@
           namespaces appear in <xref target="RFC5023">RFC5023 appendix
           B</xref> and <xref target="RFC4287">RFC4287 appendix B</xref>
           respectively.</t>
+        <t>A complete RELAX NG Compact Schema for the new elements
+          introduced by ROLIE is provided in <xref
+            target="appendix-schema">appendix A</xref>.</t>
       </section>
     </section>
     <section title="Background and Motivation" anchor="back-motive">
@@ -525,17 +527,18 @@
     <section title="ROLIE Requirements for the Atom Syndication Format" anchor="atom-synd">
       <t>This section describes a number of restrictions of and
         extensions to the <xref target="RFC4287">Atom Syndication
-          Format</xref> that define the use of that format in the
-        context of a ROLIE-based solution. The normative requirements in
-        this section are generally oriented towards content to be
+        Format</xref> that define the use of that format in the context
+        of a ROLIE-based solution. The normative requirements in this
+        section are generally oriented towards the content that is to be
         published to a ROLIE repository. An understanding of the Atom
-        Syndication Format  specification <xref target="RFC4287"/> is
+        Syndication Format specification <xref target="RFC4287"/> is
         helpful to understand the requirements in this section.</t>
       <section title="Use of the &quot;atom:feed&quot; element" anchor="atom-synd-feed">
         <t>As described in <xref target="RFC4287">RFC4287 section
           4.1.1</xref>, an Atom Feed is an XML-based document format that
-          describes a list of related information items, also known as a
-          Collection. Each Feed document, represented using the atom:feed
+          describes a list of related information items. Atom Feeds are
+          publicly listed through a Collection element in the Service
+          Document. Each Feed document, represented using the atom:feed
           element, contains a collection of zero or more related
           information items individually called a "Member Entry" or
           "Entry".</t>
@@ -703,6 +706,7 @@
       & atomTitle
       & atomUpdated
       & rolieFormat
+      & rolieProperty
       & extensionElement*)
   }   ]]></artwork>
         </figure>
