@@ -434,8 +434,9 @@
           that allows a client to dynamically discover the Categories
           used within AtomPub Service Documents, and Atom Syndication
           Feed and Entry documents provided by a publisher. A Category
-          Document consists of one or more app:categories elements that
-          may each contain a number of app:collection elements.</t>
+          Document consists of one app:categories element that contains a
+          number of inline atom:category elements, or a URI referencing a
+          Category Document that describes the repository.</t>
         <t>A ROLIE implementation MUST publish an Category Document that
           describes the set of atom:category elements and associated
           terms used within the implemented repository.</t>
@@ -520,6 +521,8 @@
         <t>If the "/" resource is unsupported, then a request for this resource MUST provide a 404 HTTP status code.</t>
       </section>
       <section title="HTTP methods" anchor="atompub-http-methods">
+        <t>Servers MAY accept request methods beyond those specified in
+          this document.</t>
         <t>Clients MUST be capable of recognizing and processing any
           standard HTTP status code, as defined in <xref target="RFC5023"/> Section 5.</t>
       </section>
