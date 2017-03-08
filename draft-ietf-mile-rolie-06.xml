@@ -584,14 +584,16 @@
           <t>The following restrictions are imposed on the use of the
             atom:category element when used in an  atom:feed:<list style="symbols">
               <t>An atom:feed element MUST minimally contain a single
-                atom:category element with the "scheme" attribute value
-                of "urn:ietf:params:rolie:category:information-type".
-                This category MUST have an appropriate "term" attribute
-                value as defined in section <xref target="content-model-category-general" format="counter"/>. This ensures that a given
-                Feed corresponds to a specific type of security
-                automation information. All member Entries in the
-                Feed MUST represent security automation
-                information records of this information type.</t>
+              atom:category element with the "scheme" attribute value of
+              "urn:ietf:params:rolie:category:information-type". This
+              category MUST have an appropriate "term" attribute value as
+              defined in section <xref
+              target="content-model-category-general" format="counter"/>.
+              This ensures that a given Feed corresponds to a specific
+              type of security automation information. All member Entries
+              in the Feed MUST represent security automation information
+              records of the provided information type category or
+              categories.</t>
               <t>Any atom:feed element that does not contain a child
                 atom:category element with the "scheme" attribute value
                 of "urn:ietf:params:rolie:category:information-type"
