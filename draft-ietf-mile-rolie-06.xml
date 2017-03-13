@@ -186,7 +186,7 @@
           respectively.</t>
         <t>A complete RELAX NG Compact Schema for the new elements
           introduced by ROLIE is provided in <xref
-            target="appendix-schema">appendix A</xref>.</t>
+            target="appendix-schema" />.</t>
       </section>
     </section>
     <section title="Background and Motivation" anchor="back-motive">
@@ -413,19 +413,17 @@
             standardized URI template
             "https://{host:port}/rolie/servicedocument", where
             {host:port} is the authority portion of the URI.
-            Dereferencing this URI MAY result in a redirect based on a
+            Dereferencing this URI MAY result in a redirect based on an appropriate
             HTTP 3xx status code to direct the client to the actual
             Service Document. This allows clients to have a well-known
             location to find a ROLIE service document, while giving
             implementations flexibility over how the service is
             deployed.</t>
-          <t>When deploying a Service Document for use by a closed
-            consortium, the service document MAY also be digitally
-            signed and/or encrypted. For example, consider <xref
+          <t>The service document MAY also be digitally
+            signed and/or encrypted according to <xref
               target="xmldsig">XML Signature Syntax and
               Processing</xref> and <xref target="xmlenc">XML Encryption
-              Syntax and Processing.</xref>
-          </t>
+                Syntax and Processing</xref> respectively.</t>
         </section>
       </section>
       <section title="AtomPub Category Documents">
@@ -444,7 +442,7 @@
           standardized URI template
           "https://{host:port}/rolie/categorydocument", where {host:port}
           is the authority portion of the URI. Dereferencing this URI MAY
-          result in a redirect based on a HTTP 3xx status code to direct
+          result in a redirect based on an appropriate HTTP 3xx status code to direct
           the client to the actual Category Document. This allows clients
           to have a well-known location to find a ROLIE category
           document, while giving implementations flexibility over how the
@@ -532,17 +530,17 @@
         extensions to the <xref target="RFC4287">Atom Syndication
         Format</xref> that define the use of that format in the context
         of a ROLIE-based solution. The normative requirements in this
-        section are generally oriented towards the content that is to be
+        section are generally oriented towards content to be
         published to a ROLIE repository. An understanding of the Atom
         Syndication Format specification <xref target="RFC4287"/> is
         helpful to understand the requirements in this section.</t>
       <section title="Use of the &quot;atom:feed&quot; element" anchor="atom-synd-feed">
         <t>As described in <xref target="RFC4287">RFC4287 section
           4.1.1</xref>, an Atom Feed is an XML-based document format that
-          describes a list of related information items. Atom Feeds are
-          publicly listed through a Collection element in the Service
-          Document. Each Feed document, represented using the atom:feed
-          element, contains a collection of zero or more related
+          describes a list of related information items. The list of Atom Feeds provided by a ROLIE service instance are
+          listed in the service's Service Document
+          through one or more app:collection elements. Each Feed document, represented using the atom:feed
+          element, contains a listing of zero or more related
           information items individually called a "Member Entry" or
           "Entry".</t>
         <t>When applied to the problem domain of security automation
@@ -808,42 +806,52 @@
             would provide an indication that the content of this entry is
             using the IODEF v2 format.</t>
         </section>
-        <section title="Use of the rolie:property Element">
-            <t>When additional non-categorical classification of content
-              is required, the "property" element can be used. Some
-              information is unique to each content payload, such as ID
-              and naming information. This information would be
-              inappropriate to store in a "category" element as this
-              category would never have more than one member.</t>
-            <t>The property element is intended to be used to aid in the
-              exposure of content information in cases where the other
-              methods are not viable.</t>
+        <section title="Use of the rolie:property Element" anchor="atom-synd-entry-rolie-property">
+            <t>An atom:category element provides a way to associate a
+            name/value pair of categorical information using the scheme
+            and term attributes to represent the name, and the label
+            attribute to represent the value. When used in this way an
+            atom:category allows a specific label to be selected from a
+            finite set of possible label values that can be used to
+            further classify a given atom:entry or atom:feed. Within
+            ROLIE, there may be a need to associate additional metadata
+            with an atom:entry. In such a case, use of an atom:category
+            is not practical to represent name/value data for which the
+            allowed values are unbounded. Instead, ROLIE has introduced
+            a new rolie:property element that can represent
+            non-categorical metadata as name/value pairs. Examples
+            include non-categorical metadata such as content-specific
+            identifiers, naming data, and other properties that allow
+            for unbounded values.</t>
             <t>There MAY be zero or more rolie:property elements in an
-              Entry. The element MUST adhere to this definition:</t>
+            atom:entry.</t>
+          <t>The element MUST adhere to this definition:</t>
             <figure height="" suppress-title="false" width="" alt="" title="" align="left">
               <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
   rolieProperty =
     element rolie:property {
-      appCommonAttributes,
-      attribute scheme { atomURI },
-      attribute term { text },
+      app:appCommonAttributes,
+      attribute name { atom:atomURI },
       attribute value { text }
       empty
   }   ]]></artwork>
             </figure>
-            <t>The scheme attribute provides a URI that identifies the
-            name space of the term. </t>
-            <t>The term attribute is text that identifies the name of the
-            property within the given namespace defined by the scheme
-            attribute.</t>
+            <t>The name attribute provides a URI that identifies the
+            namespace and name of the property as a URI.</t>
           <t>The value attribute is text that provides a value for the
-            property identified by the term attribute.</t>
+            property identified by the name attribute.</t>
           <t>For example, the nominal element &lt;rolie:property
-            scheme="urn:ietf:params:rolie:property:csirt" term="IODEF-ID"
-            value="12345"/> would provide exposure for an IODEF ID value
-            contained in a given entry's content, where the scheme is
-            defined and registered in a ROLIE extension.</t>
-
+            name="urn:ietf:params:rolie:property:csirt-iodef-id"
+            value="12345"/> would expose an IODEF ID value contained in
+            a given entry's content. The name used in the example also
+            demonstrates the use of a registered ROLIE property
+            extension, which is described in <xref
+              target="content-model-property"/>.</t>
+          <t>Implementations MAY use locally defined and namespaced
+            elements in an Entry in order to provide additional
+            information. Clients that do not recognize a property with
+            an unregistered name attribute MAY ignore the
+            rolie:property.</t>
         </section>
         <section title="Requirements for a Standalone Entry" anchor="atom-synd-entry-standalone">
           <t>If an Entry is ever shared as a standalone resource,
@@ -908,7 +916,10 @@
             IANA sub-registry has been established for ROLIE protocol
             parameters to support the registration of new category
             "scheme" attribute values by ROLIE extension specifications.
-            Use of this extension point is discussed in section <xref target="iana-parameters" format="counter"/>.</t>
+            Use of this extension point is discussed in section <xref
+              target="iana-parameters" format="counter"/> using the name
+            field with a type parameter of "category" to indicate a
+            category extension.</t>
         </section>
         <section title="Identification of Security Automation Information Types" anchor="content-model-category-info-type">
           <t>A ROLIE specific extension point is provided through the
@@ -1009,20 +1020,22 @@
       </section>
       <section title="The &quot;rolie:property&quot; Extension Point"
         anchor="content-model-property">
-        <t>Many formats contain unique identifying and categorizing
-          properties that are vital for sharing. In order to provide a
+        <t>As discussed previously in <xref
+            target="atom-synd-entry-rolie-format"/>, many formats
+          contain unique identifying and characterizing properties that
+          are vital for sharing information. In order to provide a
           global reference for these properties, this document
-          establishes an IANA table that allows extensions to register
-          named properties and their labels. Implementations are
-          encouraged, but not required, to use these global properties
-          when using the relevant formats and information types.</t>
-        <t>ROLIE extensions are expected to register the properties that
-          would provide valuable identifying and categorizing
-          information.</t>
-        <t>Note that repositories may also use locally defined and
-          namespaced elements in the Entry in order to provide additional
-          information, clients not familiar with these elements will
-          ignore them.</t>
+          establishes an IANA reguistry in <xref
+            target="content-model-property"/> that allows ROLIE
+          extensions to register named properties using the name field
+          with a type parameter of "property" to indicate a property
+          extension. Implementations SHOULD prefer the use registered
+          properties over implementation specific properties when
+          possible.</t>
+        <t>ROLIE extensions are expected to register new and use already
+          registered properties that would provide valuable identifying
+          and characterizing information for a given information type
+          and/or format.</t>
       </section>
     </section>
     <section title="IANA Considerations" anchor="iana">
@@ -1472,9 +1485,8 @@
  rolieProperty =
     element rolie:property {
       app:appCommonAttributes,
-      attribute scheme { atom:atomURI },
-      attribute term { text },
-      attribute label { text } ?
+      attribute name { atom:atomURI },
+      attribute value { text } ?
       empty
   }]]></artwork>
       </figure>
@@ -1580,7 +1592,7 @@
        <categories fixed="yes">
          <atom:category
              scheme="urn:ietf:params:rolie:category:information-type"
-             term="incidents"/>
+             term="incident"/>
        </categories>
      </collection>
    </workspace>
@@ -1648,14 +1660,12 @@
     <link rel="service" 
         href="http://example.org/rolie/servicedocument"/>
     <entry>
-      <rolie:format ns="urn:ietf:params:xml:ns:exampleformat"/>
-      <id>
-          http://www.example.org/provider/vulns/123456
-      </id>
-      <title>Sample Incident</title>
+      <id>http://www.example.org/provider/vulns/123456</id>
+      <title>Sample Vulnerability</title>
       <published>2014-08-04T18:13:51.0Z</published>
       <updated>2014-08-05T18:13:51.0Z</updated>
-      <summary>A short description of this resource</summary>
+      <summary>A vulnerability issue identified by CVE-...</summary>
+      <rolie:format ns="urn:ietf:params:xml:ns:exampleformat"/>
       <content type="application/xml" 
           src="http://www.example.org/provider/vulns/123456/data"
     </entry>
@@ -1715,13 +1725,13 @@
   <atom:entry xmlns="http://www.w3.org/2005/Atom"
       xml:lang="en-US">
     <id>http://www.example.org/provider/vulns/123456</id>
-    <title>Sample Incident</title>
+    <title>Sample Vulnerability</title>
     <published>2012-08-04T18:13:51.0Z</published>
     <updated>2012-08-05T18:13:51.0Z</updated>
     <category
         scheme="urn:ietf:params:rolie:category:information-type"
-        term="incident"/>
-    <summary>A short description of this incident resource</summary>
+        term="vulnerability"/>
+    <summary>A vulnerability issue identified by CVE-...</summary>
     <rolie:format ns="urn:ietf:params:xml:ns:exampleformat"/>
     <content type="application/xml" 
         src="http://www.example.org/provider/vulns/123456/data">
