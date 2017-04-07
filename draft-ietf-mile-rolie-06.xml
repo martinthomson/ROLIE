@@ -443,7 +443,7 @@
           Document consists of one app:categories element that contains a
           number of inline atom:category elements, or a URI referencing a
           Category Document that describes the repository.</t>
-        <t>A ROLIE implementation MUST publish an Category Document that
+        <t>A ROLIE implementation MUST publish a Category Document that
           describes the set of atom:category elements and associated
           terms used within the implemented repository.</t>
         <t>The Category Document MUST be retrievable using the
@@ -496,8 +496,9 @@
       </section>
       <section title="User Authentication and Authorization"
         anchor="atompub-auth-authz">
-        <t>Implementations MUST support user authentication. User
-          authentication MAY be enabled for specific Feeds.</t>
+        <t>Implementations MUST support user authentication. However, a
+          given repository MAY enable/disable user authentication on a
+          feed by feed basis.</t>
         <t>Servers participating in an information sharing consortium and
           supporting interactive user logins by members of the consortium
           SHOULD support client authentication via a federated identity
@@ -568,7 +569,7 @@
           collections of security automation resources.</t>
         <t>The following Atom Feed definition represents a stricter
           definition of the atom:feed element defined in RFC 4287 for use
-          in a ROLIE Any element not specified here inherits its
+          in a ROLIE repository. Any element not specified here inherits its
           definition and requirements from <xref target="RFC4287"/>.</t>
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
@@ -619,7 +620,7 @@
               pertaining to security automation information to co-exist
               alongside Feeds of other non-ROLIE information within the
               same AtomPub instance.</t>
-            <t>An atom:feed may include additional atom:category elements
+            <t>An atom:feed MAY include additional atom:category elements
               using a scheme other than
               "urn:ietf:params:rolie:category:information-type". This
               allows other category metadata to be included.</t>
@@ -835,9 +836,9 @@
             attribute.</t>
           <t>For example, the nominal element &lt;rolie:format
             ns="urn:ietf:params:xml:ns:iodef-2.0" version="2.0"
-            schema-location="https://www.iana.org/assignments/xml-registry/schema/iodef-2.0.xsd"/>
-            would provide an indication that the content of this entry is
-            using the IODEF v2 format.</t>
+            schema-location="https://www.iana.org/assignments/xml-registry/schema/iodef-2.0.xsd"
+            schema-type-"text/xml"/> would provide an indication that the
+            content of this entry is using the IODEF v2 format.</t>
         </section>
         <section title="Use of the rolie:property Element"
           anchor="atom-synd-entry-rolie-property">
@@ -1076,7 +1077,7 @@
           unique identifying and characterizing properties that are vital
           for sharing information. In order to provide a global reference
           for these properties, this document establishes an IANA
-          registry in <xref target="content-model-property"/> that allows
+          registry in <xref target="iana-parameters"/> that allows
           ROLIE extensions to register named properties using the name
           field with a type parameter of "property" to indicate a
           property extension. Implementations SHOULD prefer the use of
@@ -1170,7 +1171,7 @@
           <ttcol>Sub-Registry</ttcol>
           <c>category:information-type</c>
           <c>urn:ietf:params:rolie:category:information-type</c>
-          <c>This document, Section 9.4</c>
+          <c>This document, Section 8.4</c>
           <c>[TO BE REMOVED: This registration should take place at the
             following location:
             https://www.iana.org/assignments/rolie/category/information-type]</c>
