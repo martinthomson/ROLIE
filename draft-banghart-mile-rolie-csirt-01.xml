@@ -536,7 +536,13 @@
     <references title="Normative References"> &RFC2119; &RFC5070;
       &I-D.ietf-mile-rolie; &RFC4949; </references>
     <section title="Non-Normative Examples" anchor="non-norm-ex">
-      <t>TODO</t>
+      <t>The following provide examples of some potential use cases of
+        the CSIRT ROLIE extension, and provides a showcase for some of
+        its benefits over traditional solutions.
+      </t>
+      <t>The general non-normative examples provided in the core ROLIE
+        document remain an excellent reference resource for typical ROLIE
+      usage.</t>
       <section title="Use of Link Relations" anchor="link-relations">
         <t> A key benefit of using the RESTful architectural style is the
           ability to enable the client to navigate to related resources
@@ -592,7 +598,8 @@
             title="" align="left">
             <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
 <?xml version="1.0" encoding="UTF-8"?>        
-<entry>
+<entry xmlns="http://www.w3.org/2005/Atom"
+  xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
   <id>http://www.example.org/csirt/private/incidents/123456</id>
   <title>Sample Incident</title>
   <link href="http://www.example.org/csirt/private/incidents/123456" 
@@ -617,7 +624,7 @@
   <!-- navigate up to the full collection.  
        Might also be rel="collection" as per IANA registry -->
   <link href="http://www.example.org/csirt/private/incidents" rel="up"/>
-  
+  <rolie:format ns="example:iodef"/>
   <content type="application/xml" src="example.org/123456/source">
   <!-- Content provided here as example, the content tag is only a 
        link to this file. -->
@@ -629,6 +636,7 @@
         <!-- ...additional incident data.... -->
         </iodef:Incident>
     </iodef:IODEF-Document>
+    
   </content>
 </entry>  ]]></artwork>
           </figure>
