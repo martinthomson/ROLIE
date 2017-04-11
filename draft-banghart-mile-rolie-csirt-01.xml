@@ -472,7 +472,7 @@
             </list></t>
         </section>
       </section>
-      <section title="category registrations" anchor="iana-cat">
+      <section title="atom:category scheme registrations" anchor="iana-cat">
         <t> IANA has added the following entries to the "ROLIE URN
           Parameters" registry located in <eref
           target="https://www.iana.org/assignments/rolie/"/>.</t>
@@ -499,7 +499,7 @@
             </list></t>
         </section>
       </section>
-      <section title="property registrations" anchor="iana-prop">
+      <section title="rolie:property name registrations" anchor="iana-prop">
         <t>IANA has added the following entries to the "ROLIE URN
           Parameters" registry located in <eref
           target="https://www.iana.org/assignments/rolie/"/>.</t>
@@ -624,7 +624,7 @@
   <!-- navigate up to the full collection.  
        Might also be rel="collection" as per IANA registry -->
   <link href="http://www.example.org/csirt/private/incidents" rel="up"/>
-  <rolie:format ns="example:iodef"/>
+  <rolie:format ns="urn:example:iodef"/>
   <content type="application/xml" src="example.org/123456/source">
   <!-- Content provided here as example, the content tag is only a 
        link to this file. -->
@@ -707,13 +707,15 @@ Content-Type: application/atom+xml;type=entry
 Content-Length: 852 
 
 <?xml version="1.0" encoding="UTF-8"?>
-<entry xmlns="http://www.w3.org/2005/Atom">
+<entry xmlns="http://www.w3.org/2005/Atom"
+  xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
   <title>New Investigation Request</title>
   <id>http://www.example2.org/csirt/private/incidents/123456</id>
   <!-- id and updated not guranteed to be preserved --> 
   <!-- may want to profile that behavior in this document -->
   <updated>2012-08-12T11:08:22Z</updated>                         
   <author><name>Name of peer CSIRT</name></author>
+  <rolie:format ns="urn:example:iodef"/>
   <content type="application/xml">
     <iodef:IODEF-Document lang="en" 
       xmlns:iodef="urn:ietf:params:xml:ns:iodef-1.0">
@@ -739,7 +741,8 @@ Location: http://www.example.org/csirt/RID/InvestigationRequests/823
 ETag: "8a9h9he4qphqh"
 
 <?xml version="1.0" encoding="UTF-8"?>
-<entry xmlns="http://www.w3.org/2005/Atom">
+<entry xmlns="http://www.w3.org/2005/Atom"
+  xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
   <title>New Investigation Request</title>
   <id>http://www.example.org/csirt/RID/InvestigationRequests/823</id>
   <!-- id and updated not guranteed to be preserved --> 
@@ -747,6 +750,7 @@ ETag: "8a9h9he4qphqh"
   <updated>2012-08-12T11:08:30Z</updated>                              
   <published>2012-08-12T11:08:30Z</published>
   <author><name>Name of peer CSIRT</name></author>
+  <rolie:format ns="urn:example:iodef"/>
   <content type="application/xml">
     <iodef:IODEF-Document lang="en" 
       xmlns:iodef="urn:ietf:params:xml:ns:iodef-1.0">
@@ -808,6 +812,7 @@ Content-Type: application/atom+xml;type=feed;charset="utf-8"
 
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"
+    xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.w3.org/2005/Atom 
                         file:/C:/schemas/atom.xsd
@@ -855,6 +860,8 @@ Content-Type: application/atom+xml;type=feed;charset="utf-8"
           label="tactics, techniques, and procedures"/>
         <summary>A short description of this DDOS attack, extracted 
         from the IODEF Incident class, <description> element. </summary>
+        <rolie:format ns="urn:example:iodef"/>
+        <content href="http://www.example.org/ddos/123456/data"/>
     </entry>
     
     <entry>
