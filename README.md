@@ -6,11 +6,11 @@ This is an area related to ongoing work related to the Resource-oriented Lightwe
 
 ## Document Status
 
-The main draft is WIP, and can be found under the name draft-ietf-mile-rolie-02.xml.
+The main draft is in WGLC, and can be found under the name draft-ietf-mile-rolie-07.xml.
 
-The secondary CSIRT document spun off of the main document is heavily WIP and can be found under the name draft-banghart-mile-rolie-csirt.xml. This document does not currently compile correctly under xml2rfc, nor does it have correct front and back matter.
+The secondary CSIRT document spun off of the main document is currently a personal draft targetting the MILE WG, and can be found under the name draft-banghart-mile-rolie-csirt-01.xml. 
 
-An experimental CSS file is being worked on within this Repo for real-time rendering of RFC documents. It can be found under the title rfc7749.css. For now issues may be opened regarding this side project, although if it continues to be a source of discussion it will be moved to a seperate location.
+An experimental CSS file is being worked on within this Repo for real-time rendering of RFC documents. It can be found under the name rfc7749.css. For now issues may be opened regarding this side project, although if it continues to be a source of discussion it will be moved to a seperate location.
 
 ## Contributing
 
