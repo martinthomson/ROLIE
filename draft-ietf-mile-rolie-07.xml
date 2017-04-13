@@ -21,7 +21,7 @@
   <!ENTITY RFC7589 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7589.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
-<rfc ipr="trust200902" category="std" docName="draft-ietf-mile-rolie-06">
+<rfc ipr="trust200902" category="std" docName="draft-ietf-mile-rolie-07">
   <!-- Working draft of draft05 -->
   <?rfc compact="yes"?>
   <?rfc subcompact="no"?>
@@ -154,6 +154,11 @@
         NOT," "SHOULD," "SHOULD NOT," "RECOMMENDED," "MAY," and
         "OPTIONAL" in this document are to be interpreted as described in
         <xref target="RFC2119"/>.</t>
+      <t>The previous key words are used in this document to define the
+        conformance requirements for implementations of this
+        specification. This document does not give any recommendations
+        for the use of ROLIE, it only provides conformance requirements
+        for implementations of this specification.</t>
       <t>Definitions for some of the common computer security-related
         terminology used in this document can be found in Section 2 of
         <xref target="RFC7970"/>.</t>
@@ -420,7 +425,7 @@
             target="example-svcdoc" format="counter"/>.</t>
           <t>The Service Document MUST be retrievable using the
             standardized URI template
-            "https://{host:port}/rolie/servicedocument", where
+            "https://{host:port}/.well-known/rolie/servicedocument", where
             {host:port} is the authority portion of the URI.
             Dereferencing this URI MAY result in a redirect based on an
             appropriate HTTP 3xx status code to direct the client to the
@@ -428,6 +433,8 @@
             well-known location to find a ROLIE service document, while
             giving implementations flexibility over how the service is
             deployed.</t>
+          <t>This document registers the "rolie/servicedocument"
+            well-known URI as per RFC5785.</t>
           <t>The service document MAY also be digitally signed and/or
             encrypted according to <xref target="xmldsig">XML Signature
             Syntax and Processing</xref> and <xref target="xmlenc">XML
@@ -448,13 +455,15 @@
           terms used within the implemented repository.</t>
         <t>The Category Document MUST be retrievable using the
           standardized URI template
-          "https://{host:port}/rolie/categorydocument", where {host:port}
-          is the authority portion of the URI. Dereferencing this URI MAY
-          result in a redirect based on an appropriate HTTP 3xx status
-          code to direct the client to the actual Category Document. This
-          allows clients to have a well-known location to find a ROLIE
-          category document, while giving implementations flexibility
-          over how the service is deployed.</t>
+          "https://{host:port}/.well-known/rolie/categorydocument", where
+          {host:port} is the authority portion of the URI. Dereferencing
+          this URI MAY result in a redirect based on an appropriate HTTP
+          3xx status code to direct the client to the actual Category
+          Document. This allows clients to have a well-known location to
+          find a ROLIE category document, while giving implementations
+          flexibility over how the service is deployed.</t>
+        <t>This document registers the "rolie/categorydocument"
+          well-known URI as per RFC5785.</t>
       </section>
       <section title="Transport Layer Security" anchor="atompub-tls">
         <t>ROLIE is intended to be handled with TLS. The following
@@ -479,15 +488,16 @@
           user confirmation or terminate the connection and indicate the
           server’s identity is suspect. Additionally, clients MUST verify
           the binding between the identity of the servers to which they
-          connect and the public keys presented by those servers. Clients
-          SHOULD implement the algorithm in Section 6 of <xref
-          target="RFC5280"/> for general certificate validation, but MAY
-          supplement that algorithm with other validation methods that
-          achieve equivalent levels of verification (such as comparing
-          the server certificate against a local store of
-          already-verified certificates and identity bindings). If the
-          client has external information as to the expected identity of
-          the server, the hostname check MAY be omitted.</t>
+          connect and the public keys presented by those servers. Client
+          implementations SHOULD support an equivalent certificate
+          validation approach to the what is defined in Section 6 of
+          <xref target="RFC5280"/>, but MAY supplement that algorithm
+          with other validation methods that achieve equivalent levels of
+          verification (such as comparing the server certificate against
+          a local store of already-verified certificates and identity
+          bindings). If the client has external information as to the
+          expected identity of the server, the hostname check MAY be
+          omitted.</t>
         <t>The server MUST be capable of verifying the identity of the
           client with certificate-based authentication according to local
           policy to ensure that the incoming client request is legitimate
@@ -497,8 +507,8 @@
       <section title="User Authentication and Authorization"
         anchor="atompub-auth-authz">
         <t>Implementations MUST support user authentication. However, a
-          given repository MAY enable/disable user authentication on a
-          feed by feed basis.</t>
+          given repository implementation MAY allow user authentication
+          to be disabled on a feed by feed basis.</t>
         <t>Servers participating in an information sharing consortium and
           supporting interactive user logins by members of the consortium
           SHOULD support client authentication via a federated identity
@@ -828,17 +838,25 @@
             that identifies the version of the format used for the
             related atom:content. </t>
           <t>The rolie:format element MAY provide a "schema-location"
-            element that is a URI that identifies a schema resource that
-            can be used to validate the related atom:content.</t>
+            attribute that is a URI that identifies a schema resource
+            that can be used to validate the related atom:content.</t>
           <t>The rolie:format element MAY provide a "schema-type"
-            element, which is a mime type identifying the format of the
+            attribute, which is a mime type identifying the format of the
             schema resource identified by the "schema-location"
             attribute.</t>
-          <t>For example, the nominal element &lt;rolie:format
-            ns="urn:ietf:params:xml:ns:iodef-2.0" version="2.0"
-            schema-location="https://www.iana.org/assignments/xml-registry/schema/iodef-2.0.xsd"
-            schema-type-"text/xml"/> would provide an indication that the
-            content of this entry is using the IODEF v2 format.</t>
+          <t>The following nominal example shows how these attributes
+            describe the format of the content:</t>
+          <figure height="" suppress-title="false" width="" alt=""
+            title="" align="left">
+            <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+<rolie:format ns="urn:ietf:params:xml:ns:iodef-2.0"
+  version="2.0"
+  schema-location=
+    "https://www.iana.org/assignments/xml-registry/schema/iodef-2.0.xsd"
+  schema-type-"text/xml"/>]]></artwork>
+          </figure>
+          <t>The previous element provides an indication that the content
+            of the given entry is using the IODEF v2 format.</t>
         </section>
         <section title="Use of the rolie:property Element"
           anchor="atom-synd-entry-rolie-property">
@@ -1598,7 +1616,7 @@
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
           <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
-  GET /rolie/servicedocument
+  GET /.well-known/rolie/servicedocument
   Host: www.example.org
   Accept: application/atomsvc+xml   ]]></artwork>
         </figure>
