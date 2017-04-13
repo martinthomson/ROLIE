@@ -19,6 +19,8 @@
   <!ENTITY RFC5280 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml">
   <!ENTITY RFC6546 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6546.xml">
   <!ENTITY RFC7589 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7589.xml">
+  <!ENTITY RFC5785 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5785.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200902" category="std" docName="draft-ietf-mile-rolie-07">
@@ -1331,7 +1333,7 @@
     <references title="Normative References"> &RFC0020;&RFC2119;
       &RFC3688; &RFC3986; &RFC4287; &RFC5005; &RFC5023; &RFC7970;
       &RFC6546; &RFC3553; &RFC5226; &xml-names; &RFC7589; &RFC5280;
-      &RFC4642; <reference anchor="relax-NG"
+      &RFC4642; &RFC5785; <reference anchor="relax-NG"
         target="https://www.oasis-open.org/committees/relax-ng/compact-20021121.html">
         <front>
           <title>RELAX NG Compact Syntax</title>
