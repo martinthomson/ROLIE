@@ -120,16 +120,16 @@
         into indexed Collections which may be requested by the consumer.
         As the set of available resource Collections are visible through
         the Service Document, the consumer may search all available
-        content for which they are authorized to view, and request the
-        information resources which are desired. Through use of granular
-        authentication and access controls, only authorized consumers may
-        be permitted the ability to read or write to a given Feed. This
-        approach is in contrast to, and meant to improve on, the
-        traditional point-to-point messaging system, in which consumers
-        must request individual pieces of information from a server
-        following a triggering event. The point-to-point approach creates
-        a closed system of information sharing that encourages
-        duplication of effort and hinders automated security systems.</t>
+        content they are authorized to view, and request the desired
+        information resources. Through use of granular authentication and
+        access controls, only authorized consumers may be permitted the
+        ability to read or write to a given Feed. This approach is in
+        contrast to, and meant to improve on, the traditional
+        point-to-point messaging system, in which consumers must request
+        individual pieces of information from a server following a
+        triggering event. The point-to-point approach creates a closed
+        system of information sharing that encourages duplication of
+        effort and hinders automated security systems.</t>
       <t>The goal of this document is to define a RESTful approach to
         security information communication with two primary intents: 1)
         increasing communication and sharing of incident reports,
@@ -167,7 +167,7 @@
       <t>The following terms are unique to this specification:<list
         style="hanging">
         <t hangText="Information Type">A class of security automation
-          information, having an associated data model. Often this
+          information having an associated data model. Often this
           information is the subject of a security process that can be
           automated. See section <xref
           target="content-model-category-info-type" format="counter"/>
@@ -331,14 +331,20 @@
         o- Workspace
         |    |
         |    o- Collection
-        |         |
-        |         o- IRI, categories, media types
+        |    |     |
+        |    |     o- IRI, categories, media types
+        |    |
+        |    o- ...
         |
         o- Workspace
-             |
-             o- Collection
-                  |
-                  o- IRI, categories, media types
+        |     |
+        |     o- Collection
+        |     |     |
+        |     |     o- IRI, categories, media types
+        |     |
+        |     o- ...
+        |
+        o- ...
             ]]></artwork>
         </figure>
         <section title="Use of the &quot;app:workspace&quot; Element"
@@ -721,11 +727,12 @@
       <section title="Use of the  &quot;atom:entry&quot; Element"
         anchor="atom-synd-entry">
         <t>Each Entry in an Atom Feed, represented by the atom:entry
-          element, describes a single information record, format, and
-          type combination. The following atom:entry schema definition
-          represents a stricter representation of the atom:entry element
-          defined in <xref target="RFC4287"/> for use in a ROLIE-based
-          Atom Feed.</t>
+          element, describes a single referenced information record,
+          along with descriptive information about its format, media
+          type, and other publication metadata. The following atom:entry
+          schema definition represents a stricter representation of the
+          atom:entry element defined in <xref target="RFC4287"/> for use
+          in a ROLIE-based Atom Feed.</t>
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
           <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
@@ -745,7 +752,7 @@
       & atomTitle
       & atomUpdated
       & rolieFormat
-      & rolieProperty
+      & rolieProperty*
       & extensionElement*)
   }   ]]></artwork>
         </figure>
