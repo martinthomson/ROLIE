@@ -86,7 +86,7 @@
       <t>This document defines a resource-oriented approach for security
         automation information publication, discovery, and sharing. Using
         this approach, producers may publish, share, and exchange
-        representations of security incidents, attack indicators,
+        representations of software descriptors, security incidents, attack indicators,
         software vulnerabilities, configuration checklists, and other
         security automation information as Web-addressable resources.
         Furthermore, consumers and other stakeholders may access and
@@ -123,20 +123,13 @@
         content they are authorized to view, and request the desired
         information resources. Through use of granular authentication and
         access controls, only authorized consumers may be permitted the
-        ability to read or write to a given Feed. This approach is in
-        contrast to, and meant to improve on, the traditional
-        point-to-point messaging system, in which consumers must request
-        individual pieces of information from a server following a
-        triggering event. The point-to-point approach creates a closed
-        system of information sharing that encourages duplication of
-        effort and hinders automated security systems.</t>
-      <t>The goal of this document is to define a RESTful approach to
-        security information communication with two primary intents: 1)
-        increasing communication and sharing of incident reports,
-        vulnerability assessments, configuration checklists, and other
-        security automation information between providers and consumers;
-        and 2) establishing a standardized communication system to
-        support automated computer security systems.</t>
+        ability to read or write to a given Feed. </t>
+      <t>This approach to security information communication has two
+        primary goals: 1) increase communication and sharing of incident
+        reports, vulnerability assessments, configuration checklists, and
+        other security automation information between providers and
+        consumers; and 2) establishing a standardized communication
+        system to support automated computer security systems.</t>
       <t>In order to deal with the great variety in security automation
         information types and associated resource representations, this
         specification defines extension points that can be used to add
@@ -213,98 +206,45 @@
         scaling issues of human-in-the-loop sharing emerge, the need for
         automation and machine-to-machine communication becomes
         apparent.</t>
-      <section title="Proactive Sharing" anchor="sharing">
-        <t>Existing approaches to computer security information sharing
-          often use message exchange patterns that are point-to-point.
-          Sometimes, information that may be useful to share with
-          multiple peers is only made available to peers after they have
-          specifically requested it. Unfortunately, a sharing peer may
-          not know, a priori, what information to request from another
-          peer. Some existing systems provide a mechanism for unsolicited
-          information requests, however, these reports are again sent
-          point-to-point, and must be reviewed for relevance and then
-          prioritized for action by the recipient, introducing additional
-          latency.</t>
-        <t>In order to adequately combat evolving threats, computer
-          security information resource providers should be able to share
-          selected information proactively. Proactive sharing greatly
-          aids knowledge dissemination, and improves response times and
-          usability by allowing the consumer to choose which information
-          is relevant to its needs.</t>
-        <t>For example, a security analyst can benefit by having the
-          ability to search a comprehensive collection of attack
-          indicators that have been published by a government agency, or
-          by another member of a sharing consortium. The representation
-          of each indicator may include links to the related resources,
-          enabling an appropriately authenticated and authorized analyst
-          to freely navigate the information space of indicators,
-          incidents, vulnerabilities, and other computer security domain
-          concepts as needed. In this way, an analyst can more
-          effectively utilize the super set of information made publicly
-          available.</t>
-      </section>
-      <section title="Knowledge Aggregation" anchor="aggregation">
-        <t>Additionally, there is value in maintaining a repository of
-          knowledge that can be queried by a new consumer, allowing this
-          consumer to identify and retrieve any information that is
-          relevant to its needs. In this way, the consumer can gain
-          access to meaningful current and historic information, catching
-          up to the knowledge level of its peers.</t>
-        <t>Consider the case of an automated endpoint management system
-          attempting to proactively prevent software flaws and
-          mis-configured software from compromising the security of the
-          affected systems. During its full network sweep, the endpoint
-          management system would check each endpoint for outdated,
-          vulnerable, and mis-configured software. This system would
-          benefit from having access to not only the software vendor's
-          list of vulnerabilities and configuration baselines, but also
-          similar information discovered by other security researchers.
-          An advanced system could even give back to this sharing
-          consortium by sharing any relevant information discovered. </t>
-        <t>These capabilities support a federated collection of
-          information repositories that can be queried and contributed to
-          by an organization, further supporting automated security
-          solutions.</t>
-      </section>
-      <section title="Resource-oriented Architecture" anchor="roa">
-        <t>Applying the REST architectural style to the problem domain of
-          security information sharing involves exposing information of
-          any relevant type as simple Web-addressable resources. Each
-          provider maintains their own repository of data, with public
-          and private sections as needed. Any producer or consumer can
-          then discover these repositories, search for relevant Feeds,
-          and pull information from them. By using this approach, an
-          organization can more quickly and easily share relevant data
-          representations with a much larger and potentially more diverse
-          constituency. A consumer may leverage virtually any available
-          HTTP user agent in order to make requests of the service
-          provider. This improved ease of use enables more rapid adoption
-          and broader participation, thereby improving security for
-          everyone.</t>
-        <t>An aspect of many RESTful Web services is the ability to
-          provide multiple resource representations. For example, clients
-          may request that a given resource representation be returned as
-          XML, JSON, or in some other format. In order to enable
-          backwards-compatibility and interoperability with existing
-          implementations, the RESTful approach allows the provider to
-          make differing formats available proactively, allowing the
-          consumer to simply select the version that best suits them.</t>
-        <t>Finally, an important principle of the REST architectural
-          style is the focus on hypermedia as the engine of application
-          state (HATEOAS). Rather than the server maintaining
-          conversational state for each client, the server will instead
-          include a suitable set of hyperlinks in the resource
-          representation that is returned to the client. The included
-          hyperlinks provide the client with a specific set of permitted
-          state transitions. Using these links the client may perform an
-          operation, such as updating or deleting the resource
-          representation. The client may also be provided with hypertext
-          links that can be used to navigate to any related resource. For
-          example, the resource representation for an object may contain
-          links to the related resource(s). In this way, the server
-          remains stateless with respect to a series of client
-          requests.</t>
-      </section>
+      <t>ROLIE seeks to address this need by providing three major
+        benefits to the information sharing domain:<list style="hanging">
+        <t
+          hangText="Extensible information type categories and format agnosticism:"
+          > ROLIE is not bound to any given data format or category of
+          information. Instead, information categories are extensible,
+          and entries declare their own data format. In cases where
+          several formats or serializations are available, ROLIE can use
+          link relations to make them immediately accessible by the
+          consumer. For example, clients may request that a given
+          resource representation be returned as XML, JSON, or in some
+          other format or serialization. This approach allows the
+          provider to enable backwards compatibility when making new
+          formats available by allowing the consumer to simply select the
+          version that best suits them.</t>
+        <t hangText="Open and distributed information sharing:"> Using
+          the Atom Publishing Protocol, ROLIE feeds can easily aggregate
+          other feeds, or accept information POSTed to them from external
+          sources. Webs of communicating ROLIE servers form ad-hoc
+          sharing consortiums, reducing data duplication and increasing
+          analysis capabilities for participating consumers. ROLIE
+          servers needn't be distrubuted however, as large ROLIE
+          repositories can function as a central or federated
+          collections.</t>
+        <t hangText="Stateless communication model:"> ROLIE, as a RESTful
+          system, is stateless. That is, the server doesn't keep track of
+          user sessions, but rather uses link relations for state
+          transitions. In practice, this means that any consumer can find
+          and share information at any organizational level and at any
+          time without needing to execute a long series of requests.</t>
+        </list></t>
+      <t>These benefits result in an information sharing protocol that is
+        less resource intensive, more interactive, more open, and most
+        importantly, more machine readable.</t>
+      <t>The requirements are broken into two major sections, extensions
+        to the Atom Publishing Protocol, and extensions to the Atom
+        Syndication Format. If a requirement from <xref target="RFC4287"
+        /> or <xref target="RFC5023"/> is not explicitly overridden it
+        can be assumed to be inherited from those documents.</t>
     </section>
     <section title="ROLIE Requirements for the Atom Publishing Protocol"
       anchor="atompub">
@@ -428,8 +368,8 @@
             target="example-svcdoc" format="counter"/>.</t>
           <t>The Service Document MUST be retrievable using the
             standardized URI template
-            "https://{host:port}/.well-known/rolie/servicedocument", where
-            {host:port} is the authority portion of the URI.
+            "https://{host:port}/.well-known/rolie/servicedocument",
+            where {host:port} is the authority portion of the URI.
             Dereferencing this URI MAY result in a redirect based on an
             appropriate HTTP 3xx status code to direct the client to the
             actual Service Document. This allows clients to have a
@@ -438,7 +378,7 @@
             deployed.</t>
           <t>This document registers the "rolie/servicedocument"
             well-known URI as per RFC5785 in <xref
-              target="iana-well-known"/>.</t>
+            target="iana-well-known"/>.</t>
           <t>The service document MAY also be digitally signed and/or
             encrypted according to <xref target="xmldsig">XML Signature
             Syntax and Processing</xref> and <xref target="xmlenc">XML
@@ -468,8 +408,8 @@
           find a ROLIE category document, while giving implementations
           flexibility over how the service is deployed.</t>
         <t>This document registers the "rolie/categorydocument"
-          well-known URI as per RFC5785 in <xref
-            target="iana-well-known"/>.</t>
+          well-known URI as per RFC5785 in <xref target="iana-well-known"
+          />.</t>
       </section>
       <section title="Transport Layer Security" anchor="atompub-tls">
         <t>ROLIE is intended to be handled with TLS. The following
@@ -585,8 +525,9 @@
           collections of security automation resources.</t>
         <t>The following Atom Feed definition represents a stricter
           definition of the atom:feed element defined in RFC 4287 for use
-          in a ROLIE repository. Any element not specified here inherits its
-          definition and requirements from <xref target="RFC4287"/>.</t>
+          in a ROLIE repository. Any element not specified here inherits
+          its definition and requirements from <xref target="RFC4287"
+          />.</t>
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
           <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
@@ -1102,15 +1043,26 @@
           unique identifying and characterizing properties that are vital
           for sharing information. In order to provide a global reference
           for these properties, this document establishes an IANA
-          registry in <xref target="iana-parameters"/> that allows
-          ROLIE extensions to register named properties using the name
-          field with a type parameter of "property" to indicate a
-          property extension. Implementations SHOULD prefer the use of
-          registered properties over implementation specific properties
-          when possible.</t>
+          registry in <xref target="iana-parameters"/> that allows ROLIE
+          extensions to register named properties using the name field
+          with a type parameter of "property" to indicate a property
+          extension. Implementations SHOULD prefer the use of registered
+          properties over implementation specific properties when
+          possible.</t>
         <t>ROLIE extensions are expected to register new and use existing
           properties to provide valuable identifying and characterizing
           information for a given information type and/or format.</t>
+        <t>The namespace "urn:ietf:params:rolie:property:local" has been
+          reserved in the IANA ROLIE Parameters table for private use.
+          Any property whose "name" attribute uses this as a prefix MUST
+          be considered private use. Implementations encountering such a
+          property MUST accept the content without error, but MAY
+          otherwise ignore the element.</t>
+        <t>This document also registers the
+          "urn:ietf:params:rolie:property:content-author-name" property
+          name. This property provides an exposure point for the person
+          or organization that authored the content linked to in the
+          "src" attribute of the entry's atom:content element. </t>
       </section>
     </section>
     <section title="IANA Considerations" anchor="iana">
@@ -1196,10 +1148,18 @@
           <ttcol>Sub-Registry</ttcol>
           <c>category:information-type</c>
           <c>urn:ietf:params:rolie:category:information-type</c>
-          <c>This document, Section 8.4</c>
+          <c>This document, <xref target="iana-information-type"/></c>
           <c>[TO BE REMOVED: This registration should take place at the
             following location:
             https://www.iana.org/assignments/rolie/category/information-type]</c>
+          <c>property:local</c>
+          <c>urn:ietf:params:rolie:property:local</c>
+          <c>This document, <xref target="content-model-property"/></c>
+          <c>None</c>
+          <c>property:content-author-name</c>
+          <c>urn:ietf:params:rolie:property:content-author-name</c>
+          <c>This document, <xref target="content-model-property"/></c>
+          <c>None</c>
         </texttable>
       </section>
       <section
@@ -1232,7 +1192,8 @@
             target="RFC5226"/></t>
           </list></t>
       </section>
-      <section title="Well Known URI Registration" anchor="iana-well-known">
+      <section title="Well Known URI Registration"
+        anchor="iana-well-known">
         <t>This document makes the follow two registrations to the
           Well-Known URI Registry</t>
         <section title="Service Document Location"
@@ -1251,7 +1212,7 @@
             target="atompub-discover-category"/></t>
           <t>Related information: None. </t>
         </section>
-          
+
       </section>
     </section>
     <section title="Security Considerations" anchor="security">
