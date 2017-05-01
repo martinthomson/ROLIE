@@ -472,7 +472,8 @@
             </list></t>
         </section>
       </section>
-      <section title="atom:category scheme registrations" anchor="iana-cat">
+      <section title="atom:category scheme registrations"
+        anchor="iana-cat">
         <t> IANA has added the following entries to the "ROLIE URN
           Parameters" registry located in <eref
           target="https://www.iana.org/assignments/rolie/"/>.</t>
@@ -499,7 +500,8 @@
             </list></t>
         </section>
       </section>
-      <section title="rolie:property name registrations" anchor="iana-prop">
+      <section title="rolie:property name registrations"
+        anchor="iana-prop">
         <t>IANA has added the following entries to the "ROLIE URN
           Parameters" registry located in <eref
           target="https://www.iana.org/assignments/rolie/"/>.</t>
@@ -538,11 +540,10 @@
     <section title="Non-Normative Examples" anchor="non-norm-ex">
       <t>The following provide examples of some potential use cases of
         the CSIRT ROLIE extension, and provides a showcase for some of
-        its benefits over traditional solutions.
-      </t>
+        its benefits over traditional solutions. </t>
       <t>The general non-normative examples provided in the core ROLIE
         document remain an excellent reference resource for typical ROLIE
-      usage.</t>
+        usage.</t>
       <section title="Use of Link Relations" anchor="link-relations">
         <t> A key benefit of using the RESTful architectural style is the
           ability to enable the client to navigate to related resources
