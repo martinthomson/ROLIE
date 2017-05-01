@@ -130,6 +130,7 @@
         other security automation information between providers and
         consumers; and 2) establishing a standardized communication
         system to support automated computer security systems.</t>
+
       <t>In order to deal with the great variety in security automation
         information types and associated resource representations, this
         specification defines extension points that can be used to add
@@ -160,9 +161,9 @@
       <t>The following terms are unique to this specification:<list
         style="hanging">
         <t hangText="Information Type">A class of security automation
-          information having an associated data model. Often this
-          information is the subject of a security process that can be
-          automated. See section <xref
+          information having one or more associated data models. Often
+          such security automation information is used in the automation
+          of a security process. See section <xref
           target="content-model-category-info-type" format="counter"/>
           for more information.</t>
         </list></t>
@@ -298,7 +299,7 @@
             of Workspaces that may be in a Service Document or the
             specific Collections to be provided within a given
             Workspace.</t>
-          <t>A ROLIE repository can host Collections containing both
+          <t>A ROLIE implementation can host Collections containing both
             public and private information entries. It is RECOMMENDED
             that implementations segregate public and private Collections
             into different app:workspace elements. By doing this,
@@ -360,8 +361,7 @@
         <section title="Service Discovery" anchor="atompub-discover">
           <t>This specification requires that an implementation MUST
             publish an Atom Service Document that describes the set of
-            security information sharing Collections that are provided by
-            the repository.</t>
+            security information Collections provided by the service.</t>
           <t>The Service Document SHOULD be discoverable via the
             organization's Web home page or another well-known public
             resource. An example of this can be found in appendix <xref
@@ -376,6 +376,9 @@
             well-known location to find a ROLIE service document, while
             giving implementations flexibility over how the service is
             deployed.</t>
+          <t>Further discovery mechanisms are not specified in this
+            document, but a system such as DNS SRV Records could provide
+            a secure and reliable discovery mechanism.</t>
           <t>This document registers the "rolie/servicedocument"
             well-known URI as per RFC5785 in <xref
             target="iana-well-known"/>.</t>
@@ -394,10 +397,10 @@
           Feed and Entry documents provided by a publisher. A Category
           Document consists of one app:categories element that contains a
           number of inline atom:category elements, or a URI referencing a
-          Category Document that describes the repository.</t>
+          Category Document.</t>
         <t>A ROLIE implementation MUST publish a Category Document that
           describes the set of atom:category elements and associated
-          terms used within the implemented repository.</t>
+          terms currently used by the service.</t>
         <t>The Category Document MUST be retrievable using the
           standardized URI template
           "https://{host:port}/.well-known/rolie/categorydocument", where
@@ -453,8 +456,8 @@
       <section title="User Authentication and Authorization"
         anchor="atompub-auth-authz">
         <t>Implementations MUST support user authentication. However, a
-          given repository implementation MAY allow user authentication
-          to be disabled on a feed by feed basis.</t>
+          given implementation MAY allow user authentication to be
+          disabled on a feed by feed basis.</t>
         <t>Servers participating in an information sharing consortium and
           supporting interactive user logins by members of the consortium
           SHOULD support client authentication via a federated identity
@@ -503,7 +506,7 @@
         Format</xref> that define the use of that format in the context
         of a ROLIE-based solution. The normative requirements in this
         section are generally oriented towards any content to be
-        published to a ROLIE repository. An understanding of the Atom
+        published to a ROLIE server. An understanding of the Atom
         Syndication Format specification <xref target="RFC4287"/> is
         helpful to understand the requirements in this section.</t>
       <section title="Use of the &quot;atom:feed&quot; element"
@@ -525,9 +528,9 @@
           collections of security automation resources.</t>
         <t>The following Atom Feed definition represents a stricter
           definition of the atom:feed element defined in RFC 4287 for use
-          in a ROLIE repository. Any element not specified here inherits
-          its definition and requirements from <xref target="RFC4287"
-          />.</t>
+          in a ROLIE implementation. Any element not specified here
+          inherits its definition and requirements from <xref
+          target="RFC4287"/>.</t>
         <figure height="" suppress-title="false" width="" alt="" title=""
           align="left">
           <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
@@ -592,11 +595,11 @@
           <t>A ROLIE atom:feed MUST contain one or more atom:link
             elements with rel="service" and href attribute whose value is
             a IRI that points to an Atom Service Document associated with
-            the atom:feed. When a client is presented with a Feed as its
-            initial view into a repository, a link with the service
-            relationship provides a means to discover additional security
-            automation information. The "service" link relationship is
-            defined in the <eref
+            the atom:feed. If a client accesses a Feed without first
+            accessing the service's service document, a link with the
+            "service" relationship provides a means to discover
+            additional security automation information. The "service"
+            link relationship is defined in the <eref
             target="https://www.iana.org/assignments/link-relations/link-relations.xhtml"
             >IANA Link Relations Registry</eref>.</t>
           <t>An atom:feed can contain an arbitrary number of Entries. In
@@ -895,9 +898,8 @@
           ROLIE. The ability to define new categories is one of the core
           extension points provided by Atom. A Category Document, defined
           in <xref target="RFC5023">RFC 5023 section 7</xref>, provides a
-          mechanism for an Atom repository to make discoverable the
-          atom:category terms and allowed values used by a given
-          repository.</t>
+          mechanism for an Atom implementation to make discoverable the
+          atom:category terms and associated allowed values.</t>
         <t>ROLIE further defines the use of the existing Atom extension
           category mechanism by allowing ROLIE specific category
           extensions to be registered with IANA, and additionally has
@@ -1287,6 +1289,43 @@
         the expression of authorization policies will enable the source
         and destination systems to better coordinate and align their
         respective policy expressions.</t>
+      <t>TODO: Add section talking about service/server discovery. This
+        document doesn't explicitly define a discovery mechanism,
+        implementations need to ensure that the mechanism used to
+        discover ROLIE service provides for authenticating the server.
+        Server discovery is not in scope of this document, but must be
+        done safely. Some ways of mitigating the issue: DNS.</t>
+      <t>Service discovery is not explicitly specified in this document,
+        implementations have options when providing mechanisms for ROLIE
+        service discovery. When implementing this functionality, care
+        should be taken to authenticate the server that discovery is
+        being run against. Implementations should mitigate phishing
+        attacks by using safe discovery mechanisms. As described in the
+        discovery section, DNS SRV Records are a possible secure solution
+        to discovery.</t>
+    </section>
+    <section title="Privacy Considerations" anchor="privacy">
+      <t>Privacy considerations on ROLIE are largely combined
+        security-privacy concerns. That is, most privacy compromising
+        attacks are only possible when there has been a failure in
+        security. For example, broken authentication can allow users to
+        read feeds with private information they were not intended to
+        see. As TLS is used to secure communications, deep packet
+        inspection should be impossible barring a massive security failure. </t>
+      <t>The optional author field may provide an identification privacy
+        issue if populated without the author's consent. This information
+      may become public if posted to a public feed. Special care should
+      be taken when aggregating or sharing entries from other feeds, or
+      when programmatically generating ROLIE entries from some data
+      source that the author's personal info is not shared without their
+      consent.</t>
+      <t>When using the Atom Publishing Protocol to POST entries to a
+        feed, attackers may use correlating techniques to profile the
+        user. The request time can be compared to the generated "updated"
+      field of the entry in order to build out information about a given
+      user. This correlation attempt can be mitigated by not using HTTP requests
+      to POST entries when profiling is a risk, and rather use backend
+      control of the feeds.</t>
       <t>Adoption of the information sharing approach described in this
         document will enable users to more easily perform correlations
         across separate, and potentially unrelated, cyber security
@@ -1306,6 +1345,10 @@
         In addition, any increase in the risk of this type of abuse
         should be offset by the corresponding increase in effectiveness
         that this specification affords to the defenders.</t>
+      <t>Overall, ROLIE introduces few privacy concerns above and beyond
+        those present in any other HTTP protocol. Those that exist can be
+        mitigated by following security considerations and carefully
+        using the optional identifying elements.</t>
     </section>
     <section title="Acknowledgements" anchor="acknowledgements">
       <t>The authors gratefully acknowledge the valuable contributions of
@@ -1847,8 +1890,18 @@
       </section>
     </section>
     <section title="Change History" anchor="appendix-delta">
+      <t>Changes in draft-ietf-mile-rolie-07 since
+        draft-ietf-mile-rolie-06 version, March 13, 2017 to TODO, 2017<list>
+          <t>Added /.well-known/ registration and requirement to service
+            discovery.</t>
+          <t>Condensed and re-focused Sections 1 and 4 to be more
+            concise.</t>
+          <t>Added privacy considerations section.</t>
+          <t>Made a number of editorial changes as per WGLC review.</t>
+        </list></t>
       <t>Changes in draft-ietf-mile-rolie-06 since
-        draft-ietf-mile-rolie-05 version, November 2, 2016 to TODO, 2016<list>
+        draft-ietf-mile-rolie-05 version, November 2, 2016 to March 13,
+        2017<list>
         <t>Changed to standards track</t>
         <t>Added the rolie:property element</t>
         <t>Fixed references (Normative vs Informative)</t>
