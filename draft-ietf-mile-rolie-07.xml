@@ -1289,20 +1289,12 @@
         the expression of authorization policies will enable the source
         and destination systems to better coordinate and align their
         respective policy expressions.</t>
-      <t>TODO: Add section talking about service/server discovery. This
-        document doesn't explicitly define a discovery mechanism,
-        implementations need to ensure that the mechanism used to
-        discover ROLIE service provides for authenticating the server.
-        Server discovery is not in scope of this document, but must be
-        done safely. Some ways of mitigating the issue: DNS.</t>
-      <t>Service discovery is not explicitly specified in this document,
-        implementations have options when providing mechanisms for ROLIE
-        service discovery. When implementing this functionality, care
-        should be taken to authenticate the server that discovery is
-        being run against. Implementations should mitigate phishing
-        attacks by using safe discovery mechanisms. As described in the
-        discovery section, DNS SRV Records are a possible secure solution
-        to discovery.</t>
+      <t>A service discovery mechanism is not explicitly specified in
+        this document, and there are several approaches available for
+        implementers. When selecting this mechanism, implementations need
+        to ensure that their choice provides a means for authenticating
+        the server.  As described in the discovery section, DNS SRV
+        Records are a possible secure solution to discovery.</t>
     </section>
     <section title="Privacy Considerations" anchor="privacy">
       <t>Privacy considerations on ROLIE are largely combined
