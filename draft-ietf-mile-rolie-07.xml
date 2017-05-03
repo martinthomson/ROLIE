@@ -84,18 +84,18 @@
     <workgroup>MILE Working Group</workgroup>
     <abstract>
       <t>This document defines a resource-oriented approach for security
-        automation information publication, discovery, and sharing. Using
-        this approach, producers may publish, share, and exchange
-        representations of software descriptors, security incidents, attack indicators,
-        software vulnerabilities, configuration checklists, and other
-        security automation information as Web-addressable resources.
-        Furthermore, consumers and other stakeholders may access and
-        search this security information as needed, establishing a rapid
-        and on-demand information exchange network for restricted
-        internal use or public access repositories. This specification
-        extends the Atom Publishing Protocol and Atom Syndication Format
-        to transport and share security automation resource
-        representations.</t>
+        automation information publication, discovery, and sharing.
+        Using this approach, producers may publish, share, and exchange
+        representations of software descriptors, security incidents,
+        attack indicators, software vulnerabilities, configuration
+        checklists, and other security automation information as
+        web-addressable resources. Furthermore, consumers and other
+        stakeholders may access and search this security information as
+        needed, establishing a rapid and on-demand information exchange
+        network for restricted internal use or public access
+        repositories. This specification extends the Atom Publishing
+        Protocol and Atom Syndication Format to transport and share
+        security automation resource representations.</t>
     </abstract>
     <note title="Contributing to this document">
       <!--RFC EDITOR - Please remove this note before publishing -->
@@ -111,39 +111,42 @@
     <section title="Introduction" anchor="starting-intro">
       <t>This document defines a resource-oriented approach to security
         automation information sharing that follows the <xref
-        target="REST" format="title" pageno="false">REST</xref>
+          target="REST" format="title" pageno="false">REST</xref>
         architectural style. In this approach, computer security
         resources are maintained in web-accessible repositories
         structured as <xref target="RFC4287">Atom Syndication
-        Format</xref> Feeds. Representations of specific types of
-        security automation information are categorized and organized
-        into indexed Collections which may be requested by the consumer.
-        As the set of available resource Collections are visible through
-        the Service Document, the consumer may search all available
-        content they are authorized to view, and request the desired
-        information resources. Through use of granular authentication and
-        access controls, only authorized consumers may be permitted the
-        ability to read or write to a given Feed. </t>
-      <t>This approach to security information communication has two
-        primary goals: 1) increase communication and sharing of incident
-        reports, vulnerability assessments, configuration checklists, and
-        other security automation information between providers and
-        consumers; and 2) establishing a standardized communication
-        system to support automated computer security systems.</t>
+          Format</xref> Feeds. Within a given Feed, which may be
+        requested by the consumer, representations of specific types of
+        security automation information are organized, categorized, and
+        described. Furthermore, all collections available to a given
+        user are discoverable, allowing the consumer to search all
+        available content they are authorized to view, and to locate and
+        request the desired information resources. Through use of
+        granular authentication and access controls, only authorized
+        consumers may be permitted the ability to read or write to a
+        given Feed. </t>
+      <t>The goal of this approach is to increase the communication and
+        sharing of security information between providers and consumers
+        that can be used to automate security processes (e.g., incident
+        reports, vulnerability assessments, configuration checklists,
+        and other security automation information). Such sharing allows
+        human operators and computer systems to leverage this
+        standardized communication system to gather information that
+        supports the automation of security processes.</t>
 
-      <t>In order to deal with the great variety in security automation
-        information types and associated resource representations, this
+      <t>In for new types of security automation information and
+        associated resource representations to be shared over time, this
         specification defines extension points that can be used to add
         support for new information types and associated resource
         representations by means of additional supplementary
-        specification documents. This primary document is resource
-        representation agnostic, and defines the core requirements of all
-        implementations. An overview of the extension system is provided
-        in <xref target="content-model"/>.Those seeking to provide
-        support for specific security automation information types should
-        refer to the specification for that domain described by the IANA
-        registry found in section <xref target="iana-information-type"
-        format="counter"/>.</t>
+        specification documents. Sections <xref target="atompub" format="counter"/> and <xref target="atom-synd" format="counter"/> of this document define the core
+        requirements of all implementations of this specification, and
+        is resource representation agnostic. An overview of the
+        extension system is provided in <xref target="content-model"/>.
+        Implementers seeking to provide support for specific security
+        automation information types should refer to the specification
+        for that domain described by the IANA registry found in section
+          <xref target="iana-information-type" format="counter"/>.</t>
     </section>
     <section title="Terminology" anchor="ext-terminology">
       <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL
@@ -198,54 +201,74 @@
       </section>
     </section>
     <section title="Background and Motivation" anchor="back-motive">
-      <t>Information sharing is one of the core components of automating
-        security processes. Vulnerabilities, configurations, software
-        identification, security incidents, and patching data are just a
-        few of the classes of information that are shared today to enable
-        effective security on a wide scale. However, as the scale of
-        defense broadens to sometimes global networks, and the inherent
-        scaling issues of human-in-the-loop sharing emerge, the need for
-        automation and machine-to-machine communication becomes
-        apparent.</t>
+      <t>In order to automate security process, tools need access to
+        sufficient sources of structured, security information that can
+        be used to drive security processes. Thus, security information
+        sharing is one of the core components of automating security
+        processes. Vulnerabilities, configurations, software
+        identification, security incidents, and patch data are just a
+        few of the classes of information that are shared today to
+        enable effective security on a wide scale. However, as the scale
+        of defense broadens as networks become larger and more complex,
+        and the volume of information to process makes
+        humans-in-the-loop difficult to scale, the need for automation
+        and machine-to-machine communication becomes increasingly
+        critical.</t>
       <t>ROLIE seeks to address this need by providing three major
-        benefits to the information sharing domain:<list style="hanging">
-        <t
-          hangText="Extensible information type categories and format agnosticism:"
-          > ROLIE is not bound to any given data format or category of
-          information. Instead, information categories are extensible,
-          and entries declare their own data format. In cases where
-          several formats or serializations are available, ROLIE can use
-          link relations to make them immediately accessible by the
-          consumer. For example, clients may request that a given
-          resource representation be returned as XML, JSON, or in some
-          other format or serialization. This approach allows the
-          provider to enable backwards compatibility when making new
-          formats available by allowing the consumer to simply select the
-          version that best suits them.</t>
-        <t hangText="Open and distributed information sharing:"> Using
-          the Atom Publishing Protocol, ROLIE feeds can easily aggregate
-          other feeds, or accept information POSTed to them from external
-          sources. Webs of communicating ROLIE servers form ad-hoc
-          sharing consortiums, reducing data duplication and increasing
-          analysis capabilities for participating consumers. ROLIE
-          servers needn't be distrubuted however, as large ROLIE
-          repositories can function as a central or federated
-          collections.</t>
-        <t hangText="Stateless communication model:"> ROLIE, as a RESTful
-          system, is stateless. That is, the server doesn't keep track of
-          user sessions, but rather uses link relations for state
-          transitions. In practice, this means that any consumer can find
-          and share information at any organizational level and at any
-          time without needing to execute a long series of requests.</t>
+        information sharing benefits:<list style="hanging">
+          <t
+            hangText="Extensible information type categories and format agnosticism:"
+            > ROLIE is not bound to any given data format or category of
+            information. Instead, information categories are extensible,
+            and entries declare the format of the referenced data. In
+            cases where several formats or serializations are available,
+            ROLIE can use link relations to communicate how a consumer
+            can access these formats. For example, clients may request
+            that a given resource representation be returned as XML,
+            JSON, or in some other format or serialization. This
+            approach allows the provider to support multiple, compatible
+            formats allowing the consumer to select the most suitable
+            version.</t>
+          <t hangText="Open and distributed information sharing:"> Using
+            the Atom Publishing Protocol, ROLIE feeds can easily
+            aggregate feeds and accept information POSTed to them from
+            other sources. Webs of communicating ROLIE servers form
+            ad-hoc sharing communities, increasing data availability and
+            the ability to correlate linked data across sources for
+            participating consumers. ROLIE servers needn't be
+            distributed however, as large ROLIE repositories can
+            function as a central or federated collections.</t>
+          <t hangText="Stateless communication model:"> ROLIE, as a
+            RESTful system, is stateless. That is, the server doesn't
+            keep track of client sessions, but rather uses link
+            relations for state transitions. In practice, this means
+            that any consumer can find and share information at any
+            organizational level and at any time without needing to
+            execute a long series of requests.</t>
+          <t hangText="Information discovery and navigation:">ROLIE
+            provides a number of mechanisms to allow clients to
+            programmtically discover and navigate collections of
+            information in order to dynamically discover new or revised
+            content. Extensible information types and other categories
+            provide one way of determining content that is desirable.
+            Link elements, each with a target URI and an established
+            relationship type, provide a means for ROLIE providers to
+            link other information that is relevant to the current entry
+            or feed.</t>
         </list></t>
       <t>These benefits result in an information sharing protocol that is
-        less resource intensive, more interactive, more open, and most
-        importantly, more machine readable.</t>
-      <t>The requirements are broken into two major sections, extensions
-        to the Atom Publishing Protocol, and extensions to the Atom
-        Syndication Format. If a requirement from <xref target="RFC4287"
-        /> or <xref target="RFC5023"/> is not explicitly overridden it
-        can be assumed to be inherited from those documents.</t>
+        lightweight, interactive, open, and most
+        importantly, machine readable.</t>
+      <t>The requirements in this specification are broken into two
+        major sections, extensions to the Atom Publishing Protocol
+        (AtomPub) <xref target="RFC5023"/>, and extensions to the Atom
+        Syndication Format <xref target="RFC4287"/>. All normative
+        requirements in AtomPub and Atom Syndication are inherited from
+        their respective specifications, and apply here unless the
+        requirement is explicitly overridden in this document. In this
+        way, this document may upgrade the requirement (e.g., make a
+        SHOULD a MUST), but will never downgrade a given requirement
+        (e.g., make a MUST a SHOULD).</t>
     </section>
     <section title="ROLIE Requirements for the Atom Publishing Protocol"
       anchor="atompub">
