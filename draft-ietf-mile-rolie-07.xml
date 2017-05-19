@@ -5,6 +5,7 @@
   <!ENTITY RFC3688 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3688.xml">
   <!ENTITY RFC2119 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
   <!ENTITY RFC2141 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2141.xml">
+  <!ENTITY RFC2782 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2782.xml">
   <!ENTITY RFC3444 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3444.xml">
   <!ENTITY RFC3553 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3553.xml">
   <!ENTITY RFC3986 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml">
@@ -17,10 +18,10 @@
   <!ENTITY RFC5226 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
   <!ENTITY RFC5234 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
   <!ENTITY RFC5280 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml">
-  <!ENTITY RFC6546 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6546.xml">
-  <!ENTITY RFC7589 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7589.xml">
   <!ENTITY RFC5785 SYSTEM
   "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5785.xml">
+  <!ENTITY RFC6546 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6546.xml">
+  <!ENTITY RFC7589 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7589.xml">
 ]>
 <?xml-stylesheet type="text/css" href="rfc7749.css"?>
 <rfc ipr="trust200902" category="std" docName="draft-ietf-mile-rolie-07">
@@ -384,12 +385,8 @@
         <section title="Service Discovery" anchor="atompub-discover">
           <t>This specification requires that an implementation MUST
             publish an Atom Service Document that describes the set of
-            security information Collections provided by the service.</t>
-          <t>The Service Document SHOULD be discoverable via the
-            organization's Web home page or another well-known public
-            resource. An example of this can be found in appendix <xref
-            target="example-svcdoc" format="counter"/>.</t>
-          <t>The Service Document MUST be retrievable using the
+            security information Collections provided by the service.
+            The Service Document MUST be retrievable using the
             standardized URI template
             "https://{host:port}/.well-known/rolie/servicedocument",
             where {host:port} is the authority portion of the URI.
@@ -399,16 +396,15 @@
             well-known location to find a ROLIE service document, while
             giving implementations flexibility over how the service is
             deployed.</t>
-          <t>Further discovery mechanisms are not specified in this
-            document, but a system such as DNS SRV Records could provide
-            a secure and reliable discovery mechanism.</t>
           <t>This document registers the "rolie/servicedocument"
             well-known URI as per RFC5785 in <xref
-            target="iana-well-known"/>.</t>
-          <t>The service document MAY also be digitally signed and/or
-            encrypted according to <xref target="xmldsig">XML Signature
-            Syntax and Processing</xref> and <xref target="xmlenc">XML
-            Encryption Syntax and Processing</xref> respectively.</t>
+              target="iana-well-known"/>.</t>
+          <t>A mechanism to determine which host and port to use is not
+            specified in this document. Use of a mechanism such as DNS
+            SRV Records <xref target="RFC2782"/> can provide a secure
+            and reliable discovery mechanism for determining a specific
+            host and port to use for retrieving a Service Document for a
+            given DNS domain.</t>
         </section>
       </section>
       <section title="AtomPub Category Documents"
@@ -1077,12 +1073,13 @@
         <t>ROLIE extensions are expected to register new and use existing
           properties to provide valuable identifying and characterizing
           information for a given information type and/or format.</t>
-        <t>The namespace "urn:ietf:params:rolie:property:local" has been
+        <t><?oxy_comment_start author="davidwal" timestamp="20170519T125749-0400" comment="This should be defined in ther IANA section and associated with the IANA RFC concept of private use."?>The
+          namespace "urn:ietf:params:rolie:property:local" has been
           reserved in the IANA ROLIE Parameters table for private use.
           Any property whose "name" attribute uses this as a prefix MUST
           be considered private use. Implementations encountering such a
           property MUST accept the content without error, but MAY
-          otherwise ignore the element.</t>
+          otherwise ignore the element.<?oxy_comment_end?></t>
         <t>This document also registers the
           "urn:ietf:params:rolie:property:content-author-name" property
           name. This property provides an exposure point for the person
@@ -1217,11 +1214,14 @@
             target="RFC5226"/></t>
           </list></t>
       </section>
-      <section title="Well Known URI Registration"
+      <section title="Well-Known URI Registrations"
         anchor="iana-well-known">
         <t>This document makes the follow two registrations to the
-          Well-Known URI Registry</t>
-        <section title="Service Document Location"
+          <?oxy_comment_start author="davidwal" timestamp="20170519T130434-0400" comment="I believe the IANA RFC wants the link to the registry to appear here as a best practice.
+
+Also, we may not want to make sub-sections for each entry."?>Well-Known
+          URI Registry.<?oxy_comment_end?></t>
+        <section title="Well-Known Service Document Location"
           anchor="iana-well-known-service">
           <t>URI suffix: rolie/servicedocument</t>
           <t>Change controller: IETF</t>
@@ -1229,7 +1229,7 @@
             target="atompub-discover"/></t>
           <t>Related information: None. </t>
         </section>
-        <section title="Category Document Location"
+        <section title="Well-Known Category Document Location"
           anchor="iana-well-known-category">
           <t>URI suffix: rolie/categorydocument</t>
           <t>Change controller: IETF</t>
@@ -1237,7 +1237,6 @@
             target="atompub-discover-category"/></t>
           <t>Related information: None. </t>
         </section>
-
       </section>
     </section>
     <section title="Security Considerations" anchor="security">
@@ -1320,13 +1319,15 @@
         Records are a possible secure solution to discovery.</t>
     </section>
     <section title="Privacy Considerations" anchor="privacy">
-      <t>Privacy considerations on ROLIE are largely combined
-        security-privacy concerns. That is, most privacy compromising
-        attacks are only possible when there has been a failure in
-        security. For example, broken authentication can allow users to
-        read feeds with private information they were not intended to
-        see. As TLS is used to secure communications, deep packet
-        inspection should be impossible barring a massive security failure. </t>
+      <t>Privacy considerations on ROLIE are largely
+        <?oxy_comment_start author="davidwal" timestamp="20170519T131024-0400" comment="Inclusion of identifying information is not always a security concern."?>combined
+        security and privacy concerns<?oxy_comment_end?>. That is, most
+        privacy compromising attacks are only possible when there has
+        been a failure in security. For example, broken authentication
+        can allow users to read feeds with private information they were
+        not intended to see. As TLS is used to secure communications,
+        deep packet inspection should be impossible barring a massive
+        security failure. </t>
       <t>The optional author field may provide an identification privacy
         issue if populated without the author's consent. This information
       may become public if posted to a public feed. Special care should
@@ -1392,7 +1393,7 @@
       </reference>
 
     </references>
-    <references title="Informative References"> &RFC2141; &RFC3444;
+    <references title="Informative References"> &RFC2141; &RFC2782; &RFC3444;
       &RFC5234; <reference anchor="SAML-core"
         target="http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf">
         <front>
