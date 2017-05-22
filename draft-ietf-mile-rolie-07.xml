@@ -927,6 +927,13 @@
           ROLIE. This allows category scheme namespaces to be managed in
           a more consistent way, allowing for greater interoperability
           between content producers and consumers.</t>
+        <t>The
+          namespace "urn:ietf:params:rolie:category:local" has been
+          reserved in the IANA ROLIE Parameters table for private use.
+          Any category whose "scheme" attribute uses this as a prefix MUST
+          be considered private use. Implementations encountering such a
+          property MUST accept the content without error, but MAY
+          otherwise ignore the element.</t>
         <t>Use of the "atom:category" element is discussed in the
           following subsections.</t>
         <section
@@ -1073,13 +1080,13 @@
         <t>ROLIE extensions are expected to register new and use existing
           properties to provide valuable identifying and characterizing
           information for a given information type and/or format.</t>
-        <t><?oxy_comment_start author="davidwal" timestamp="20170519T125749-0400" comment="This should be defined in ther IANA section and associated with the IANA RFC concept of private use."?>The
+        <t>The
           namespace "urn:ietf:params:rolie:property:local" has been
           reserved in the IANA ROLIE Parameters table for private use.
           Any property whose "name" attribute uses this as a prefix MUST
           be considered private use. Implementations encountering such a
           property MUST accept the content without error, but MAY
-          otherwise ignore the element.<?oxy_comment_end?></t>
+          otherwise ignore the element.</t>
         <t>This document also registers the
           "urn:ietf:params:rolie:property:content-author-name" property
           name. This property provides an exposure point for the person
@@ -1148,7 +1155,9 @@
             <t>{label}: A required US-ASCII string that conforms to the
               URN syntax requirements (see <xref target="RFC2141"/>).
               This string must be unique within the namespace defined by
-              the {type} keyword.</t>
+              the {type} keyword. The "local" label for both the
+              "category" and "property" types has been reserved for
+              private use.</t>
             </list></t>
           <t>Extension IRI: The identifier to use within ROLIE, which is
             the full URN using the form: urn:ietf:params:rolie:{name},
@@ -1177,6 +1186,10 @@
           <c>property:local</c>
           <c>urn:ietf:params:rolie:property:local</c>
           <c>This document, <xref target="content-model-property"/></c>
+          <c>None</c>
+          <c>category:local</c>
+          <c>urn:ietf:params:rolie:category:local</c>
+          <c>This document, <xref target="content-model-category"/></c>
           <c>None</c>
           <c>property:content-author-name</c>
           <c>urn:ietf:params:rolie:property:content-author-name</c>
@@ -1216,27 +1229,23 @@
       </section>
       <section title="Well-Known URI Registrations"
         anchor="iana-well-known">
-        <t>This document makes the follow two registrations to the
-          <?oxy_comment_start author="davidwal" timestamp="20170519T130434-0400" comment="I believe the IANA RFC wants the link to the registry to appear here as a best practice.
-
-Also, we may not want to make sub-sections for each entry."?>Well-Known
-          URI Registry.<?oxy_comment_end?></t>
-        <section title="Well-Known Service Document Location"
-          anchor="iana-well-known-service">
-          <t>URI suffix: rolie/servicedocument</t>
+        <t>This document makes the follow two registrations to the Well-Known
+          URI Registry at https://www.iana.org/assignments/well-known-uris/well-known-uris.xhtml.</t>
+        <t></t>  
+        <t>Service Document registration:</t>
+          <t>URI suffix: rolie/servicedocument </t>
           <t>Change controller: IETF</t>
           <t>Specification document: This document,<xref
             target="atompub-discover"/></t>
           <t>Related information: None. </t>
-        </section>
-        <section title="Well-Known Category Document Location"
-          anchor="iana-well-known-category">
+          <t></t>
+          <t>Category Document registration:</t>
           <t>URI suffix: rolie/categorydocument</t>
           <t>Change controller: IETF</t>
           <t>Specification document: This document,<xref
             target="atompub-discover-category"/></t>
           <t>Related information: None. </t>
-        </section>
+        
       </section>
     </section>
     <section title="Security Considerations" anchor="security">
@@ -1319,29 +1328,20 @@ Also, we may not want to make sub-sections for each entry."?>Well-Known
         Records are a possible secure solution to discovery.</t>
     </section>
     <section title="Privacy Considerations" anchor="privacy">
-      <t>Privacy considerations on ROLIE are largely
-        <?oxy_comment_start author="davidwal" timestamp="20170519T131024-0400" comment="Inclusion of identifying information is not always a security concern."?>combined
-        security and privacy concerns<?oxy_comment_end?>. That is, most
-        privacy compromising attacks are only possible when there has
-        been a failure in security. For example, broken authentication
-        can allow users to read feeds with private information they were
-        not intended to see. As TLS is used to secure communications,
-        deep packet inspection should be impossible barring a massive
-        security failure. </t>
       <t>The optional author field may provide an identification privacy
         issue if populated without the author's consent. This information
-      may become public if posted to a public feed. Special care should
-      be taken when aggregating or sharing entries from other feeds, or
-      when programmatically generating ROLIE entries from some data
-      source that the author's personal info is not shared without their
-      consent.</t>
+        may become public if posted to a public feed. Special care should
+        be taken when aggregating or sharing entries from other feeds, or
+        when programmatically generating ROLIE entries from some data
+        source that the author's personal info is not shared without
+        their consent.</t>
       <t>When using the Atom Publishing Protocol to POST entries to a
         feed, attackers may use correlating techniques to profile the
         user. The request time can be compared to the generated "updated"
-      field of the entry in order to build out information about a given
-      user. This correlation attempt can be mitigated by not using HTTP requests
-      to POST entries when profiling is a risk, and rather use backend
-      control of the feeds.</t>
+        field of the entry in order to build out information about a
+        given user. This correlation attempt can be mitigated by not
+        using HTTP requests to POST entries when profiling is a risk, and
+        rather use backend control of the feeds.</t>
       <t>Adoption of the information sharing approach described in this
         document will enable users to more easily perform correlations
         across separate, and potentially unrelated, cyber security
