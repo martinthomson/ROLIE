@@ -111,9 +111,9 @@
   <middle>
     <section title="Introduction" anchor="starting-intro">
       <t>This document defines a resource-oriented approach to security
-        automation information sharing that follows the <xref
-          target="REST" format="title" pageno="false">REST</xref>
-        architectural style. In this approach, computer security
+        automation information sharing that follows the Representational State Transfer (REST)
+        architectural style <xref
+          target="REST"/>. In this approach, computer security
         resources are maintained in web-accessible repositories
         structured as <xref target="RFC4287">Atom Syndication
           Format</xref> Feeds. Within a given Feed, which may be
@@ -397,7 +397,7 @@
             giving implementations flexibility over how the service is
             deployed.</t>
           <t>This document registers the "rolie/servicedocument"
-            well-known URI as per RFC5785 in <xref
+            well-known URI as per <xref target="RFC5785"/> in <xref
               target="iana-well-known"/>.</t>
           <t>A mechanism to determine which host and port to use is not
             specified in this document. Use of a mechanism such as DNS
@@ -430,7 +430,7 @@
           find a ROLIE category document, while giving implementations
           flexibility over how the service is deployed.</t>
         <t>This document registers the "rolie/categorydocument"
-          well-known URI as per RFC5785 in <xref target="iana-well-known"
+          well-known URI as per <xref target="RFC5785"/> in <xref target="iana-well-known"
           />.</t>
       </section>
       <section title="Transport Layer Security" anchor="atompub-tls">
@@ -927,13 +927,13 @@
           ROLIE. This allows category scheme namespaces to be managed in
           a more consistent way, allowing for greater interoperability
           between content producers and consumers.</t>
-        <t>The
-          namespace "urn:ietf:params:rolie:category:local" has been
-          reserved in the IANA ROLIE Parameters table for private use.
-          Any category whose "scheme" attribute uses this as a prefix MUST
-          be considered private use. Implementations encountering such a
-          property MUST accept the content without error, but MAY
-          otherwise ignore the element.</t>
+        <t>The namespace "urn:ietf:params:rolie:category:local" has been
+          reserved in the IANA ROLIE Parameters table for private use as
+          defined in <xref target="RFC5226"/>. Any category whose
+          "scheme" attribute uses this as a prefix MUST be considered
+          private use. Implementations encountering such a category MUST
+          parse the content without error, but MAY otherwise ignore the
+          element.</t>
         <t>Use of the "atom:category" element is discussed in the
           following subsections.</t>
         <section
@@ -1080,12 +1080,12 @@
         <t>ROLIE extensions are expected to register new and use existing
           properties to provide valuable identifying and characterizing
           information for a given information type and/or format.</t>
-        <t>The
-          namespace "urn:ietf:params:rolie:property:local" has been
-          reserved in the IANA ROLIE Parameters table for private use.
+        <t>The namespace "urn:ietf:params:rolie:property:local" has been
+          reserved in the IANA ROLIE Parameters table for private use as
+          defined in <xref target="RFC5226"/>.
           Any property whose "name" attribute uses this as a prefix MUST
           be considered private use. Implementations encountering such a
-          property MUST accept the content without error, but MAY
+          property MUST parse the content without error, but MAY
           otherwise ignore the element.</t>
         <t>This document also registers the
           "urn:ietf:params:rolie:property:content-author-name" property
@@ -1231,21 +1231,20 @@
         anchor="iana-well-known">
         <t>This document makes the follow two registrations to the Well-Known
           URI Registry at https://www.iana.org/assignments/well-known-uris/well-known-uris.xhtml.</t>
-        <t></t>  
-        <t>Service Document registration:</t>
-          <t>URI suffix: rolie/servicedocument </t>
+        <t>Service Document registration:<list style="none">
+          <t>URI suffix: rolie/servicedocument</t>
           <t>Change controller: IETF</t>
-          <t>Specification document: This document,<xref
+          <t>Specification document: This document, <xref
             target="atompub-discover"/></t>
-          <t>Related information: None. </t>
-          <t></t>
-          <t>Category Document registration:</t>
+          <t>Related information: None</t>
+        </list></t>
+        <t>Category Document registration:<list style="none">
           <t>URI suffix: rolie/categorydocument</t>
           <t>Change controller: IETF</t>
-          <t>Specification document: This document,<xref
+          <t>Specification document: This document, <xref
             target="atompub-discover-category"/></t>
-          <t>Related information: None. </t>
-        
+          <t>Related information: None</t>
+        </list></t>
       </section>
     </section>
     <section title="Security Considerations" anchor="security">
@@ -1532,48 +1531,6 @@
         <format type="PDF"
           target="http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf"
         />
-      </reference>
-      <reference anchor="xmldsig"
-        target="https://www.w3.org/TR/xmldsig-core/">
-        <front>
-          <title>XML Signature Syntax and Processing (Second
-            Edition)</title>
-          <author initials="M." surname="Bartel" fullname="Mark Bartel">
-            <organization/>
-          </author>
-          <author initials="J." surname="Boyer" fullname="John Boyer">
-            <organization/>
-          </author>
-          <author initials="B." surname="Fox" fullname="Barb Fox">
-            <organization/>
-          </author>
-          <author initials="B." surname="LaMacchia"
-            fullname="Brian LaMacchia">
-            <organization/>
-          </author>
-          <author initials="E." surname="Simon" fullname="Ed Simon">
-            <organization/>
-          </author>
-          <date day="10" month="June" year="2008"/>
-        </front>
-      </reference>
-      <reference anchor="xmlenc"
-        target="https://www.w3.org/TR/xmlenc-core/">
-        <front>
-          <title>XML Encryption Syntax and Processing</title>
-          <author initials="T." surname="Imamura"
-            fullname="Takeshi Rissanen">
-            <organization/>
-          </author>
-          <author initials="B." surname="Dillaway"
-            fullname="Blair Dillaway">
-            <organization/>
-          </author>
-          <author initials="E." surname="Simon" fullname="Ed Simon">
-            <organization/>
-          </author>
-          <date day="10" month="December" year="2002"/>
-        </front>
       </reference>
       <reference anchor="XACML"
         target="http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-cs-01-en.pdf">
